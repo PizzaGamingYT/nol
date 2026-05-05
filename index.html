@@ -1,1 +1,159 @@
-def
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nol'sGames</title>
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=Shrikhand&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Commissioner",sans-serif;background:#222;color:#fff}
+
+.topbar{position:sticky;top:0;background:#ff4d00;padding:10px;display:flex;gap:10px;z-index:1000}
+#search{flex:1;padding:10px;border:none;border-radius:8px;background:#222;color:#fff}
+.logo img{height:40px}
+
+.sidebar{position:fixed;top:60px;left:0;width:60px;height:calc(100vh - 60px);overflow:auto;background:#111;border-right:2px solid #ff4d00}
+.sidebar button{width:100%;padding:6px;border:none;background:none;color:#fff;cursor:pointer}
+
+.main{margin-left:60px;padding:10px}
+.section-title{font-family:"Shrikhand";margin:20px 0 10px}
+
+.buttons-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+
+.game-wrap{position:relative}
+.game-btn{width:100%;height:100px;background:#111;border:2px solid #ff4d00;border-radius:10px;color:#fff;cursor:pointer;transition:.2s}
+.game-btn:hover{transform:scale(1.05);background:#ff4d00;color:#000}
+.game-btn.favorited{border-color:gold}
+
+.star{position:absolute;top:5px;right:5px;cursor:pointer}
+.star.off::after{content:"/";color:red;position:absolute;left:2px}
+
+.drag{position:absolute;bottom:5px;left:5px;cursor:grab}
+
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:#000c;display:flex;align-items:center;justify-content:center;z-index:2000}
+.modal-content{background:#111;padding:20px;max-width:800px;max-height:80%;overflow:auto;border:2px solid #ff4d00}
+.modal button{margin-top:10px;padding:10px;border:none;background:#ff4d00;cursor:pointer}
+
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-thumb{background:#ff4d00}
+::-webkit-scrollbar-track{background:#222}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<a class="logo"><img src="https://images2.imgbox.com/41/1a/t0Ymzijg_o.png"></a>
+<input id="search" placeholder="Search...">
+</div>
+
+<div class="sidebar" id="sidebar"></div>
+<div class="main">
+<div id="favorites"></div>
+<div id="sections"></div>
+</div>
+
+<script>
+const files=window.files||['cl2048'];
+let fav=JSON.parse(localStorage.getItem('fav')||'[]');
+let order=JSON.parse(localStorage.getItem('order')||'{}');
+
+function showTOC(){
+if(localStorage.getItem('toc'))return;
+const m=document.createElement('div');
+m.className='modal';
+m.innerHTML=`<div class="modal-content">
+<h2 style="font-family:Shrikhand">Terms & Conditions</h2>
+<p>${`The Nol’sGames file is coded in HTML 5, CSS 3, and JavaScript...`}</p>
+<button id="accept">Accept</button>
+<button id="decline">Decline</button>
+</div>`;
+document.body.appendChild(m);
+accept.onclick=()=>{localStorage.setItem('toc',1);m.remove()};
+decline.onclick=()=>{window.close()};
+}
+
+function save(){localStorage.setItem('fav',JSON.stringify(fav));localStorage.setItem('order',JSON.stringify(order))}
+
+function makeBtn(f){
+const w=document.createElement('div');w.className='game-wrap';w.draggable=true;
+
+const b=document.createElement('button');b.className='game-btn';b.textContent=f;
+if(fav.includes(f))b.classList.add('favorited');
+
+b.onclick=()=>{
+fetch(`https://cdn.jsdelivr.net/gh/PizzaGamingYT/nolsgames/UGS-Files/${encodeURIComponent(f+'.html')}`)
+.then(r=>r.text()).then(t=>{let w=window.open();w.document.write(t)})};
+
+const s=document.createElement('div');s.className='star'+(fav.includes(f)?'':' off');s.textContent='★';
+s.onclick=e=>{e.stopPropagation();
+fav.includes(f)?fav.splice(fav.indexOf(f),1):fav.push(f);
+save();render();};
+
+const d=document.createElement('div');d.className='drag';d.textContent='≡';
+
+w.append(b,s,d);
+
+w.ondragstart=e=>e.dataTransfer.setData('text',f);
+w.ondrop=e=>{
+const from=e.dataTransfer.getData('text');
+const list=order.current||files.slice();
+list.splice(list.indexOf(from),1);
+list.splice(list.indexOf(f),0,from);
+order.current=list;save();render();
+};
+w.ondragover=e=>e.preventDefault();
+
+return w;
+}
+
+function render(){
+const sec=document.getElementById('sections');
+const favDiv=document.getElementById('favorites');
+sec.innerHTML='';favDiv.innerHTML='';
+
+let list=order.current||files.slice();
+
+if(fav.length){
+favDiv.innerHTML='<div class="section-title">Favorites</div>';
+let g=document.createElement('div');g.className='buttons-container';
+fav.forEach(f=>g.appendChild(makeBtn(f)));
+favDiv.appendChild(g);
+}
+
+let filtered=list.filter(f=>f.toLowerCase().includes(search.value.toLowerCase()));
+
+const groups={};
+filtered.forEach(f=>{
+let c=f[2]?.toUpperCase()||'#';
+(groups[c]=groups[c]||[]).push(f);
+});
+
+const sidebar=document.getElementById('sidebar');
+sidebar.innerHTML='';
+
+Object.keys(groups).sort().forEach(c=>{
+let btn=document.createElement('button');btn.textContent=c;
+btn.onclick=()=>document.getElementById('sec-'+c).scrollIntoView();
+sidebar.appendChild(btn);
+
+let title=document.createElement('div');title.className='section-title';title.id='sec-'+c;title.textContent=c;
+let grid=document.createElement('div');grid.className='buttons-container';
+
+groups[c].forEach(f=>{if(!fav.includes(f))grid.appendChild(makeBtn(f))});
+
+if(grid.children.length){sec.append(title,grid)}
+});
+}
+
+search.oninput=render;
+showTOC();
+render();
+</script>
+
+</body>
+</html>
