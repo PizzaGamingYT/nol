@@ -13,23 +13,23 @@
 <style>
 body { margin:0; font-family:"Commissioner",sans-serif; background:#111; color:#fff; overflow:hidden; }
 
-
+/* Ticker */
 #ticker { position:fixed; top:56px; left:0; width:100%; height:28px; background:#ff4d00; overflow:hidden; z-index:9999; display:flex; align-items:center; }
 #tickerText { position:absolute; white-space:nowrap; font-family:"Shrikhand"; }
 
-
+/* Topbar */
 #topbar { position:fixed; top:0; left:0; width:100%; background:#ff4d00; padding:10px; display:flex; align-items:center; gap:10px; z-index:9998; }
 #logo { height:36px; }
 .tab { background:#ff4d00; border:0; color:#fff; padding:10px 16px; border-radius:16px; cursor:pointer; font-family:"Shrikhand"; }
 .tab:hover { background:#222; }
 
-
-#sidebar { display:none; top:84px; left:0; width:60px; height:calc(100% - 84px); overflow:auto; background:#111; }
+/* Layout */
+#sidebar { display:none; position:fixed; top:84px; left:0; width:60px; height:calc(100% - 84px); overflow:auto; background:#111; }
 #main { margin-left:0; margin-top:84px; height:calc(100vh - 84px); overflow:auto; padding:10px; }
 .withSidebar #sidebar { display:block; }
 .withSidebar #main { margin-left:70px; }
 
-
+/* Search */
 #searchWrap{margin:10px 0;}
 #search{width:100%; padding:12px; border-radius:14px; border:2px solid #222; background:#222; color:#fff; font-family:"Shrikhand";}
 #search:focus{outline:none; border-color:#ff4d00;}
@@ -55,12 +55,12 @@ body { margin:0; font-family:"Commissioner",sans-serif; background:#111; color:#
 .standard { background:#222222; color:#fff; border:2px solid #ff4d00; padding:12px; border-radius:12px; cursor:pointer; }
 .standard:hover { background:#ff4d00; }
 
-
-#tocModal { position:fixed; top:0; left:0; width:100%; height:100%; background:#000b; display:none; z-index:10000; }
+/* TOC */
+#tocModal { position:fixed; top:0; left:0; width:100%; height:100%; background:#000d; display:none; z-index:10000; }
 .modal { background:#111; margin:5% auto; padding:20px; width:60%; max-height:80%; overflow:auto; border-radius:16px; }
 .modal button { background:#ff4d00; border:none; padding:10px 20px; border-radius:20px; margin:10px; cursor:pointer; }
 
-
+/* Tab presets modal */
 #presetModal{position:fixed;top:0;left:0;width:100%;height:100%;background:#000b;display:none;z-index:11000;}
 .presetBox{background:#111;margin:5% auto;padding:20px;width:400px;border-radius:16px;}
 .presetBox input{width:100%;margin:6px 0;padding:10px;border-radius:10px;border:2px solid #222;background:#222;color:#fff;}
@@ -97,7 +97,7 @@ body { margin:0; font-family:"Commissioner",sans-serif; background:#111; color:#
 </div></div>
 
 <script>
-
+// ===== TICKER =====
 const messages=["Welcome to Nol'sGames!","1900+ Games For You To Play","New Search & Favorite Features","This Is Still In BETA And Has Lots Of Bugs.","Try Out The New Panic Key & Tab Presets In Settings!","Enjoy!"];
 let msgIndex=0;
 const tickerText=document.getElementById('tickerText');
@@ -117,7 +117,7 @@ function cycleTicker(){
 }
 cycleTicker();
 
-
+// ===== TOC =====
 const tocPages=[
 `<h2>Terms & Conditions</h2><p>The Nol’sGames file is coded in HTML 5, CSS 3, and JavaScript. Some event websites also use Node.js, usually on the newest version, but it is run online. Please use Nol’sGames on a computer/browser that can handle these languages.
 
@@ -144,7 +144,7 @@ function nextToc(){tocIndex++;tocContent.innerHTML=tocPages[tocIndex];}
 function acceptToc(){localStorage.setItem('toc','1');tocModal.style.display='none';}
 if(!localStorage.getItem('toc')) setTimeout(openToc,500);
 
-
+// ===== DATA =====
 const files = window.files || [
     'cl1',
   'cl10bullets',
@@ -2084,7 +2084,7 @@ const files = window.files || [
 ];
 let favorites = JSON.parse(localStorage.getItem('favorites')||'[]');
 
-
+// ===== BUILD =====
 function build(filter=''){
  document.body.classList.add('withSidebar');
  const main=document.getElementById('main');
@@ -2130,7 +2130,7 @@ if (search) {
 }
 }
 
-
+// ===== BUTTON =====
 function createGameBtn(f){
  const btn=document.createElement('div');
  btn.className='game-btn'+(favorites.includes(f)?' fav':'');
@@ -2161,7 +2161,7 @@ function createGameBtn(f){
 
 
 
-
+// ===== SETTINGS =====
 function openPreset(){
  const p = JSON.parse(localStorage.getItem('preset') || '{}');
 
@@ -2206,7 +2206,7 @@ function applyPreset(){
 }
 applyPreset();
 
-
+// ===== TABS =====
 function showTab(tab){
  const main=document.getElementById('main');
  const sidebar=document.getElementById('sidebar');
