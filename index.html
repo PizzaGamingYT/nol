@@ -4,62 +4,149 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nol'sGames</title>
-<link rel="icon" href="favicon.ico">
+<link rel="icon" id="dynamicFavicon" href="https://images2.imgbox.com/cc/3b/rhexcsGH_o.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=Shrikhand&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Commissioner",sans-serif;background:#222;color:#fff}
+body { margin:0; font-family:"Commissioner",sans-serif; background:#111; color:#fff; overflow:hidden; }
 
-.topbar{position:sticky;top:0;background:#ff4d00;padding:10px;display:flex;gap:10px;z-index:1000}
-#search{flex:1;padding:10px;border:none;border-radius:8px;background:#222;color:#fff}
-.logo img{height:40px}
+/* Ticker */
+#ticker { position:fixed; top:56px; left:0; width:100%; height:28px; background:#ff4d00; overflow:hidden; z-index:9999; display:flex; align-items:center; }
+#tickerText { position:absolute; white-space:nowrap; font-family:"Shrikhand"; }
 
-.sidebar{position:fixed;top:60px;left:0;width:60px;height:calc(100vh - 60px);overflow:auto;background:#111;border-right:2px solid #ff4d00}
-.sidebar button{width:100%;padding:6px;border:none;background:none;color:#fff;cursor:pointer}
+/* Topbar */
+#topbar { position:fixed; top:0; left:0; width:100%; background:#ff4d00; padding:10px; display:flex; align-items:center; gap:10px; z-index:9998; }
+#logo { height:36px; }
+.tab { background:#ff4d00; border:0; color:#fff; padding:10px 16px; border-radius:16px; cursor:pointer; font-family:"Shrikhand"; }
+.tab:hover { background:#222; }
 
-.main{margin-left:60px;padding:10px}
-.section-title{font-family:"Shrikhand";margin:20px 0 10px}
+/* Layout */
+#sidebar { display:none; position:fixed; top:84px; left:0; width:60px; height:calc(100% - 84px); overflow:auto; background:#111; }
+#main { margin-left:0; margin-top:84px; height:calc(100vh - 84px); overflow:auto; padding:10px; }
+.withSidebar #sidebar { display:block; }
+.withSidebar #main { margin-left:70px; }
 
-.buttons-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+/* Search */
+#searchWrap{margin:10px 0;}
+#search{width:100%; padding:12px; border-radius:14px; border:2px solid #222; background:#222; color:#fff; font-family:"Shrikhand";}
+#search:focus{outline:none; border-color:#ff4d00;}
 
-.game-wrap{position:relative}
-.game-btn{width:100%;height:100px;background:#111;border:2px solid #ff4d00;border-radius:10px;color:#fff;cursor:pointer;transition:.2s}
-.game-btn:hover{transform:scale(1.05);background:#ff4d00;color:#000}
-.game-btn.favorited{border-color:gold}
+.sidebar-btn { display:block; width:100%; padding:8px; background:#222; color:#fff; border:none; font-family:"Shrikhand"; }
+.sidebar-btn:hover { background:#ff4d00; }
 
-.star{position:absolute;top:5px;right:5px;cursor:pointer}
-.star.off::after{content:"/";color:red;position:absolute;left:2px}
+.section { margin-bottom:20px; }
+.section h2 { margin:10px 0; }
 
-.drag{position:absolute;bottom:5px;left:5px;cursor:grab}
+.game-btn { width:100%; max-width:100%; box-sizing:border-box; padding:14px; margin:6px 0; background:#222; color:#fff; border:2px solid #222; border-radius:14px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
+.game-btn:hover { background:#ff4d00; }
 
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:#000c;display:flex;align-items:center;justify-content:center;z-index:2000}
-.modal-content{background:#111;padding:20px;max-width:800px;max-height:80%;overflow:auto;border:2px solid #ff4d00}
-.modal button{margin-top:10px;padding:10px;border:none;background:#ff4d00;cursor:pointer}
+.fav { border-color:#FF4D00; }
+.star { cursor:pointer; position:relative; }
+.star.off::after { content:"★"; color:#888; }
+.star.on::after { content:"★"; color:gold; }
+.star.on::before { content:"/"; color:red; position:absolute; left:0; top:0; }
 
-::-webkit-scrollbar{width:10px}
-::-webkit-scrollbar-thumb{background:#ff4d00}
-::-webkit-scrollbar-track{background:#222}
+.handle { cursor:grab; margin-right:8px; }
+
+.danger { background:red; color:#fff; border:none; padding:12px; border-radius:12px; cursor:pointer; }
+.standard { background:#222222; color:#fff; border:2px solid #ff4d00; padding:12px; border-radius:12px; cursor:pointer; }
+.standard:hover { background:#ff4d00; }
+
+/* TOC */
+#tocModal { position:fixed; top:0; left:0; width:100%; height:100%; background:#000d; display:none; z-index:10000; }
+.modal { background:#111; margin:5% auto; padding:20px; width:60%; max-height:80%; overflow:auto; border-radius:16px; }
+.modal button { background:#ff4d00; border:none; padding:10px 20px; border-radius:20px; margin:10px; cursor:pointer; }
+
+/* Tab presets modal */
+#presetModal{position:fixed;top:0;left:0;width:100%;height:100%;background:#000b;display:none;z-index:11000;}
+.presetBox{background:#111;margin:5% auto;padding:20px;width:400px;border-radius:16px;}
+.presetBox input{width:100%;margin:6px 0;padding:10px;border-radius:10px;border:2px solid #222;background:#222;color:#fff;}
+.presetBox button { background:#ff4d00; border:none; padding:10px 20px; border-radius:20px; margin:10px; cursor:pointer; }
+
 </style>
 </head>
 <body>
 
-<div class="topbar">
-<a class="logo"><img src="https://images2.imgbox.com/41/1a/t0Ymzijg_o.png"></a>
-<input id="search" placeholder="Search...">
+<div id="topbar">
+<img id="logo" src="https://images2.imgbox.com/41/1a/t0Ymzijg_o.png">
+<button class="tab" onclick="showTab('games')">Games</button>
+<button class="tab" onclick="showTab('info')">Info</button>
+<button class="tab" onclick="showTab('settings')">Settings</button>
+<button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">Terminal</button>
 </div>
 
-<div class="sidebar" id="sidebar"></div>
-<div class="main">
-<div id="favorites"></div>
-<div id="sections"></div>
-</div>
+<div id="ticker"><div id="tickerText"></div></div>
+<div id="sidebar"></div>
+<div id="main"><div id="searchWrap">
+  <input id="search" placeholder="Search games...">
+</div></div>
+
+<!-- PRESETS -->
+
+<div id="tocModal"><div class="modal" id="tocContent"></div></div>
+<div id="presetModal"><div class="presetBox">
+<h3>Tab Presets</h3>
+<input id="tabName" placeholder="Tab Name">
+<input id="tabIcon" placeholder="Icon URL">
+<input id="panicKey" placeholder="Panic Key (e.g. p)">
+<input id="panicLink" placeholder="Redirect URL">
+<button onclick="savePreset()">Save</button>
+</div></div>
 
 <script>
-const files=window.files||[
-  'cl1',
+// ===== TICKER =====
+const messages=["Welcome to Nol'sGames!","1900+ Games For You To Play","New Search & Favorite Features","This Is Still In BETA And Has Lots Of Bugs.","Try Out The New Panic Key & Tab Presets In Settings!","Enjoy!"];
+let msgIndex=0;
+const tickerText=document.getElementById('tickerText');
+function cycleTicker(){
+ tickerText.textContent=messages[msgIndex];
+ tickerText.style.left='100%';
+ let pos=window.innerWidth;
+ const interval=setInterval(()=>{
+  pos--;
+  tickerText.style.left=pos+'px';
+  if(pos<-tickerText.offsetWidth){
+    clearInterval(interval);
+    msgIndex=(msgIndex+1)%messages.length;
+    setTimeout(cycleTicker,500);
+  }
+ },10);
+}
+cycleTicker();
+
+// ===== TOC =====
+const tocPages=[
+`<h2>Terms & Conditions</h2><p>The Nol’sGames file is coded in HTML 5, CSS 3, and JavaScript. Some event websites also use Node.js, usually on the newest version, but it is run online. Please use Nol’sGames on a computer/browser that can handle these languages.
+
+The file is ideally downloaded in a .html format but can sometimes come unpackaged (seperate html, css and js) in a .zip. If the file is in a different format other than .html, .css, .js or .zip, do not download Nol’sGames.
+
+Nol’sGames is free to use ($/£/€/¥/₿0), and Nol’sGames should not be purposefully downloaded with any unintended programs, trojans, or viruses. If you think Nol’sGames could be dangerous or malicious or be downloaded with dangerous or malicious programs, do not download Nol’sGames. Download Nol’sGames only if you trust the file (The file is downloaded from Google Drive, which has built-in virus protection for files under 100MB, which Nol’sGames should always fall under). It is recommended to download Nol’sGames from anywhere else other than this document. You are permitted to modify the HTML, CSS, and JavaScript for personal, non-commercial use, however, you may not redistribute modified versions under the name “Nol’sGames,” or use them for profit. All original code, assets, graphics, and text within Nol’sGames are the intellectual property of Nol. You may not redistribute, modify, copy, or resell any part of Nol’sGames without explicit written permission.
+
+Nol’sGames is ad-free, and should not have any ads. Any server outages for any connecting files or games on external servers cannot be fixed by Nol, but is usually a temporary problem.
+
+NOL’SGAMES IS NOT RELEASED FOR ANY PROFIT INCENTIVE. DO NOT PAY FOR NOL’SGAMES, AND DO NOT EXTERNALLY CHARGE ANYONE TO DOWNLOAD NOL’SGAMES, OR FOR THE LINK TO THIS DOCUMENT.
+
+NOL DOES NOT TAKE ANY RESPONSIBILITY FOR DOWNLOADED PROGRAMS, TROJANS OR VIRUSES THAT MAY BE UNPURPOSEFULLY DOWNLOADED WITH NOL’SGAMES, NOR DOES NOL TAKE CREDIT FOR ANY ISSUE/PUNISHMENT FOR HOLDING/OWNING NOL’SGAMES IN ANY SCENARIO.
+
+Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><button onclick="nextToc()">Next</button>`,
+`<h2>Privacy Policy</h2><p>Nol’sGames does not and will never collect, harvest, or store any personal data, personally identifiable information (PII), internet protocol (IP) addresses, or geographic location information from the user. All game-related data, (for example, gameplay progression, user settings, configurations, high scores, etc.), is written and stored locally and exclusively on your device. Operating individual games from Nol’sGames will utilize your device’s storage. All data remains strictly on your local machine. 
+
+UNINSTALLING OR MODIFING THE NOL’SGAMES FILE, THE SPECIFIC GAME ITSELF OR MODIFING/BLOCKING ITS EXTERNAL CONNECTIONS WILL RESULT IN THE PERMANENT AND IRREVERSIBLE DELETION OF YOUR GAME DATA. NOL’SGAMES DOES NOT MAINTAIN EXTERNAL SERVERS AND CANNOT RECOVER LOST DATA.
+
+Please use Nol’sGames responsibly and thank you for using Nol’sGames. </p><button onclick="acceptToc()">Agree</button>`
+];
+let tocIndex=0;
+function openToc(){document.getElementById('tocModal').style.display='block';tocIndex=0;tocContent.innerHTML=tocPages[0];}
+function nextToc(){tocIndex++;tocContent.innerHTML=tocPages[tocIndex];}
+function acceptToc(){localStorage.setItem('toc','1');tocModal.style.display='none';}
+if(!localStorage.getItem('toc')) setTimeout(openToc,500);
+
+// ===== DATA =====
+const files = window.files || [
+    'cl1',
   'cl10bullets',
 'cl10minutestildawn',
 'cl12minibattles',
@@ -1995,121 +2082,162 @@ const files=window.files||[
 'vvvvvv',
 'wilywars'
 ];
-let fav=JSON.parse(localStorage.getItem('fav')||'[]');
-let order=JSON.parse(localStorage.getItem('order')||'{}');
+let favorites = JSON.parse(localStorage.getItem('favorites')||'[]');
 
-function showTOC(){
-if(localStorage.getItem('toc'))return;
-const m=document.createElement('div');
-m.className='modal';
-m.innerHTML=`<div class="modal-content">
-<h2 style="font-family:Shrikhand">Terms & Conditions</h2>
-<p>${`Terms And Conditions:
-The Nol’sGames file is coded in HTML 5, CSS 3, and JavaScript. Some event websites also use Node.js, usually on the newest version, but it is run online. Please use Nol’sGames on a computer/browser that can handle these languages.
+// ===== BUILD =====
+function build(filter=''){
+ document.body.classList.add('withSidebar');
+ const main=document.getElementById('main');
+ const sidebar=document.getElementById('sidebar');
+ const searchWrap = document.getElementById('searchWrap');
+main.innerHTML = '';
+if (searchWrap) main.appendChild(searchWrap); sidebar.innerHTML='';
 
-The file is ideally downloaded in a .html format but can sometimes come unpackaged (seperate html, css and js) in a .zip. If the file is in a different format other than .html, .css, .js or .zip, do not download Nol’sGames.
+ 
 
-Nol’sGames is free to use ($/£/€/¥/₿0), and Nol’sGames should not be purposefully downloaded with any unintended programs, trojans, or viruses. If you think Nol’sGames could be dangerous or malicious or be downloaded with dangerous or malicious programs, do not download Nol’sGames. Download Nol’sGames only if you trust the file (The file is downloaded from Google Drive, which has built-in virus protection for files under 100MB, which Nol’sGames should always fall under). It is recommended to download Nol’sGames from anywhere else other than this document. You are permitted to modify the HTML, CSS, and JavaScript for personal, non-commercial use, however, you may not redistribute modified versions under the name “Nol’sGames,” or use them for profit. All original code, assets, graphics, and text within Nol’sGames are the intellectual property of Nol. You may not redistribute, modify, copy, or resell any part of Nol’sGames without explicit written permission.
+ if(favorites.length){
+  const sec=document.createElement('div');
+  sec.className='section'; sec.innerHTML='<h2>Favorites</h2>';
+  favorites.filter(f=>f.includes(filter)).forEach(f=>sec.appendChild(createGameBtn(f)));
+  if(sec.children.length>1) main.appendChild(sec);
+ }
 
-Nol’sGames is ad-free, and should not have any ads. Any server outages for any connecting files or games on external servers cannot be fixed by Nol, but is usually a temporary problem.
+ const letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789'.split('');
+ letters.forEach(l=>{
+  const sec=document.createElement('div'); sec.className='section'; sec.id='sec'+l;
+  const title=document.createElement('h2'); title.textContent=l; sec.appendChild(title);
 
-NOL’SGAMES IS NOT RELEASED FOR ANY PROFIT INCENTIVE. DO NOT PAY FOR NOL’SGAMES, AND DO NOT EXTERNALLY CHARGE ANYONE TO DOWNLOAD NOL’SGAMES, OR FOR THE LINK TO THIS DOCUMENT.
+  let has=false;
+  files.forEach(f=>{
+   if(f[2]?.toUpperCase()===l && f.toLowerCase().includes(filter)){
+    has=true;
+    sec.appendChild(createGameBtn(f));
+   }
+  });
 
-NOL DOES NOT TAKE ANY RESPONSIBILITY FOR DOWNLOADED PROGRAMS, TROJANS OR VIRUSES THAT MAY BE UNPURPOSEFULLY DOWNLOADED WITH NOL’SGAMES, NOR DOES NOL TAKE CREDIT FOR ANY ISSUE/PUNISHMENT FOR HOLDING/OWNING NOL’SGAMES IN ANY SCENARIO.
-
-Please use Nol’sGames responsibly and thank you for using Nol’sGames. 
-Privacy Policy:
-Nol’sGames does not and will never collect, harvest, or store any personal data, personally identifiable information (PII), internet protocol (IP) addresses, or geographic location information from the user. All game-related data, (for example, gameplay progression, user settings, configurations, high scores, etc.), is written and stored locally and exclusively on your device. Operating individual games from Nol’sGames will utilize your device’s storage. All data remains strictly on your local machine. 
-
-UNINSTALLING OR MODIFING THE NOL’SGAMES FILE, THE SPECIFIC GAME ITSELF OR MODIFING/BLOCKING ITS EXTERNAL CONNECTIONS WILL RESULT IN THE PERMANENT AND IRREVERSIBLE DELETION OF YOUR GAME DATA. NOL’SGAMES DOES NOT MAINTAIN EXTERNAL SERVERS AND CANNOT RECOVER LOST DATA.
-
-Please use Nol’sGames responsibly and thank you for using Nol’sGames. 
-`}</p>
-<button id="accept">Accept</button>
-<button id="decline">Decline</button>
-</div>`;
-document.body.appendChild(m);
-accept.onclick=()=>{localStorage.setItem('toc',1);m.remove()};
-decline.onclick=()=>{window.close()};
+  if(has){
+   main.appendChild(sec);
+   const b=document.createElement('button');
+   b.className='sidebar-btn'; b.textContent=l;
+   b.onclick=()=>document.getElementById('sec'+l).scrollIntoView({behavior:'smooth'});
+   sidebar.appendChild(b);
+  }
+ });
+ const search = document.getElementById('search');
+if (search) {
+  search.focus();
+  search.setSelectionRange(search.value.length, search.value.length);
+}
 }
 
-function save(){localStorage.setItem('fav',JSON.stringify(fav));localStorage.setItem('order',JSON.stringify(order))}
+// ===== BUTTON =====
+function createGameBtn(f){
+ const btn=document.createElement('div');
+ btn.className='game-btn'+(favorites.includes(f)?' fav':'');
 
-function makeBtn(f){
-const w=document.createElement('div');w.className='game-wrap';w.draggable=true;
+ const handle=document.createElement('span'); handle.className='handle'; handle.textContent='≡';
+ const text=document.createElement('span'); text.textContent=f;
 
-const b=document.createElement('button');b.className='game-btn';b.textContent=f;
-if(fav.includes(f))b.classList.add('favorited');
+ const star=document.createElement('span');
+ star.className='star '+(favorites.includes(f)?'on':'off');
+ star.onclick=(e)=>{
+  e.stopPropagation();
+  if(favorites.includes(f)) favorites=favorites.filter(x=>x!==f);
+  else favorites.push(f);
+  localStorage.setItem('favorites',JSON.stringify(favorites));
+  build();
+ };
 
-b.onclick=()=>{
-fetch(`https://raw.githubusercontent.com/PizzaGamingYT/nolsgames/refs/heads/main/UGS-Files/${encodeURIComponent(f+'.html')}?t=${Date.now()}`)
-.then(r=>r.text()).then(t=>{let w=window.open();w.document.write(t)})};
+ btn.onclick=()=>{
+  const encoded=encodeURIComponent(f+'.html');
+  fetch(`https://raw.githubusercontent.com/PizzaGamingYT/nolsgames/refs/heads/main/UGS-Files/${encoded}?t=${Date.now()}`)
+  .then(r=>r.text())
+  .then(t=>{const w=window.open('about:blank','_blank'); if(w){w.document.open();w.document.write(t);w.document.close();}});
+ };
 
-const s=document.createElement('div');s.className='star'+(fav.includes(f)?'':' off');s.textContent='★';
-s.onclick=e=>{e.stopPropagation();
-fav.includes(f)?fav.splice(fav.indexOf(f),1):fav.push(f);
-save();render();};
-
-const d=document.createElement('div');d.className='drag';d.textContent='≡';
-
-w.append(b,s,d);
-
-w.ondragstart=e=>e.dataTransfer.setData('text',f);
-w.ondrop=e=>{
-const from=e.dataTransfer.getData('text');
-const list=order.current||files.slice();
-list.splice(list.indexOf(from),1);
-list.splice(list.indexOf(f),0,from);
-order.current=list;save();render();
-};
-w.ondragover=e=>e.preventDefault();
-
-return w;
+ btn.append(handle,text,star);
+ return btn;
 }
 
-function render(){
-const sec=document.getElementById('sections');
-const favDiv=document.getElementById('favorites');
-sec.innerHTML='';favDiv.innerHTML='';
 
-let list=order.current||files.slice();
 
-if(fav.length){
-favDiv.innerHTML='<div class="section-title">Favorites</div>';
-let g=document.createElement('div');g.className='buttons-container';
-fav.forEach(f=>g.appendChild(makeBtn(f)));
-favDiv.appendChild(g);
+// ===== SETTINGS =====
+function openPreset(){
+ const p = JSON.parse(localStorage.getItem('preset') || '{}');
+
+ tabName.value = p.name || '';
+ tabIcon.value = p.icon || '';
+ panicKey.value = p.key || '';
+ panicLink.value = p.link || '';
+
+ presetModal.style.display = 'block';
 }
 
-let filtered=list.filter(f=>f.toLowerCase().includes(search.value.toLowerCase()));
+function savePreset(){
+ const rawLink = panicLink.value.trim();
 
-const groups={};
-filtered.forEach(f=>{
-let c=f[2]?.toUpperCase()||'#';
-(groups[c]=groups[c]||[]).push(f);
+ const fixedLink = rawLink
+  ? (rawLink.startsWith('http://') || rawLink.startsWith('https://')
+      ? rawLink
+      : 'https://' + rawLink)
+  : '';
+
+ const data = {
+  name: tabName.value,
+  icon: tabIcon.value,
+  key: panicKey.value,
+  link: fixedLink
+ };
+
+ localStorage.setItem('preset', JSON.stringify(data));
+ applyPreset();
+ presetModal.style.display = 'none';
+}
+
+function applyPreset(){
+ const p=JSON.parse(localStorage.getItem('preset')||'{}');
+ if(p.name) document.title=p.name;
+ if(p.icon) document.getElementById('dynamicFavicon').href=p.icon;
+ document.onkeydown=(e)=>{
+  if(p.key && e.key.toLowerCase()===p.key.toLowerCase()){
+    window.location.href=p.link||'https://google.com';
+  }
+ };
+}
+applyPreset();
+
+// ===== TABS =====
+function showTab(tab){
+ const main=document.getElementById('main');
+ const sidebar=document.getElementById('sidebar');
+
+ if(tab==='games'){ document.body.classList.add('withSidebar'); build(); return; }
+ document.body.classList.remove('withSidebar'); sidebar.innerHTML='';
+
+ if(tab==='settings'){
+  main.innerHTML=`
+  <h2>Settings</h2>
+  <button class="standard" onclick="openPreset()">🧠 Tab Presets</button><br><br>
+  <button class="standard" onclick="openToc()">📜 Terms</button><br><br><br><br>
+  <button class="danger" onclick="clearData()">🗑️ Clear Game Data</button><br><br>
+  `;
+ }
+ if(tab==='info') main.innerHTML=`<h2>Info</h2><p>Nol'sGames info tab.</p>`;
+}
+
+function clearData(){
+ if(confirm('Delete ALL data?')){ localStorage.clear(); location.reload(); }
+}
+
+build();
+
+document.addEventListener("DOMContentLoaded", () => {
+ const search = document.getElementById("search");
+
+ search.addEventListener("input", (e) => {
+  build(e.target.value.toLowerCase());
+ });
 });
-
-const sidebar=document.getElementById('sidebar');
-sidebar.innerHTML='';
-
-Object.keys(groups).sort().forEach(c=>{
-let btn=document.createElement('button');btn.textContent=c;
-btn.onclick=()=>document.getElementById('sec-'+c).scrollIntoView();
-sidebar.appendChild(btn);
-
-let title=document.createElement('div');title.className='section-title';title.id='sec-'+c;title.textContent=c;
-let grid=document.createElement('div');grid.className='buttons-container';
-
-groups[c].forEach(f=>{if(!fav.includes(f))grid.appendChild(makeBtn(f))});
-
-if(grid.children.length){sec.append(title,grid)}
-});
-}
-
-search.oninput=render;
-showTOC();
-render();
 </script>
-
 </body>
 </html>
