@@ -2042,7 +2042,7 @@ const b=document.createElement('button');b.className='game-btn';b.textContent=f;
 if(fav.includes(f))b.classList.add('favorited');
 
 b.onclick=()=>{
-fetch(`https://raw.githubusercontent.com/PizzaGamingYT/nolsgames/refs/heads/main/UGS-Files/${encodeURIComponent(f+'.html')}`)
+fetch(`https://raw.githubusercontent.com/PizzaGamingYT/nolsgames/refs/heads/main/UGS-Files/${encodeURIComponent(f+'.html')}?t=${Date.now()}`)
 .then(r=>r.text()).then(t=>{let w=window.open();w.document.write(t)})};
 
 const s=document.createElement('div');s.className='star'+(fav.includes(f)?'':' off');s.textContent='★';
