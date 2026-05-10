@@ -1,4 +1,4 @@
-const files = window.files || [
+window.files = [
     'cl1',
   'cl10bullets',
 'cl10minutestildawn',
