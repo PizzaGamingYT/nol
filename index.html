@@ -24,15 +24,54 @@ body { margin:0; font-family:"Commissioner",sans-serif; background:#111; color:#
 .tab:hover { background:#222; }
 
 /* Layout */
-#sidebar { display:none; position:fixed; top:84px; left:0; width:60px; height:calc(100% - 84px); overflow:auto; background:#111; }
-#main { margin-left:0; margin-top:84px; height:calc(100vh - 84px); overflow:auto; padding:10px; }
-.withSidebar #sidebar { display:block; }
-.withSidebar #main { margin-left:70px; }
+#sidebar{
+ display:none;
+ position:fixed;
+ top:84px;
+ left:0;
+ width:60px;
+ height:calc(100% - 84px);
+ overflow:auto;
+ background:#111;
+ z-index:5;
+}
 
-/* Search */
-#searchWrap{margin:10px 0;}
-#search{width:100%; padding:12px; border-radius:14px; border:2px solid #222; background:#222; color:#fff; font-family:"Shrikhand";}
-#search:focus{outline:none; border-color:#ff4d00;}
+#main{
+ margin-left:0;
+ margin-top:84px;
+ height:calc(100vh - 84px);
+ overflow:auto;
+ padding:10px;
+ box-sizing:border-box;
+}
+
+.withSidebar #sidebar{display:block;}
+.withSidebar #main{margin-left:70px;}
+
+/* SEARCH */
+#searchWrap{
+ position:sticky;
+ top:0;
+ z-index:1000;
+ padding-bottom:10px;
+ background:#111;
+}
+
+#search{
+ width:100%;
+ box-sizing:border-box;
+ padding:14px;
+ border-radius:14px;
+ border:2px solid #222;
+ background:#222;
+ color:#fff;
+ font-family:"Shrikhand";
+}
+
+#search:focus{
+ outline:none;
+ border-color:#ff4d00;
+}
 
 .sidebar-btn { display:block; width:100%; padding:8px; background:#222; color:#fff; border:none; font-family:"Shrikhand"; }
 .sidebar-btn:hover { background:#ff4d00; }
@@ -65,6 +104,37 @@ body { margin:0; font-family:"Commissioner",sans-serif; background:#111; color:#
 .presetBox{background:#111;margin:5% auto;padding:20px;width:400px;border-radius:16px;}
 .presetBox input{width:100%;margin:6px 0;padding:10px;border-radius:10px;border:2px solid #222;background:#222;color:#fff;}
 .presetBox button { background:#ff4d00; border:none; padding:10px 20px; border-radius:20px; margin:10px; cursor:pointer; }
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff4d00, #ff8a00);
+  border-radius: 10px;
+  border: 2px solid #111;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff8a00, #ff4d00);
+}
+
+/* corner where horizontal + vertical meet */
+::-webkit-scrollbar-corner {
+  background: #111;
+}
+
+/* ===== FIREFOX SCROLLBARS ===== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ff4d00 #111;
+}
 
 </style>
 </head>
@@ -179,29 +249,57 @@ async function loadGameList() {
 // ===== BUILD =====
 function build(filter=''){
  document.body.classList.add('withSidebar');
+
  const main=document.getElementById('main');
  const sidebar=document.getElementById('sidebar');
- const searchWrap = document.getElementById('searchWrap');
-main.innerHTML = '';
-if (searchWrap) main.appendChild(searchWrap); sidebar.innerHTML='';
 
- 
+ sidebar.innerHTML='';
+
+ // rebuild main properly
+ main.innerHTML=`
+ <div id="searchWrap">
+   <input id="search" placeholder="Search games..." value="${filter}">
+ </div>
+ `;
+
+ // restore search listener every rebuild
+ const search = document.getElementById("search");
+
+ search.addEventListener("input", (e)=>{
+  build(e.target.value.toLowerCase());
+ });
 
  if(favorites.length){
   const sec=document.createElement('div');
-  sec.className='section'; sec.innerHTML='<h2>Favorites</h2>';
-  favorites.filter(f=>f.includes(filter)).forEach(f=>sec.appendChild(createGameBtn(f)));
+  sec.className='section';
+  sec.innerHTML='<h2>Favorites</h2>';
+
+  favorites
+   .filter(f=>f.toLowerCase().includes(filter))
+   .forEach(f=>sec.appendChild(createGameBtn(f)));
+
   if(sec.children.length>1) main.appendChild(sec);
  }
 
  const letters='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
  letters.forEach(l=>{
-  const sec=document.createElement('div'); sec.className='section'; sec.id='sec'+l;
-  const title=document.createElement('h2'); title.textContent=l; sec.appendChild(title);
+  const sec=document.createElement('div');
+  sec.className='section';
+  sec.id='sec'+l;
+
+  const title=document.createElement('h2');
+  title.textContent=l;
+
+  sec.appendChild(title);
 
   let has=false;
+
   files.forEach(f=>{
-   if(f[2]?.toUpperCase()===l && f.toLowerCase().includes(filter)){
+   if(
+    f[2]?.toUpperCase()===l &&
+    f.toLowerCase().includes(filter)
+   ){
     has=true;
     sec.appendChild(createGameBtn(f));
    }
@@ -209,17 +307,27 @@ if (searchWrap) main.appendChild(searchWrap); sidebar.innerHTML='';
 
   if(has){
    main.appendChild(sec);
+
    const b=document.createElement('button');
-   b.className='sidebar-btn'; b.textContent=l;
-   b.onclick=()=>document.getElementById('sec'+l).scrollIntoView({behavior:'smooth'});
+   b.className='sidebar-btn';
+   b.textContent=l;
+
+   b.onclick=()=>{
+    document
+     .getElementById('sec'+l)
+     .scrollIntoView({behavior:'smooth'});
+   };
+
    sidebar.appendChild(b);
   }
  });
- const search = document.getElementById('search');
-if (search) {
-  search.focus();
-  search.setSelectionRange(search.value.length, search.value.length);
-}
+
+ // keep cursor in search
+ search.focus();
+ search.setSelectionRange(
+  search.value.length,
+  search.value.length
+ );
 }
 
 // ===== BUTTON =====
@@ -323,13 +431,7 @@ function clearData(){
 
 loadGameList();
 
-document.addEventListener("DOMContentLoaded", () => {
- const search = document.getElementById("search");
 
- search.addEventListener("input", (e) => {
-  build(e.target.value.toLowerCase());
- });
-});
 </script>
 </body>
 </html>
