@@ -73,9 +73,10 @@ body { margin:0; font-family:"Commissioner",sans-serif; background:#111; color:#
 <div id="topbar">
 <img id="logo" src="https://images2.imgbox.com/41/1a/t0Ymzijg_o.png">
 <button class="tab" onclick="showTab('games')">Games</button>
-<button class="tab" onclick="showTab('info')">Info</button>
-<button class="tab" onclick="showTab('settings')">Settings</button>
+<button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.d7cju37w6zwj','_blank')">Info</button>
 <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">Terminal</button>
+<button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.biyfduhv1w7','_blank')">Events</button>
+<button class="tab" onclick="showTab('settings')">Settings</button>
 </div>
 
 <div id="ticker"><div id="tickerText"></div></div>
@@ -123,20 +124,23 @@ const tocPages=[
 
 The file is ideally downloaded in a .html format but can sometimes come unpackaged (seperate html, css and js) in a .zip. If the file is in a different format other than .html, .css, .js or .zip, do not download Nol’sGames.
 
-Nol’sGames is free to use ($/£/€/¥/₿0), and Nol’sGames should not be purposefully downloaded with any unintended programs, trojans, or viruses. If you think Nol’sGames could be dangerous or malicious or be downloaded with dangerous or malicious programs, do not download Nol’sGames. Download Nol’sGames only if you trust the file (The file is downloaded from Google Drive, which has built-in virus protection for files under 100MB, which Nol’sGames should always fall under). It is recommended to download Nol’sGames from anywhere else other than this document. You are permitted to modify the HTML, CSS, and JavaScript for personal, non-commercial use, however, you may not redistribute modified versions under the name “Nol’sGames,” or use them for profit. All original code, assets, graphics, and text within Nol’sGames are the intellectual property of Nol. You may not redistribute, modify, copy, or resell any part of Nol’sGames without explicit written permission.
+Nol’sGames is free to use ($/£/€/¥/₿0), and Nol’sGames should not be purposefully downloaded with any unintended programs, trojans, or viruses. If you think Nol’sGames could be dangerous or malicious or be downloaded with dangerous or malicious programs, do not download Nol’sGames. Download Nol’sGames only if you trust the file (The file is downloaded from Google Drive, which has built-in virus protection for files under 100MB, which Nol’sGames should always fall under). It is not recommended to download Nol’sGames from anywhere else other than the terminal. You are permitted to modify the HTML, CSS, and JavaScript for personal, non-commercial use, however, you may not redistribute modified versions under the name “Nol’sGames,” or use them for profit. All original code, assets, graphics, and text within Nol’sGames are the intellectual property of Nol. You may not redistribute, modify, copy, or resell any part of Nol’sGames without explicit written permission.
+
+The Nol’sGames Save (.ngs) file is a custom file for Nol’sGames only, and is downloaded by the save game data button. You can upload .ngs files by the upload game data button. The upload game data button will overwrite your current game data. A .ngs file should not be dangerous. Do not download a .ngs if you think it could be a dangerous file. Games with emulators may use different formats to save data, like .srm and .state, but like a .ngs, they are meant for saving game data and are ideally harmless to your computer.
 
 Nol’sGames is ad-free, and should not have any ads. Any server outages for any connecting files or games on external servers cannot be fixed by Nol, but is usually a temporary problem.
 
-NOL’SGAMES IS NOT RELEASED FOR ANY PROFIT INCENTIVE. DO NOT PAY FOR NOL’SGAMES, AND DO NOT EXTERNALLY CHARGE ANYONE TO DOWNLOAD NOL’SGAMES, OR FOR THE LINK TO THIS DOCUMENT.
+NOL’SGAMES IS NOT RELEASED FOR ANY PROFIT INCENTIVE. DO NOT PAY FOR NOL’SGAMES, AND DO NOT EXTERNALLY CHARGE ANYONE TO DOWNLOAD NOL’SGAMES, OR FOR THE LINK TO THE NOL’SGAMES TERMINAL.
 
 NOL DOES NOT TAKE ANY RESPONSIBILITY FOR DOWNLOADED PROGRAMS, TROJANS OR VIRUSES THAT MAY BE UNPURPOSEFULLY DOWNLOADED WITH NOL’SGAMES, NOR DOES NOL TAKE CREDIT FOR ANY ISSUE/PUNISHMENT FOR HOLDING/OWNING NOL’SGAMES IN ANY SCENARIO.
 
-Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><button onclick="nextToc()">Next</button>`,
+Please use Nol’sGames responsibly and thank you for using Nol’sGames. 
+</p><button onclick="nextToc()">Agree</button>`,
 `<h2>Privacy Policy</h2><p>Nol’sGames does not and will never collect, harvest, or store any personal data, personally identifiable information (PII), internet protocol (IP) addresses, or geographic location information from the user. All game-related data, (for example, gameplay progression, user settings, configurations, high scores, etc.), is written and stored locally and exclusively on your device. Operating individual games from Nol’sGames will utilize your device’s storage. All data remains strictly on your local machine. 
 
-UNINSTALLING OR MODIFING THE NOL’SGAMES FILE, THE SPECIFIC GAME ITSELF OR MODIFING/BLOCKING ITS EXTERNAL CONNECTIONS WILL RESULT IN THE PERMANENT AND IRREVERSIBLE DELETION OF YOUR GAME DATA. NOL’SGAMES DOES NOT MAINTAIN EXTERNAL SERVERS AND CANNOT RECOVER LOST DATA.
+UNINSTALLING OR MODIFYING THE NOL’SGAMES FILE, THE SPECIFIC GAME ITSELF OR MODIFYING/BLOCKING ITS EXTERNAL CONNECTIONS WILL RESULT IN THE PERMANENT AND IRREVERSIBLE DELETION OF YOUR GAME DATA. NOL’SGAMES DOES NOT MAINTAIN EXTERNAL SERVERS AND CANNOT RECOVER LOST DATA.
 
-Please use Nol’sGames responsibly and thank you for using Nol’sGames. </p><button onclick="acceptToc()">Agree</button>`
+Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><button onclick="acceptToc()">Agree</button>`
 ];
 let tocIndex=0;
 function openToc(){document.getElementById('tocModal').style.display='block';tocIndex=0;tocContent.innerHTML=tocPages[0];}
@@ -190,7 +194,7 @@ if (searchWrap) main.appendChild(searchWrap); sidebar.innerHTML='';
   if(sec.children.length>1) main.appendChild(sec);
  }
 
- const letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789'.split('');
+ const letters='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
  letters.forEach(l=>{
   const sec=document.createElement('div'); sec.className='section'; sec.id='sec'+l;
   const title=document.createElement('h2'); title.textContent=l; sec.appendChild(title);
@@ -305,12 +309,12 @@ function showTab(tab){
  if(tab==='settings'){
   main.innerHTML=`
   <h2>Settings</h2>
-  <button class="standard" onclick="openPreset()">🧠 Tab Presets</button><br><br>
-  <button class="standard" onclick="openToc()">📜 Terms</button><br><br><br><br>
+  <button class="standard" onclick="openPreset()">Tab Settings</button><br><br>
+  <button class="standard" onclick="openToc()">Terms And Conditions & Privacy Policy</button><br><br><br><br>
   <button class="danger" onclick="clearData()">🗑️ Clear Game Data</button><br><br>
   `;
  }
- if(tab==='info') main.innerHTML=`<h2>Info</h2><p>Nol'sGames info tab.</p>`;
+ 
 }
 
 function clearData(){
