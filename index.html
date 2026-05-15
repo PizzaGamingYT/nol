@@ -188,14 +188,6 @@
             color: gold;
         }
 
-        .star.on::before {
-            content: "/";
-            color: red;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
         .handle {
             cursor: grab;
             margin-right: 8px;
@@ -354,12 +346,37 @@
     </div>
     <div id="presetModal">
         <div class="presetBox">
+
             <h3>Tab Presets</h3>
+
             <input id="tabName" placeholder="Tab Name">
-            <input id="tabIcon" placeholder="Icon URL">
+
+            <label class="standard" style="display:inline-block;">
+                Upload Favicon
+                <input type="file" id="tabIconUpload" accept="image/*" style="display:none" onchange="handleFaviconUpload(this.files[0])">
+            </label>
+
+            <br><br>
+
+            <img id="faviconPreview" style="
+  width:48px;
+  height:48px;
+  border-radius:12px;
+  display:none;
+  border:2px solid #ff4d00;
+ ">
+
+            <br><br>
+
             <input id="panicKey" placeholder="Panic Key (e.g. p)">
             <input id="panicLink" placeholder="Redirect URL">
+
             <button onclick="savePreset()">Save</button>
+
+            <button style="background:red;color:white;" onclick="resetPresets()">
+                Reset Presets
+            </button>
+
         </div>
     </div>
 
@@ -506,13 +523,22 @@ Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><bu
                 let has = false;
 
                 files.forEach(f => {
+
+                    const firstLetter =
+                        f.toLowerCase().startsWith('cl') ?
+                        f[2] :
+                        f.toLowerCase().startsWith('ng') ?
+                        f[2] :
+                        f[0];
+
                     if (
-                        f[2]?.toUpperCase() === l &&
+                        firstLetter?.toUpperCase() === l &&
                         f.toLowerCase().includes(filter)
                     ) {
                         has = true;
                         sec.appendChild(createGameBtn(f));
                     }
+
                 });
 
                 if (has) {
@@ -584,48 +610,186 @@ Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><bu
 
 
         // ===== SETTINGS =====
+        let uploadedFavicon = '';
+
         function openPreset() {
+
             const p = JSON.parse(localStorage.getItem('preset') || '{}');
 
             tabName.value = p.name || '';
-            tabIcon.value = p.icon || '';
             panicKey.value = p.key || '';
             panicLink.value = p.link || '';
 
+            uploadedFavicon = p.icon || '';
+
+            const preview = document.getElementById('faviconPreview');
+
+            if (uploadedFavicon) {
+                preview.src = uploadedFavicon;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+
             presetModal.style.display = 'block';
+
+        }
+
+        function handleFaviconUpload(file) {
+
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+
+                uploadedFavicon = e.target.result;
+
+                const preview = document.getElementById('faviconPreview');
+
+                preview.src = uploadedFavicon;
+                preview.style.display = 'block';
+
+            };
+
+            reader.readAsDataURL(file);
+
         }
 
         function savePreset() {
+
             const rawLink = panicLink.value.trim();
 
-            const fixedLink = rawLink ?
-                (rawLink.startsWith('http://') || rawLink.startsWith('https://') ?
-                    rawLink :
-                    'https://' + rawLink) :
+            const fixedLink =
+                rawLink ?
+                (
+                    rawLink.startsWith('http://') ||
+                    rawLink.startsWith('https://')
+                ) ?
+                rawLink :
+                'https://' + rawLink :
                 '';
 
             const data = {
                 name: tabName.value,
-                icon: tabIcon.value,
+                icon: uploadedFavicon,
                 key: panicKey.value,
                 link: fixedLink
             };
 
-            localStorage.setItem('preset', JSON.stringify(data));
+            localStorage.setItem(
+                'preset',
+                JSON.stringify(data)
+            );
+
             applyPreset();
+
             presetModal.style.display = 'none';
+
         }
 
         function applyPreset() {
-            const p = JSON.parse(localStorage.getItem('preset') || '{}');
-            if (p.name) document.title = p.name;
-            if (p.icon) document.getElementById('dynamicFavicon').href = p.icon;
+
+            const p = JSON.parse(
+                localStorage.getItem('preset') || '{}'
+            );
+
+            // DEFAULTS
+            const panicKeyValue = p.key || '\\';
+            const panicLinkValue = p.link || 'https://google.com';
+
+            // TITLE
+            document.title =
+                p.name || "Nol'sGames";
+
+            // FAVICON
+            let favicon =
+                document.getElementById('dynamicFavicon');
+
+            if (!favicon) {
+
+                favicon = document.createElement('link');
+
+                favicon.rel = 'icon';
+                favicon.id = 'dynamicFavicon';
+
+                document.head.appendChild(favicon);
+
+            }
+
+            favicon.href =
+                p.icon ||
+                'https://images2.imgbox.com/cc/3b/rhexcsGH_o.png';
+
+            // PANIC KEY
+            document.onkeydown = null;
+
             document.onkeydown = (e) => {
-                if (p.key && e.key.toLowerCase() === p.key.toLowerCase()) {
-                    window.location.href = p.link || 'https://google.com';
+
+                if (
+                    e.key.toLowerCase() ===
+                    panicKeyValue.toLowerCase()
+                ) {
+
+                    window.location.href = panicLinkValue;
+
                 }
+
             };
+
         }
+
+        function resetPresets() {
+
+            if (!confirm('Reset all preset settings?')) return;
+
+            // REMOVE OLD PRESET
+            localStorage.removeItem('preset');
+
+            // CREATE CLEAN DEFAULT PRESET
+            const defaultPreset = {
+                name: "Nol'sGames",
+                icon: "",
+                key: "\\",
+                link: "https://google.com"
+            };
+
+            localStorage.setItem(
+                'preset',
+                JSON.stringify(defaultPreset)
+            );
+
+            uploadedFavicon = '';
+
+            document.getElementById(
+                'faviconPreview'
+            ).style.display = 'none';
+
+            tabName.value = '';
+            panicKey.value = '\\';
+            panicLink.value = 'https://google.com';
+
+            applyPreset();
+
+            alert('Presets reset.');
+
+        }
+
+        // ===== DEFAULT PRESET =====
+        if (!localStorage.getItem('preset')) {
+
+            localStorage.setItem(
+                'preset',
+                JSON.stringify({
+                    name: "Nol'sGames",
+                    icon: "",
+                    key: "\\",
+                    link: "https://google.com"
+                })
+            );
+
+        }
+
         applyPreset();
 
         // ===== TABS =====
@@ -681,7 +845,8 @@ Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><bu
         function exportNGS() {
 
             const saveData = {};
-         
+
+            // grab EVERYTHING in localStorage
             for (let i = 0; i < localStorage.length; i++) {
 
                 const key = localStorage.key(i);
