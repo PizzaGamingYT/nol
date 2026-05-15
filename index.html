@@ -1,196 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nol'sGames</title>
-<link rel="icon" id="dynamicFavicon" href="https://images2.imgbox.com/cc/3b/rhexcsGH_o.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nol'sGames</title>
+    <link rel="icon" id="dynamicFavicon" href="https://images2.imgbox.com/cc/3b/rhexcsGH_o.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=Shrikhand&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=Shrikhand&display=swap" rel="stylesheet">
 
-<style>
-body { margin:0; font-family:"Commissioner",sans-serif; background:#111; color:#fff; overflow:hidden; }
+    <style>
+        body {
+            margin: 0;
+            font-family: "Commissioner", sans-serif;
+            background: #111;
+            color: #fff;
+            overflow: hidden;
+        }
 
-/* Ticker */
-#ticker { position:fixed; top:56px; left:0; width:100%; height:28px; background:#ff4d00; overflow:hidden; z-index:9999; display:flex; align-items:center; }
-#tickerText { position:absolute; white-space:nowrap; font-family:"Shrikhand"; }
+        /* Ticker */
+        #ticker {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            width: 100%;
+            height: 28px;
+            background: #ff4d00;
+            overflow: hidden;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+        }
 
-/* Topbar */
-#topbar { position:fixed; top:0; left:0; width:100%; background:#ff4d00; padding:10px; display:flex; align-items:center; gap:10px; z-index:9998; }
-#logo { height:36px; }
-.tab { background:#ff4d00; border:0; color:#fff; padding:10px 16px; border-radius:16px; cursor:pointer; font-family:"Shrikhand"; }
-.tab:hover { background:#222; }
+        #tickerText {
+            position: absolute;
+            white-space: nowrap;
+            font-family: "Shrikhand";
+        }
 
-/* Layout */
-#sidebar{
- display:none;
- position:fixed;
- top:84px;
- left:0;
- width:60px;
- height:calc(100% - 84px);
- overflow:auto;
- background:#111;
- z-index:5;
-}
+        /* Topbar */
+        #topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #ff4d00;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9998;
+        }
 
-#main{
- margin-left:0;
- margin-top:84px;
- height:calc(100vh - 84px);
- overflow:auto;
- padding:10px;
- box-sizing:border-box;
-}
+        #logo {
+            height: 36px;
+        }
 
-.withSidebar #sidebar{display:block;}
-.withSidebar #main{margin-left:70px;}
+        .tab {
+            background: #ff4d00;
+            border: 0;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: "Shrikhand";
+        }
 
-/* SEARCH */
-#searchWrap{
- position:sticky;
- top:0;
- z-index:1000;
- padding-bottom:10px;
- background:#111;
-}
+        .tab:hover {
+            background: #222;
+        }
 
-#search{
- width:100%;
- box-sizing:border-box;
- padding:14px;
- border-radius:14px;
- border:2px solid #222;
- background:#222;
- color:#fff;
- font-family:"Shrikhand";
-}
+        /* Layout */
+        #sidebar {
+            display: none;
+            position: fixed;
+            top: 84px;
+            left: 0;
+            width: 60px;
+            height: calc(100% - 84px);
+            overflow: auto;
+            background: #111;
+            z-index: 5;
+        }
 
-#search:focus{
- outline:none;
- border-color:#ff4d00;
-}
+        #main {
+            margin-left: 0;
+            margin-top: 84px;
+            height: calc(100vh - 84px);
+            overflow: auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
 
-.sidebar-btn { display:block; width:100%; padding:8px; background:#222; color:#fff; border:none; font-family:"Shrikhand"; }
-.sidebar-btn:hover { background:#ff4d00; }
+        .withSidebar #sidebar {
+            display: block;
+        }
 
-.section { margin-bottom:20px; }
-.section h2 { margin:10px 0; }
+        .withSidebar #main {
+            margin-left: 70px;
+        }
 
-.game-btn { width:100%; max-width:100%; box-sizing:border-box; padding:14px; margin:6px 0; background:#222; color:#fff; border:2px solid #222; border-radius:14px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
-.game-btn:hover { background:#ff4d00; }
+        /* SEARCH */
+        #searchWrap {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding-bottom: 10px;
+            background: #111;
+        }
 
-.fav { border-color:#FF4D00; }
-.star { cursor:pointer; position:relative; }
-.star.off::after { content:"★"; color:#888; }
-.star.on::after { content:"★"; color:gold; }
-.star.on::before { content:"/"; color:red; position:absolute; left:0; top:0; }
+        #search {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border-radius: 14px;
+            border: 2px solid #222;
+            background: #222;
+            color: #fff;
+            font-family: "Shrikhand";
+        }
 
-.handle { cursor:grab; margin-right:8px; }
+        #search:focus {
+            outline: none;
+            border-color: #ff4d00;
+        }
 
-.danger { background:red; color:#fff; border:none; padding:12px; border-radius:12px; cursor:pointer; }
-.standard { background:#222222; color:#fff; border:2px solid #ff4d00; padding:12px; border-radius:12px; cursor:pointer; }
-.standard:hover { background:#ff4d00; }
+        .sidebar-btn {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            background: #222;
+            color: #fff;
+            border: none;
+            font-family: "Shrikhand";
+        }
 
-/* TOC */
-#tocModal { position:fixed; top:0; left:0; width:100%; height:100%; background:#000d; display:none; z-index:10000; }
-.modal { background:#111; margin:5% auto; padding:20px; width:60%; max-height:80%; overflow:auto; border-radius:16px; }
-.modal button { background:#ff4d00; border:none; padding:10px 20px; border-radius:20px; margin:10px; cursor:pointer; }
+        .sidebar-btn:hover {
+            background: #ff4d00;
+        }
 
-/* Tab presets modal */
-#presetModal{position:fixed;top:0;left:0;width:100%;height:100%;background:#000b;display:none;z-index:11000;}
-.presetBox{background:#111;margin:5% auto;padding:20px;width:400px;border-radius:16px;}
-.presetBox input{width:100%;margin:6px 0;padding:10px;border-radius:10px;border:2px solid #222;background:#222;color:#fff;}
-.presetBox button { background:#ff4d00; border:none; padding:10px 20px; border-radius:20px; margin:10px; cursor:pointer; }
+        .section {
+            margin-bottom: 20px;
+        }
 
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
+        .section h2 {
+            margin: 10px 0;
+        }
 
-::-webkit-scrollbar-track {
-  background: #111;
-  border-radius: 10px;
-}
+        .game-btn {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            margin: 6px 0;
+            background: #222;
+            color: #fff;
+            border: 2px solid #222;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ff4d00, #ff8a00);
-  border-radius: 10px;
-  border: 2px solid #111;
-}
+        .game-btn:hover {
+            background: #ff4d00;
+        }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ff8a00, #ff4d00);
-}
+        .fav {
+            border-color: #FF4D00;
+        }
 
-/* corner where horizontal + vertical meet */
-::-webkit-scrollbar-corner {
-  background: #111;
-}
+        .star {
+            cursor: pointer;
+            position: relative;
+        }
 
-/* ===== FIREFOX SCROLLBARS ===== */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #ff4d00 #111;
-}
+        .star.off::after {
+            content: "★";
+            color: #888;
+        }
 
-</style>
+        .star.on::after {
+            content: "★";
+            color: gold;
+        }
+
+        .star.on::before {
+            content: "/";
+            color: red;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .handle {
+            cursor: grab;
+            margin-right: 8px;
+        }
+
+        .danger {
+            background: red;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .standard {
+            background: #222222;
+            color: #fff;
+            border: 2px solid #ff4d00;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .standard:hover {
+            background: #ff4d00;
+        }
+
+        /* TOC */
+        #tocModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000d;
+            display: none;
+            z-index: 10000;
+        }
+
+        .modal {
+            background: #111;
+            margin: 5% auto;
+            padding: 20px;
+            width: 60%;
+            max-height: 80%;
+            overflow: auto;
+            border-radius: 16px;
+        }
+
+        .modal button {
+            background: #ff4d00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        /* Tab presets modal */
+        #presetModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000b;
+            display: none;
+            z-index: 11000;
+        }
+
+        .presetBox {
+            background: #111;
+            margin: 5% auto;
+            padding: 20px;
+            width: 400px;
+            border-radius: 16px;
+        }
+
+        .presetBox input {
+            width: 100%;
+            margin: 6px 0;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #222;
+            background: #222;
+            color: #fff;
+        }
+
+        .presetBox button {
+            background: #ff4d00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #111;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff4d00, #ff8a00);
+            border-radius: 10px;
+            border: 2px solid #111;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #ff8a00, #ff4d00);
+        }
+
+        /* corner where horizontal + vertical meet */
+        ::-webkit-scrollbar-corner {
+            background: #111;
+        }
+
+        /* ===== FIREFOX SCROLLBARS ===== */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #ff4d00 #111;
+        }
+    </style>
 </head>
+
 <body>
 
-<div id="topbar">
-<img id="logo" src="https://images2.imgbox.com/41/1a/t0Ymzijg_o.png">
-<button class="tab" onclick="showTab('games')">Games</button>
-<button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.d7cju37w6zwj','_blank')">Info</button>
-<button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">Terminal</button>
-<button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.biyfduhv1w7','_blank')">Events</button>
-<button class="tab" onclick="showTab('settings')">Settings</button>
-</div>
+    <div id="topbar">
+        <img id="logo" src="https://images2.imgbox.com/41/1a/t0Ymzijg_o.png">
+        <button class="tab" onclick="showTab('games')">Games</button>
+        <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.d7cju37w6zwj','_blank')">Info</button>
+        <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">Terminal</button>
+        <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.biyfduhv1w7','_blank')">Events</button>
+        <button class="tab" onclick="showTab('settings')">Settings</button>
+    </div>
 
-<div id="ticker"><div id="tickerText"></div></div>
-<div id="sidebar"></div>
-<div id="main"><div id="searchWrap">
-  <input id="search" placeholder="Search games...">
-</div></div>
+    <div id="ticker">
+        <div id="tickerText"></div>
+    </div>
+    <div id="sidebar"></div>
+    <div id="main">
+        <div id="searchWrap">
+            <input id="search" placeholder="Search games...">
+        </div>
+    </div>
 
-<!-- PRESETS -->
+    <!-- PRESETS -->
 
-<div id="tocModal"><div class="modal" id="tocContent"></div></div>
-<div id="presetModal"><div class="presetBox">
-<h3>Tab Presets</h3>
-<input id="tabName" placeholder="Tab Name">
-<input id="tabIcon" placeholder="Icon URL">
-<input id="panicKey" placeholder="Panic Key (e.g. p)">
-<input id="panicLink" placeholder="Redirect URL">
-<button onclick="savePreset()">Save</button>
-</div></div>
+    <div id="tocModal">
+        <div class="modal" id="tocContent"></div>
+    </div>
+    <div id="presetModal">
+        <div class="presetBox">
+            <h3>Tab Presets</h3>
+            <input id="tabName" placeholder="Tab Name">
+            <input id="tabIcon" placeholder="Icon URL">
+            <input id="panicKey" placeholder="Panic Key (e.g. p)">
+            <input id="panicLink" placeholder="Redirect URL">
+            <button onclick="savePreset()">Save</button>
+        </div>
+    </div>
 
-<script>
-// ===== TICKER =====
-const messages=["Welcome to Nol'sGames!","1900+ Games For You To Play","New Search & Favorite Features","This Is Still In BETA And Has Lots Of Bugs.","Try Out The New Panic Key & Tab Presets In Settings!","Enjoy!"];
-let msgIndex=0;
-const tickerText=document.getElementById('tickerText');
-function cycleTicker(){
- tickerText.textContent=messages[msgIndex];
- tickerText.style.left='100%';
- let pos=window.innerWidth;
- const interval=setInterval(()=>{
-  pos--;
-  tickerText.style.left=pos+'px';
-  if(pos<-tickerText.offsetWidth){
-    clearInterval(interval);
-    msgIndex=(msgIndex+1)%messages.length;
-    setTimeout(cycleTicker,500);
-  }
- },10);
-}
-cycleTicker();
+    <script>
+        // ===== TICKER =====
+        const messages = ["Welcome to Nol'sGames!", "1900+ Games For You To Play", "This Is Still In BETA And Has Lots Of Bugs.", "Try Out The New Save Game Data Button In Settings!", "Enjoy!"];
+        let msgIndex = 0;
+        const tickerText = document.getElementById('tickerText');
 
-// ===== TOC =====
-const tocPages=[
-`<h2>Terms & Conditions</h2><p>The Nol’sGames file is coded in HTML 5, CSS 3, and JavaScript. Some event websites also use Node.js, usually on the newest version, but it is run online. Please use Nol’sGames on a computer/browser that can handle these languages.
+        function cycleTicker() {
+            tickerText.textContent = messages[msgIndex];
+            tickerText.style.left = '100%';
+            let pos = window.innerWidth;
+            const interval = setInterval(() => {
+                pos--;
+                tickerText.style.left = pos + 'px';
+                if (pos < -tickerText.offsetWidth) {
+                    clearInterval(interval);
+                    msgIndex = (msgIndex + 1) % messages.length;
+                    setTimeout(cycleTicker, 500);
+                }
+            }, 10);
+        }
+        cycleTicker();
+
+        // ===== TOC =====
+        const tocPages = [
+            `<h2>Terms & Conditions</h2><p>The Nol’sGames file is coded in HTML 5, CSS 3, and JavaScript. Some event websites also use Node.js, usually on the newest version, but it is run online. Please use Nol’sGames on a computer/browser that can handle these languages.
 
 The file is ideally downloaded in a .html format but can sometimes come unpackaged (seperate html, css and js) in a .zip. If the file is in a different format other than .html, .css, .js or .zip, do not download Nol’sGames.
 
@@ -206,232 +403,383 @@ NOL DOES NOT TAKE ANY RESPONSIBILITY FOR DOWNLOADED PROGRAMS, TROJANS OR VIRUSES
 
 Please use Nol’sGames responsibly and thank you for using Nol’sGames. 
 </p><button onclick="nextToc()">Agree</button>`,
-`<h2>Privacy Policy</h2><p>Nol’sGames does not and will never collect, harvest, or store any personal data, personally identifiable information (PII), internet protocol (IP) addresses, or geographic location information from the user. All game-related data, (for example, gameplay progression, user settings, configurations, high scores, etc.), is written and stored locally and exclusively on your device. Operating individual games from Nol’sGames will utilize your device’s storage. All data remains strictly on your local machine. 
+            `<h2>Privacy Policy</h2><p>Nol’sGames does not and will never collect, harvest, or store any personal data, personally identifiable information (PII), internet protocol (IP) addresses, or geographic location information from the user. All game-related data, (for example, gameplay progression, user settings, configurations, high scores, etc.), is written and stored locally and exclusively on your device. Operating individual games from Nol’sGames will utilize your device’s storage. All data remains strictly on your local machine. 
 
 UNINSTALLING OR MODIFYING THE NOL’SGAMES FILE, THE SPECIFIC GAME ITSELF OR MODIFYING/BLOCKING ITS EXTERNAL CONNECTIONS WILL RESULT IN THE PERMANENT AND IRREVERSIBLE DELETION OF YOUR GAME DATA. NOL’SGAMES DOES NOT MAINTAIN EXTERNAL SERVERS AND CANNOT RECOVER LOST DATA.
 
 Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><button onclick="acceptToc()">Agree</button>`
-];
-let tocIndex=0;
-function openToc(){document.getElementById('tocModal').style.display='block';tocIndex=0;tocContent.innerHTML=tocPages[0];}
-function nextToc(){tocIndex++;tocContent.innerHTML=tocPages[tocIndex];}
-function acceptToc(){localStorage.setItem('toc','1');tocModal.style.display='none';}
-if(!localStorage.getItem('toc')) setTimeout(openToc,500);
+        ];
+        let tocIndex = 0;
 
-// ===== DATA =====
-let files = [];
-let favorites = JSON.parse(localStorage.getItem('favorites')||'[]');
+        function openToc() {
+            document.getElementById('tocModal').style.display = 'block';
+            tocIndex = 0;
+            tocContent.innerHTML = tocPages[0];
+        }
 
-async function loadGameList() {
-  try {
-    const res = await fetch(
-      'https://raw.githubusercontent.com/PizzaGamingYT/nol/refs/heads/main/list.js?t=' + Date.now()
-    );
+        function nextToc() {
+            tocIndex++;
+            tocContent.innerHTML = tocPages[tocIndex];
+        }
 
-    const js = await res.text();
+        function acceptToc() {
+            localStorage.setItem('toc', '1');
+            tocModal.style.display = 'none';
+        }
+        if (!localStorage.getItem('toc')) setTimeout(openToc, 500);
 
-    // executes: window.files = [...]
-    eval(js);
+        // ===== DATA =====
+        let files = [];
+        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
 
-    files = window.files || [];
+        async function loadGameList() {
+            try {
+                const res = await fetch(
+                    'https://raw.githubusercontent.com/PizzaGamingYT/nol/refs/heads/main/list.js?t=' + Date.now()
+                );
 
-    build();
-  } catch (err) {
-    console.error('Failed to load game list:', err);
+                const js = await res.text();
 
-    document.getElementById('main').innerHTML = `
+                // executes: window.files = [...]
+                eval(js);
+
+                files = window.files || [];
+
+                build();
+            } catch (err) {
+                console.error('Failed to load game list:', err);
+
+                document.getElementById('main').innerHTML = `
       <h2>Failed to load games.</h2>
       <p>Please try again later.</p>
     `;
-  }
-}
+            }
+        }
 
-// ===== BUILD =====
-function build(filter=''){
- document.body.classList.add('withSidebar');
+        // ===== BUILD =====
+        function build(filter = '') {
+            document.body.classList.add('withSidebar');
 
- const main=document.getElementById('main');
- const sidebar=document.getElementById('sidebar');
+            const main = document.getElementById('main');
+            const sidebar = document.getElementById('sidebar');
 
- sidebar.innerHTML='';
+            sidebar.innerHTML = '';
 
- // rebuild main properly
- main.innerHTML=`
+            // rebuild main properly
+            main.innerHTML = `
  <div id="searchWrap">
    <input id="search" placeholder="Search games..." value="${filter}">
  </div>
  `;
 
- // restore search listener every rebuild
- const search = document.getElementById("search");
+            // restore search listener every rebuild
+            const search = document.getElementById("search");
 
- search.addEventListener("input", (e)=>{
-  build(e.target.value.toLowerCase());
- });
+            search.addEventListener("input", (e) => {
+                build(e.target.value.toLowerCase());
+            });
 
- if(favorites.length){
-  const sec=document.createElement('div');
-  sec.className='section';
-  sec.innerHTML='<h2>Favorites</h2>';
+            if (favorites.length) {
+                const sec = document.createElement('div');
+                sec.className = 'section';
+                sec.innerHTML = '<h2>Favorites</h2>';
 
-  favorites
-   .filter(f=>f.toLowerCase().includes(filter))
-   .forEach(f=>sec.appendChild(createGameBtn(f)));
+                favorites
+                    .filter(f => f.toLowerCase().includes(filter))
+                    .forEach(f => sec.appendChild(createGameBtn(f)));
 
-  if(sec.children.length>1) main.appendChild(sec);
- }
+                if (sec.children.length > 1) main.appendChild(sec);
+            }
 
- const letters='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
- letters.forEach(l=>{
-  const sec=document.createElement('div');
-  sec.className='section';
-  sec.id='sec'+l;
+            letters.forEach(l => {
+                const sec = document.createElement('div');
+                sec.className = 'section';
+                sec.id = 'sec' + l;
 
-  const title=document.createElement('h2');
-  title.textContent=l;
+                const title = document.createElement('h2');
+                title.textContent = l;
 
-  sec.appendChild(title);
+                sec.appendChild(title);
 
-  let has=false;
+                let has = false;
 
-  files.forEach(f=>{
-   if(
-    f[2]?.toUpperCase()===l &&
-    f.toLowerCase().includes(filter)
-   ){
-    has=true;
-    sec.appendChild(createGameBtn(f));
-   }
-  });
+                files.forEach(f => {
+                    if (
+                        f[2]?.toUpperCase() === l &&
+                        f.toLowerCase().includes(filter)
+                    ) {
+                        has = true;
+                        sec.appendChild(createGameBtn(f));
+                    }
+                });
 
-  if(has){
-   main.appendChild(sec);
+                if (has) {
+                    main.appendChild(sec);
 
-   const b=document.createElement('button');
-   b.className='sidebar-btn';
-   b.textContent=l;
+                    const b = document.createElement('button');
+                    b.className = 'sidebar-btn';
+                    b.textContent = l;
 
-   b.onclick=()=>{
-    document
-     .getElementById('sec'+l)
-     .scrollIntoView({behavior:'smooth'});
-   };
+                    b.onclick = () => {
+                        document
+                            .getElementById('sec' + l)
+                            .scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                    };
 
-   sidebar.appendChild(b);
-  }
- });
+                    sidebar.appendChild(b);
+                }
+            });
 
- // keep cursor in search
- search.focus();
- search.setSelectionRange(
-  search.value.length,
-  search.value.length
- );
-}
+            // keep cursor in search
+            search.focus();
+            search.setSelectionRange(
+                search.value.length,
+                search.value.length
+            );
+        }
 
-// ===== BUTTON =====
-function createGameBtn(f){
- const btn=document.createElement('div');
- btn.className='game-btn'+(favorites.includes(f)?' fav':'');
+        // ===== BUTTON =====
+        function createGameBtn(f) {
+            const btn = document.createElement('div');
+            btn.className = 'game-btn' + (favorites.includes(f) ? ' fav' : '');
 
- const handle=document.createElement('span'); handle.className='handle'; handle.textContent='≡';
- const text=document.createElement('span'); text.textContent=f;
+            const handle = document.createElement('span');
+            handle.className = 'handle';
+            handle.textContent = '≡';
+            const text = document.createElement('span');
+            text.textContent = f;
 
- const star=document.createElement('span');
- star.className='star '+(favorites.includes(f)?'on':'off');
- star.onclick=(e)=>{
-  e.stopPropagation();
-  if(favorites.includes(f)) favorites=favorites.filter(x=>x!==f);
-  else favorites.push(f);
-  localStorage.setItem('favorites',JSON.stringify(favorites));
-  build();
- };
+            const star = document.createElement('span');
+            star.className = 'star ' + (favorites.includes(f) ? 'on' : 'off');
+            star.onclick = (e) => {
+                e.stopPropagation();
+                if (favorites.includes(f)) favorites = favorites.filter(x => x !== f);
+                else favorites.push(f);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                build();
+            };
 
- btn.onclick=()=>{
-  const encoded=encodeURIComponent(f+'.html');
-  fetch(`https://raw.githubusercontent.com/PizzaGamingYT/nolsgames/refs/heads/main/UGS-Files/${encoded}?t=${Date.now()}`)
-  .then(r=>r.text())
-  .then(t=>{const w=window.open('about:blank','_blank'); if(w){w.document.open();w.document.write(t);w.document.close();}});
- };
+            btn.onclick = () => {
+                const encoded = encodeURIComponent(f + '.html');
+                fetch(`https://raw.githubusercontent.com/PizzaGamingYT/nolsgames/refs/heads/main/UGS-Files/${encoded}?t=${Date.now()}`)
+                    .then(r => r.text())
+                    .then(t => {
+                        const w = window.open('about:blank', '_blank');
+                        if (w) {
+                            w.document.open();
+                            w.document.write(t);
+                            w.document.close();
+                        }
+                    });
+            };
 
- btn.append(handle,text,star);
- return btn;
-}
-
-
-
-// ===== SETTINGS =====
-function openPreset(){
- const p = JSON.parse(localStorage.getItem('preset') || '{}');
-
- tabName.value = p.name || '';
- tabIcon.value = p.icon || '';
- panicKey.value = p.key || '';
- panicLink.value = p.link || '';
-
- presetModal.style.display = 'block';
-}
-
-function savePreset(){
- const rawLink = panicLink.value.trim();
-
- const fixedLink = rawLink
-  ? (rawLink.startsWith('http://') || rawLink.startsWith('https://')
-      ? rawLink
-      : 'https://' + rawLink)
-  : '';
-
- const data = {
-  name: tabName.value,
-  icon: tabIcon.value,
-  key: panicKey.value,
-  link: fixedLink
- };
-
- localStorage.setItem('preset', JSON.stringify(data));
- applyPreset();
- presetModal.style.display = 'none';
-}
-
-function applyPreset(){
- const p=JSON.parse(localStorage.getItem('preset')||'{}');
- if(p.name) document.title=p.name;
- if(p.icon) document.getElementById('dynamicFavicon').href=p.icon;
- document.onkeydown=(e)=>{
-  if(p.key && e.key.toLowerCase()===p.key.toLowerCase()){
-    window.location.href=p.link||'https://google.com';
-  }
- };
-}
-applyPreset();
-
-// ===== TABS =====
-function showTab(tab){
- const main=document.getElementById('main');
- const sidebar=document.getElementById('sidebar');
-
- if(tab==='games'){ document.body.classList.add('withSidebar'); build(); return; }
- document.body.classList.remove('withSidebar'); sidebar.innerHTML='';
-
- if(tab==='settings'){
-  main.innerHTML=`
-  <h2>Settings</h2>
-  <button class="standard" onclick="openPreset()">Tab Settings</button><br><br>
-  <button class="standard" onclick="openToc()">Terms And Conditions & Privacy Policy</button><br><br><br><br>
-  <button class="danger" onclick="clearData()">🗑️ Clear Game Data</button><br><br>
-  `;
- }
- 
-}
-
-function clearData(){
- if(confirm('Delete ALL data?')){ localStorage.clear(); location.reload(); }
-}
-
-loadGameList();
+            btn.append(handle, text, star);
+            return btn;
+        }
 
 
-</script>
+
+        // ===== SETTINGS =====
+        function openPreset() {
+            const p = JSON.parse(localStorage.getItem('preset') || '{}');
+
+            tabName.value = p.name || '';
+            tabIcon.value = p.icon || '';
+            panicKey.value = p.key || '';
+            panicLink.value = p.link || '';
+
+            presetModal.style.display = 'block';
+        }
+
+        function savePreset() {
+            const rawLink = panicLink.value.trim();
+
+            const fixedLink = rawLink ?
+                (rawLink.startsWith('http://') || rawLink.startsWith('https://') ?
+                    rawLink :
+                    'https://' + rawLink) :
+                '';
+
+            const data = {
+                name: tabName.value,
+                icon: tabIcon.value,
+                key: panicKey.value,
+                link: fixedLink
+            };
+
+            localStorage.setItem('preset', JSON.stringify(data));
+            applyPreset();
+            presetModal.style.display = 'none';
+        }
+
+        function applyPreset() {
+            const p = JSON.parse(localStorage.getItem('preset') || '{}');
+            if (p.name) document.title = p.name;
+            if (p.icon) document.getElementById('dynamicFavicon').href = p.icon;
+            document.onkeydown = (e) => {
+                if (p.key && e.key.toLowerCase() === p.key.toLowerCase()) {
+                    window.location.href = p.link || 'https://google.com';
+                }
+            };
+        }
+        applyPreset();
+
+        // ===== TABS =====
+        function showTab(tab) {
+            const main = document.getElementById('main');
+            const sidebar = document.getElementById('sidebar');
+
+            if (tab === 'games') {
+                document.body.classList.add('withSidebar');
+                build();
+                return;
+            }
+            document.body.classList.remove('withSidebar');
+            sidebar.innerHTML = '';
+
+            if (tab === 'settings') {
+                main.innerHTML = `
+ <h2>Settings</h2>
+
+ <button class="standard" onclick="openPreset()">Tab Settings</button><br><br>
+
+ <button class="standard" onclick="openToc()">Terms And Conditions & Privacy Policy</button><br><br><br><br>
+
+ <button class="standard" onclick="exportNGS()">Download Game Data (.ngs)</button><br><br>
+
+ <button class="standard" onclick="document.getElementById('ngsUpload').click()">
+ Upload Game Data (.ngs)
+ </button>
+
+ <input
+   type="file"
+   id="ngsUpload"
+   accept=".ngs"
+   style="display:none"
+   onchange="importNGS(this.files[0])"
+ >
+
+ <br><br><br>
+
+ <button class="danger" onclick="clearData()">Clear Game Data</button><br><br>
+ `;
+            }
+        }
+
+        function clearData() {
+            if (confirm('Delete ALL data?')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        // ===== EXPORT FULL STORAGE =====
+        function exportNGS() {
+
+            const saveData = {};
+         
+            for (let i = 0; i < localStorage.length; i++) {
+
+                const key = localStorage.key(i);
+
+                try {
+                    saveData[key] = localStorage.getItem(key);
+                } catch (err) {
+                    console.log('Failed to save key:', key);
+                }
+            }
+
+            const finalData = {
+                created: new Date().toISOString(),
+                storage: saveData
+            };
+
+            const blob = new Blob(
+                [JSON.stringify(finalData, null, 2)], {
+                    type: 'application/json'
+                }
+            );
+
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            const now = new Date();
+
+            const date =
+                now.getFullYear() + '-' +
+                String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                String(now.getDate()).padStart(2, '0') + '_' +
+                String(now.getHours()).padStart(2, '0') + '-' +
+                String(now.getMinutes()).padStart(2, '0');
+
+            a.download = `gd_${date}.ngs`;
+            a.click();
+
+            URL.revokeObjectURL(url);
+
+            alert('Game data exported.');
+        }
+
+        // ===== IMPORT FULL STORAGE =====
+        function importNGS(file) {
+
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+
+                try {
+
+                    const data = JSON.parse(e.target.result);
+
+                    if (!data.storage) {
+                        alert('Invalid .ngs save.');
+                        return;
+                    }
+
+                    if (!confirm('Overwrite ALL current game data?')) return;
+
+                    // wipe current storage
+                    localStorage.clear();
+
+                    // restore EVERYTHING
+                    for (const key in data.storage) {
+
+                        try {
+                            localStorage.setItem(
+                                key,
+                                data.storage[key]
+                            );
+                        } catch (err) {
+                            console.log('Failed restoring:', key);
+                        }
+
+                    }
+
+                    alert('Game data restored.');
+
+                    location.reload();
+
+                } catch (err) {
+
+                    console.error(err);
+                    alert('Invalid .ngs file.');
+
+                }
+
+            };
+
+            reader.readAsText(file);
+        }
+
+        loadGameList();
+    </script>
 </body>
+
 </html>
