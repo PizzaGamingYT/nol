@@ -378,7 +378,7 @@
             <button style="background:red;color:white;" onclick="resetPresets()">
                 Reset Presets
             </button>
-            
+
             <button onclick="closePresets()">
                 Close
             </button>
@@ -731,10 +731,8 @@ Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><bu
 
             if (!confirm('Reset all preset settings?')) return;
 
-            // REMOVE OLD PRESET
             localStorage.removeItem('preset');
 
-            // CREATE CLEAN DEFAULT PRESET
             const defaultPreset = {
                 name: "Nol'sGames",
                 icon: "",
@@ -742,16 +740,11 @@ Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><bu
                 link: "https://google.com"
             };
 
-            localStorage.setItem(
-                'preset',
-                JSON.stringify(defaultPreset)
-            );
+            localStorage.setItem('preset', JSON.stringify(defaultPreset));
 
             uploadedFavicon = '';
 
-            document.getElementById(
-                'faviconPreview'
-            ).style.display = 'none';
+            document.getElementById('faviconPreview').style.display = 'none';
 
             tabName.value = '';
             panicKey.value = '\\';
@@ -759,12 +752,8 @@ Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><bu
 
             applyPreset();
 
-            alert('Presets reset.');
-            
-            document.getElementById('presetModal').style.display = 'none';
-
         }
-        
+
         function closePresets() {
             document.getElementById('presetModal').style.display = 'none';
         }
