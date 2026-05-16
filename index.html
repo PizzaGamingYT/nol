@@ -276,6 +276,10 @@
             color: #fff;
         }
 
+        .presetBox input {
+            box-sizing: border-box;
+        }
+
         .presetBox button {
             background: #ff4d00;
             border: none;
@@ -283,6 +287,16 @@
             border-radius: 20px;
             margin: 10px;
             cursor: pointer;
+        }
+
+        .presetBox label {
+            background: #ff4d00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 10px;
+            cursor: pointer;
+            color: black;
         }
 
         ::-webkit-scrollbar {
@@ -351,22 +365,10 @@
 
             <input id="tabName" placeholder="Tab Name">
 
-            <label class="standard" style="display:inline-block;">
+            <label style="display:inline-block;">
                 Upload Favicon
                 <input type="file" id="tabIconUpload" accept="image/*" style="display:none" onchange="handleFaviconUpload(this.files[0])">
             </label>
-
-            <br><br>
-
-            <img id="faviconPreview" style="
-  width:48px;
-  height:48px;
-  border-radius:12px;
-  display:none;
-  border:2px solid #ff4d00;
- ">
-
-            <br><br>
 
             <input id="panicKey" placeholder="Panic Key (e.g. p)">
             <input id="panicLink" placeholder="Redirect URL">
@@ -375,6 +377,10 @@
 
             <button style="background:red;color:white;" onclick="resetPresets()">
                 Reset Presets
+            </button>
+            
+            <button onclick="closePresets()">
+                Close
             </button>
 
         </div>
@@ -622,38 +628,20 @@ Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><bu
 
             uploadedFavicon = p.icon || '';
 
-            const preview = document.getElementById('faviconPreview');
-
-            if (uploadedFavicon) {
-                preview.src = uploadedFavicon;
-                preview.style.display = 'block';
-            } else {
-                preview.style.display = 'none';
-            }
-
             presetModal.style.display = 'block';
 
         }
 
         function handleFaviconUpload(file) {
-
             if (!file) return;
 
             const reader = new FileReader();
 
             reader.onload = function(e) {
-
                 uploadedFavicon = e.target.result;
-
-                const preview = document.getElementById('faviconPreview');
-
-                preview.src = uploadedFavicon;
-                preview.style.display = 'block';
-
             };
 
             reader.readAsDataURL(file);
-
         }
 
         function savePreset() {
@@ -772,7 +760,13 @@ Please use Nol’sGames responsibly and thank you for using Nol’sGames.</p><bu
             applyPreset();
 
             alert('Presets reset.');
+            
+            document.getElementById('presetModal').style.display = 'none';
 
+        }
+        
+        function closePresets() {
+            document.getElementById('presetModal').style.display = 'none';
         }
 
         // ===== DEFAULT PRESET =====
