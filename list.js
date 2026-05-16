@@ -1,4 +1,5 @@
 window.files = [
+'ngEaglyMCEaglercraft1.20',
 'cl1',
 'cl10bullets',
 'cl10minutestildawn',
