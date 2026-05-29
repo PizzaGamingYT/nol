@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nol'sGames</title>
-    <link rel="icon" id="dynamicFavicon" href="https://images2.imgbox.com/cc/3b/rhexcsGH_o.png">
 
+    <link rel="icon" href="https://images2.imgbox.com/cc/3b/rhexcsGH_o.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=Shrikhand&display=swap" rel="stylesheet">
@@ -773,40 +773,13 @@ Nol’sGames Terms of Use & Privacy Policy
 
         }
 
-        function setFavicon(icon) {
-            document.querySelectorAll("link[rel*='icon']").forEach(el => el.remove());
-
-            const link = document.createElement("link");
-            link.rel = "icon";
-            link.type = "image/png";
-            link.href = (icon || "https://images2.imgbox.com/cc/3b/rhexcsGH_o.png") +
-                "?v=" + Date.now();
-
-            document.head.appendChild(link);
-        }
-
         function handleFaviconUpload(file) {
-
             if (!file) return;
 
             const reader = new FileReader();
 
             reader.onload = function(e) {
-
                 uploadedFavicon = e.target.result;
-
-                // instantly save into preset
-                const p =
-                    JSON.parse(localStorage.getItem('preset') || '{}');
-
-                p.icon = uploadedFavicon;
-
-                localStorage.setItem(
-                    'preset',
-                    JSON.stringify(p)
-                );
-
-                applyPreset();
             };
 
             reader.readAsDataURL(file);
@@ -838,19 +811,10 @@ Nol’sGames Terms of Use & Privacy Policy
                 JSON.stringify(data)
             );
 
-            window.addEventListener("load", () => {
-                const p = JSON.parse(localStorage.getItem("preset") || "{}");
-
-                // only override if user actually set a custom icon
-                if (p.icon) {
-                    setFavicon(p.icon);
-                }
-
-                applyPreset(); // still handles title, panic key, etc.
-            });
+            applyPreset();
 
             presetModal.style.display = 'none';
-
+            
             location.reload();
 
         }
@@ -903,7 +867,7 @@ Nol’sGames Terms of Use & Privacy Policy
                 }
 
             };
-            closePresets();
+
         }
 
         function resetPresets() {
@@ -923,21 +887,14 @@ Nol’sGames Terms of Use & Privacy Policy
 
             uploadedFavicon = '';
 
+            document.getElementById('faviconPreview').style.display = 'none';
+
             tabName.value = '';
             panicKey.value = '\\';
             panicLink.value = 'https://google.com';
 
-            window.addEventListener("load", () => {
-                const p = JSON.parse(localStorage.getItem("preset") || "{}");
-
-                // only override if user actually set a custom icon
-                if (p.icon) {
-                    setFavicon(p.icon);
-                }
-
-                applyPreset(); // still handles title, panic key, etc.
-            });
-
+            applyPreset();
+            
             location.reload();
 
         }
@@ -961,16 +918,7 @@ Nol’sGames Terms of Use & Privacy Policy
 
         }
 
-        window.addEventListener("load", () => {
-            const p = JSON.parse(localStorage.getItem("preset") || "{}");
-
-            // only override if user actually set a custom icon
-            if (p.icon) {
-                setFavicon(p.icon);
-            }
-
-            applyPreset(); // still handles title, panic key, etc.
-        });
+        applyPreset();
 
         // ===== TABS =====
         function showTab(tab) {
