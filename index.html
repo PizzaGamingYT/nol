@@ -40,7 +40,70 @@
             font-family: "Shrikhand";
         }
 
-.ngToggleWrap { display: flex; align-items: center; justify-content: space-between; width: fit-content; min-width: 260px; background: #222222; color: #fff; border: 2px solid #ff4d00; border-radius: 12px; padding: 12px; font-family: "Commissioner", sans-serif; font-size: 16px; box-sizing: border-box; cursor: pointer; } .ngToggleWrap:hover { background: #ff4d00; } .ngSwitch { position: relative; width: 42px; height: 22px; margin-left: 12px; flex-shrink: 0; } .ngSwitch input { opacity: 0; width: 0; height: 0; } .ngSlider { position: absolute; inset: 0; background: #111; border: 2px solid #fff; border-radius: 999px; transition: .2s; } .ngSlider:before { content: ""; position: absolute; width: 14px; height: 14px; left: 2px; top: 2px; background: #ff4d00; border-radius: 50%; transition: .2s; } .ngSwitch input:checked + .ngSlider { background: #111; } .ngSwitch input:checked + .ngSlider:before { transform: translateX(18px); background: #ff4d00; }
+        .ngToggleWrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: fit-content;
+            min-width: 260px;
+            background: #222222;
+            color: #fff;
+            border: 2px solid #ff4d00;
+            border-radius: 12px;
+            padding: 12px;
+            font-family: "Commissioner", sans-serif;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .ngToggleWrap:hover {
+            background: #ff4d00;
+        }
+
+        .ngSwitch {
+            position: relative;
+            width: 42px;
+            height: 22px;
+            margin-left: 12px;
+            flex-shrink: 0;
+        }
+
+        .ngSwitch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .ngSlider {
+            position: absolute;
+            inset: 0;
+            background: #111;
+            border: 2px solid #fff;
+            border-radius: 999px;
+            transition: .2s;
+        }
+
+        .ngSlider:before {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            left: 2px;
+            top: 2px;
+            background: #FFF;
+            border-radius: 50%;
+            transition: .2s;
+        }
+
+        .ngSwitch input:checked+.ngSlider {
+            background: #FF4D00;
+        }
+
+        .ngSwitch input:checked+.ngSlider:before {
+            transform: translateX(18px);
+            background: #FFF;
+        }
+
         /* Topbar */
         #topbar {
             position: fixed;
@@ -105,12 +168,12 @@
 
         /* SEARCH */
         #searchWrap {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding: 10px 0;
-    background: #111;
-}
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 10px 0;
+            background: #111;
+        }
 
         #search {
             width: 100%;
@@ -411,7 +474,7 @@
 
         // ===== TOC =====
         const tocPages = [
-`<div style="
+            `<div style="
     font-family: 'Commissioner', sans-serif;
     line-height: 1.7;
     color: #fff;
@@ -514,7 +577,7 @@ Nol’sGames Terms of Use & Privacy Policy
 </div>
 
 <button onclick="acceptToc()">Agree</button>`
-];
+        ];
         let tocIndex = 0;
 
         function openToc() {
@@ -712,30 +775,30 @@ Nol’sGames Terms of Use & Privacy Policy
 
         function handleFaviconUpload(file) {
 
-    if (!file) return;
+            if (!file) return;
 
-    const reader = new FileReader();
+            const reader = new FileReader();
 
-    reader.onload = function(e) {
+            reader.onload = function(e) {
 
-        uploadedFavicon = e.target.result;
+                uploadedFavicon = e.target.result;
 
-        // instantly save into preset
-        const p =
-            JSON.parse(localStorage.getItem('preset') || '{}');
+                // instantly save into preset
+                const p =
+                    JSON.parse(localStorage.getItem('preset') || '{}');
 
-        p.icon = uploadedFavicon;
+                p.icon = uploadedFavicon;
 
-        localStorage.setItem(
-            'preset',
-            JSON.stringify(p)
-        );
+                localStorage.setItem(
+                    'preset',
+                    JSON.stringify(p)
+                );
 
-        applyPreset();
-    };
+                applyPreset();
+            };
 
-    reader.readAsDataURL(file);
-}
+            reader.readAsDataURL(file);
+        }
 
         function savePreset() {
 
@@ -817,7 +880,7 @@ Nol’sGames Terms of Use & Privacy Policy
                 }
 
             };
-closePresets();
+            closePresets();
         }
 
         function resetPresets() {
@@ -911,32 +974,33 @@ closePresets();
 
             setTimeout(() => {
 
-    const settings =
-        JSON.parse(localStorage.getItem('ngSettings') || '{}');
+                const settings =
+                    JSON.parse(localStorage.getItem('ngSettings') || '{}');
 
-    const toggle =
-        document.getElementById('autoRefreshToggle');
+                const toggle =
+                    document.getElementById('autoRefreshToggle');
 
-    if (toggle) {
-        toggle.checked =
-            settings.autoRefresh === true;
-    }
+                if (toggle) {
+                    toggle.checked =
+                        settings.autoRefresh === true;
+                }
 
-}, 0);
+            }, 0);
         }
-function toggleAutoRefresh(enabled) {
 
-    const settings =
-        JSON.parse(localStorage.getItem('ngSettings') || '{}');
+        function toggleAutoRefresh(enabled) {
 
-    settings.autoRefresh = enabled;
+            const settings =
+                JSON.parse(localStorage.getItem('ngSettings') || '{}');
 
-    localStorage.setItem(
-        'ngSettings',
-        JSON.stringify(settings)
-    );
-}
-        
+            settings.autoRefresh = enabled;
+
+            localStorage.setItem(
+                'ngSettings',
+                JSON.stringify(settings)
+            );
+        }
+
         function clearData() {
             if (confirm('Delete ALL data?')) {
                 localStorage.clear();
@@ -1047,35 +1111,35 @@ function toggleAutoRefresh(enabled) {
         }
 
         // ===== AUTO UPDATER =====
-function checkDailyRefresh() {
+        function checkDailyRefresh() {
 
-    const settings =
-        JSON.parse(localStorage.getItem('ngSettings') || '{}');
+            const settings =
+                JSON.parse(localStorage.getItem('ngSettings') || '{}');
 
-    // enabled by default
-    const autoRefresh =
-        settings.autoRefresh === true;
+            // enabled by default
+            const autoRefresh =
+                settings.autoRefresh === true;
 
-    if (!autoRefresh) return;
+            if (!autoRefresh) return;
 
-    const today =
-        new Date().toDateString();
+            const today =
+                new Date().toDateString();
 
-    const lastRefresh =
-        localStorage.getItem('lastDailyRefresh');
+            const lastRefresh =
+                localStorage.getItem('lastDailyRefresh');
 
-    if (lastRefresh !== today) {
+            if (lastRefresh !== today) {
 
-        localStorage.setItem(
-            'lastDailyRefresh',
-            today
-        );
+                localStorage.setItem(
+                    'lastDailyRefresh',
+                    today
+                );
 
-        location.reload();
-    }
-}
+                location.reload();
+            }
+        }
 
-checkDailyRefresh();
+        checkDailyRefresh();
 
         loadGameList();
     </script>
