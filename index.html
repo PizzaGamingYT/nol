@@ -104,12 +104,12 @@
 
         /* SEARCH */
         #searchWrap {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding-bottom: 10px;
-            background: #111;
-        }
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0;
+    background: #111;
+}
 
         #search {
             width: 100%;
@@ -512,7 +512,7 @@ Nol’sGames Terms of Use & Privacy Policy
 
 </div>
 
-<button onclick="nextToc()">Agree</button>`
+<button onclick="acceptToc()">Agree</button>`
 ];
         let tocIndex = 0;
 
@@ -520,11 +520,6 @@ Nol’sGames Terms of Use & Privacy Policy
             document.getElementById('tocModal').style.display = 'block';
             tocIndex = 0;
             tocContent.innerHTML = tocPages[0];
-        }
-
-        function nextToc() {
-            tocIndex++;
-            tocContent.innerHTML = tocPages[tocIndex];
         }
 
         function acceptToc() {
@@ -715,16 +710,31 @@ Nol’sGames Terms of Use & Privacy Policy
         }
 
         function handleFaviconUpload(file) {
-            if (!file) return;
 
-            const reader = new FileReader();
+    if (!file) return;
 
-            reader.onload = function(e) {
-                uploadedFavicon = e.target.result;
-            };
+    const reader = new FileReader();
 
-            reader.readAsDataURL(file);
-        }
+    reader.onload = function(e) {
+
+        uploadedFavicon = e.target.result;
+
+        // instantly save into preset
+        const p =
+            JSON.parse(localStorage.getItem('preset') || '{}');
+
+        p.icon = uploadedFavicon;
+
+        localStorage.setItem(
+            'preset',
+            JSON.stringify(p)
+        );
+
+        applyPreset();
+    };
+
+    reader.readAsDataURL(file);
+}
 
         function savePreset() {
 
@@ -806,7 +816,7 @@ Nol’sGames Terms of Use & Privacy Policy
                 }
 
             };
-
+closePresets();
         }
 
         function resetPresets() {
@@ -825,8 +835,6 @@ Nol’sGames Terms of Use & Privacy Policy
             localStorage.setItem('preset', JSON.stringify(defaultPreset));
 
             uploadedFavicon = '';
-
-            document.getElementById('faviconPreview').style.display = 'none';
 
             tabName.value = '';
             panicKey.value = '\\';
@@ -893,12 +901,53 @@ Nol’sGames Terms of Use & Privacy Policy
  >
 
  <br><br><br>
+ <label style="
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:20px;
+">
+<input
+type="checkbox"
+id="autoRefreshToggle"
+onchange="toggleAutoRefresh(this.checked)"
+>
+Auto Refresh Daily
+</label>
+<br><br><br>
 
  <button class="danger" onclick="clearData()">Clear Game Data</button><br><br>
  `;
             }
-        }
 
+            setTimeout(() => {
+
+    const settings =
+        JSON.parse(localStorage.getItem('ngSettings') || '{}');
+
+    const toggle =
+        document.getElementById('autoRefreshToggle');
+
+    if (toggle) {
+        toggle.checked =
+            settings.autoRefresh !== false;
+    }
+
+}, 0);
+        }
+function toggleAutoRefresh(enabled) {
+
+    const settings =
+        JSON.parse(localStorage.getItem('ngSettings') || '{}');
+
+    settings.autoRefresh = enabled;
+
+    localStorage.setItem(
+        'ngSettings',
+        JSON.stringify(settings)
+    );
+}
+        
         function clearData() {
             if (confirm('Delete ALL data?')) {
                 localStorage.clear();
@@ -1007,6 +1056,37 @@ Nol’sGames Terms of Use & Privacy Policy
 
             reader.readAsText(file);
         }
+
+        // ===== AUTO UPDATER =====
+function checkDailyRefresh() {
+
+    const settings =
+        JSON.parse(localStorage.getItem('ngSettings') || '{}');
+
+    // enabled by default
+    const autoRefresh =
+        settings.autoRefresh !== false;
+
+    if (!autoRefresh) return;
+
+    const today =
+        new Date().toDateString();
+
+    const lastRefresh =
+        localStorage.getItem('lastDailyRefresh');
+
+    if (lastRefresh !== today) {
+
+        localStorage.setItem(
+            'lastDailyRefresh',
+            today
+        );
+
+        location.reload();
+    }
+}
+
+checkDailyRefresh();
 
         loadGameList();
     </script>
