@@ -919,7 +919,7 @@ closePresets();
 
     if (toggle) {
         toggle.checked =
-            settings.autoRefresh !== false;
+            settings.autoRefresh === true;
     }
 
 }, 0);
@@ -1054,7 +1054,7 @@ function checkDailyRefresh() {
 
     // enabled by default
     const autoRefresh =
-        settings.autoRefresh !== false;
+        settings.autoRefresh === true;
 
     if (!autoRefresh) return;
 
