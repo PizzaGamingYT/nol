@@ -773,6 +773,18 @@ Nol’sGames Terms of Use & Privacy Policy
 
         }
 
+        function setFavicon(icon) {
+            document.querySelectorAll("link[rel*='icon']").forEach(el => el.remove());
+
+            const link = document.createElement("link");
+            link.rel = "icon";
+            link.type = "image/png";
+            link.href = (icon || "https://images2.imgbox.com/cc/3b/rhexcsGH_o.png") +
+                "?v=" + Date.now();
+
+            document.head.appendChild(link);
+        }
+
         function handleFaviconUpload(file) {
 
             if (!file) return;
@@ -826,7 +838,16 @@ Nol’sGames Terms of Use & Privacy Policy
                 JSON.stringify(data)
             );
 
-            applyPreset();
+            window.addEventListener("load", () => {
+                const p = JSON.parse(localStorage.getItem("preset") || "{}");
+
+                // only override if user actually set a custom icon
+                if (p.icon) {
+                    setFavicon(p.icon);
+                }
+
+                applyPreset(); // still handles title, panic key, etc.
+            });
 
             presetModal.style.display = 'none';
 
@@ -904,7 +925,18 @@ Nol’sGames Terms of Use & Privacy Policy
             panicKey.value = '\\';
             panicLink.value = 'https://google.com';
 
-            applyPreset();
+            window.addEventListener("load", () => {
+                const p = JSON.parse(localStorage.getItem("preset") || "{}");
+
+                // only override if user actually set a custom icon
+                if (p.icon) {
+                    setFavicon(p.icon);
+                }
+
+                applyPreset(); // still handles title, panic key, etc.
+            });
+
+            location.reload();
 
         }
 
@@ -927,7 +959,16 @@ Nol’sGames Terms of Use & Privacy Policy
 
         }
 
-        applyPreset();
+        window.addEventListener("load", () => {
+            const p = JSON.parse(localStorage.getItem("preset") || "{}");
+
+            // only override if user actually set a custom icon
+            if (p.icon) {
+                setFavicon(p.icon);
+            }
+
+            applyPreset(); // still handles title, panic key, etc.
+        });
 
         // ===== TABS =====
         function showTab(tab) {
