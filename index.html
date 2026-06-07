@@ -110,6 +110,10 @@
             background: #FFF;
         }
 
+        .section {
+            scroll-margin-top: 70px;
+        }
+
         #topbar {
             position: fixed;
             top: 0;
@@ -556,12 +560,23 @@ Nol’sGames Terms of Use & Privacy Policy
             const main = document.getElementById('main');
             const sidebar = document.getElementById('sidebar');
             sidebar.innerHTML = '';
-            main.innerHTML = `
- 
-																																				<div id="searchWrap">
-																																					<input id="search" placeholder="Search games..." value="${filter}">
-																																					</div>
- `;
+            if (favorites.length) {
+                const favBtn = document.createElement('button');
+
+                favBtn.className = 'sidebar-btn';
+                favBtn.textContent = '★';
+
+                favBtn.onclick = () => {
+                    document
+                        .getElementById('favoritesSection')
+                        ?.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                };
+
+                sidebar.appendChild(favBtn);
+            }
+            main.innerHTML = `<div id="searchWrap"><input id="search" placeholder="Search games..." value="${filter}"></div>`;
             const search = document.getElementById("search");
             search.addEventListener("input", (e) => {
                 build(e.target.value.toLowerCase());
@@ -569,7 +584,7 @@ Nol’sGames Terms of Use & Privacy Policy
             if (favorites.length) {
                 const sec = document.createElement('div');
                 sec.className = 'section';
-                sec.innerHTML = ' < h2 > Favorites < /h2>';
+                sec.innerHTML = ' <h2>Favorites</h2>';
                 favorites.filter(f => f.toLowerCase().includes(filter)).forEach(f => sec.appendChild(createGameBtn(f)));
                 if (sec.children.length > 1) main.appendChild(sec);
             }
@@ -577,6 +592,7 @@ Nol’sGames Terms of Use & Privacy Policy
             letters.forEach(l => {
                 const sec = document.createElement('div');
                 sec.className = 'section';
+                sec.id = 'favoritesSection';
                 sec.id = 'sec' + l;
                 const title = document.createElement('h2');
                 title.textContent = l;
