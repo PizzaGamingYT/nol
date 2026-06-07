@@ -1,459 +1,450 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Nol'sGames</title>
-		<link rel="icon" href="https://nolsgames.xyz/favicon.ico?v=2">
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=Shrikhand&display=swap" rel="stylesheet">
-		<meta property="og:title" content="Nol'sGames">
-		<meta property="og:description" content="Play 1900+ browser games!">
-		<meta property="og:url" content="https://nolsgames.xyz">
-		<meta property="og:type" content="website">
-		<meta property="og:image" content="https://nolsgames.xyz/favicon.ico?v=2">
-		<meta name="description" content="Play over 1900 browser games on Nol'sGames! Updated regularly with more fun games and extra functionality!">
-		<meta name="keywords" content="games, browser games, html5 games, nolsgames, nols games, online games">
-		<meta name="robots" content="index, follow">
-		<link rel="canonical" href="https://nolsgames.xyz">
-		<style>
-			body {
-				margin: 0;
-				font-family: "Commissioner", sans-serif;
-				background: #111;
-				color: #fff;
-				overflow: hidden;
-			}
 
-			/* Ticker */
-			#ticker {
-				position: fixed;
-				top: 56px;
-				left: 0;
-				width: 100%;
-				height: 28px;
-				background: #ff4d00;
-				overflow: hidden;
-				z-index: 9999;
-				display: flex;
-				align-items: center;
-			}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nol'sGames</title>
+    <link rel="icon" href="https://nolsgames.xyz/favicon.ico?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=Shrikhand&display=swap" rel="stylesheet">
+    <meta property="og:title" content="Nol'sGames">
+    <meta property="og:description" content="Play 1900+ browser games!">
+    <meta property="og:url" content="https://nolsgames.xyz">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://nolsgames.xyz/favicon.ico?v=2">
+    <meta name="description" content="Play over 1900 browser games on Nol'sGames! Updated regularly with more fun games and extra functionality!">
+    <meta name="keywords" content="games, browser games, html5 games, nolsgames, nols games, online games">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://nolsgames.xyz">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Commissioner", sans-serif;
+            background: #111;
+            color: #fff;
+            overflow: hidden;
+        }
 
-			#tickerText {
-				position: absolute;
-				white-space: nowrap;
-				font-family: "Shrikhand";
-			}
+        #ticker {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            width: 100%;
+            height: 28px;
+            background: #ff4d00;
+            overflow: hidden;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+        }
 
-			.ngToggleWrap {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				width: fit-content;
-				min-width: 260px;
-				background: #222222;
-				color: #fff;
-				border: 2px solid #ff4d00;
-				border-radius: 12px;
-				padding: 12px;
-				font-family: "Commissioner", sans-serif;
-				box-sizing: border-box;
-				cursor: pointer;
-			}
+        #tickerText {
+            position: absolute;
+            white-space: nowrap;
+            font-family: "Shrikhand";
+        }
 
-			.ngToggleWrap:hover {
-				background: #ff4d00;
-			}
+        .ngToggleWrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: fit-content;
+            min-width: 260px;
+            background: #222222;
+            color: #fff;
+            border: 2px solid #ff4d00;
+            border-radius: 12px;
+            padding: 12px;
+            font-family: "Commissioner", sans-serif;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
 
-			.ngSwitch {
-				position: relative;
-				width: 42px;
-				height: 22px;
-				margin-left: 12px;
-				flex-shrink: 0;
-			}
+        .ngToggleWrap:hover {
+            background: #ff4d00;
+        }
 
-			.ngSwitch input {
-				opacity: 0;
-				width: 0;
-				height: 0;
-			}
+        .ngSwitch {
+            position: relative;
+            width: 42px;
+            height: 22px;
+            margin-left: 12px;
+            flex-shrink: 0;
+        }
 
-			.ngSlider {
-				position: absolute;
-				inset: 0;
-				background: #111;
-				border: 2px solid #fff;
-				border-radius: 999px;
-				transition: .2s;
-			}
+        .ngSwitch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
-			.ngSlider:before {
-				content: "";
-				position: absolute;
-				width: 14px;
-				height: 14px;
-				left: 2px;
-				top: 2px;
-				background: #FFF;
-				border-radius: 50%;
-				transition: .2s;
-			}
+        .ngSlider {
+            position: absolute;
+            inset: 0;
+            background: #111;
+            border: 2px solid #fff;
+            border-radius: 999px;
+            transition: .2s;
+        }
 
-			.ngSwitch input:checked+.ngSlider {
-				background: #FF4D00;
-			}
+        .ngSlider:before {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            left: 2px;
+            top: 2px;
+            background: #FFF;
+            border-radius: 50%;
+            transition: .2s;
+        }
 
-			.ngSwitch input:checked+.ngSlider:before {
-				transform: translateX(18px);
-				background: #FFF;
-			}
+        .ngSwitch input:checked+.ngSlider {
+            background: #FF4D00;
+        }
 
-			/* Topbar */
-			#topbar {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				background: #ff4d00;
-				padding: 10px;
-				display: flex;
-				align-items: center;
-				gap: 10px;
-				z-index: 9998;
-			}
+        .ngSwitch input:checked+.ngSlider:before {
+            transform: translateX(18px);
+            background: #FFF;
+        }
 
-			#logo {
-				height: 36px;
-			}
+        #topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #ff4d00;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9998;
+        }
 
-			.tab {
-				background: #ff4d00;
-				border: 0;
-				color: #fff;
-				padding: 10px 16px;
-				border-radius: 16px;
-				cursor: pointer;
-				font-family: "Shrikhand";
-			}
+        #logo {
+            height: 36px;
+        }
 
-			.tab:hover {
-				background: #222;
-			}
+        .tab {
+            background: #ff4d00;
+            border: 0;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: "Shrikhand";
+        }
 
-			/* Layout */
-			#sidebar {
-				display: none;
-				position: fixed;
-				top: 84px;
-				left: 0;
-				width: 60px;
-				height: calc(100% - 84px);
-				overflow: auto;
-				background: #111;
-				z-index: 5;
-			}
+        .tab:hover {
+            background: #222;
+        }
 
-			#main {
-				margin-left: 0;
-				margin-top: 84px;
-				height: calc(100vh - 84px);
-				overflow: auto;
-				padding: 10px;
-				box-sizing: border-box;
-			}
+        #sidebar {
+            display: none;
+            position: fixed;
+            top: 84px;
+            left: 0;
+            width: 60px;
+            height: calc(100% - 84px);
+            overflow: auto;
+            background: #111;
+            z-index: 5;
+        }
 
-			.withSidebar #sidebar {
-				display: block;
-			}
+        #main {
+            margin-left: 0;
+            margin-top: 84px;
+            height: calc(100vh - 84px);
+            overflow: auto;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
 
-			.withSidebar #main {
-				margin-left: 70px;
-			}
+        .withSidebar #sidebar {
+            display: block;
+        }
 
-			/* SEARCH */
-			#searchWrap {
-				position: sticky;
-				top: 0;
-				z-index: 1000;
-				padding: 10px 0;
-				background: #111;
-			}
+        .withSidebar #main {
+            margin-left: 70px;
+        }
 
-			#search {
-				width: 100%;
-				box-sizing: border-box;
-				padding: 14px;
-				border-radius: 14px;
-				border: 2px solid #222;
-				background: #222;
-				color: #fff;
-				font-family: "Shrikhand";
-			}
+        #searchWrap {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 10px 0;
+            background: #111;
+        }
 
-			#search:focus {
-				outline: none;
-				border-color: #ff4d00;
-			}
+        #search {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border-radius: 14px;
+            border: 2px solid #222;
+            background: #222;
+            color: #fff;
+            font-family: "Shrikhand";
+        }
 
-			.sidebar-btn {
-				display: block;
-				width: 100%;
-				padding: 8px;
-				background: #222;
-				color: #fff;
-				border: none;
-				font-family: "Shrikhand";
-			}
+        #search:focus {
+            outline: none;
+            border-color: #ff4d00;
+        }
 
-			.sidebar-btn:hover {
-				background: #ff4d00;
-			}
+        .sidebar-btn {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            background: #222;
+            color: #fff;
+            border: none;
+            font-family: "Shrikhand";
+        }
 
-			.section {
-				margin-bottom: 20px;
-			}
+        .sidebar-btn:hover {
+            background: #ff4d00;
+        }
 
-			.section h2 {
-				margin: 10px 0;
-			}
+        .section {
+            margin-bottom: 20px;
+        }
 
-			.game-btn {
-				width: 100%;
-				max-width: 100%;
-				box-sizing: border-box;
-				padding: 14px;
-				margin: 6px 0;
-				background: #222;
-				color: #fff;
-				border: 2px solid #222;
-				border-radius: 14px;
-				cursor: pointer;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-			}
+        .section h2 {
+            margin: 10px 0;
+        }
 
-			.game-btn:hover {
-				background: #ff4d00;
-			}
+        .game-btn {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            margin: 6px 0;
+            background: #222;
+            color: #fff;
+            border: 2px solid #222;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-			.fav {
-				border-color: #FF4D00;
-			}
+        .game-btn:hover {
+            background: #ff4d00;
+        }
 
-			.star {
-				cursor: pointer;
-				position: relative;
-			}
+        .fav {
+            border-color: #FF4D00;
+        }
 
-			.star.off::after {
-				content: "★";
-				color: #888;
-			}
+        .star {
+            cursor: pointer;
+            position: relative;
+        }
 
-			.star.on::after {
-				content: "★";
-				color: gold;
-			}
+        .star.off::after {
+            content: "★";
+            color: #888;
+        }
 
-			.danger {
-				background: red;
-				color: #fff;
-				border: none;
-				padding: 12px;
-				border-radius: 12px;
-				cursor: pointer;
-			}
+        .star.on::after {
+            content: "★";
+            color: gold;
+        }
 
-			.standard {
-				background: #222222;
-				color: #fff;
-				border: 2px solid #ff4d00;
-				padding: 12px;
-				border-radius: 12px;
-				cursor: pointer;
-			}
+        .danger {
+            background: red;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
 
-			.standard:hover {
-				background: #ff4d00;
-			}
+        .standard {
+            background: #222222;
+            color: #fff;
+            border: 2px solid #ff4d00;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
 
-			/* TOC */
-			#tocModal {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background: #000d;
-				display: none;
-				z-index: 10000;
-			}
+        .standard:hover {
+            background: #ff4d00;
+        }
 
-			.modal {
-				background: #111;
-				margin: 5% auto;
-				padding: 20px;
-				width: 60%;
-				max-height: 80%;
-				overflow: auto;
-				border-radius: 16px;
-			}
+        #tocModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000d;
+            display: none;
+            z-index: 10000;
+        }
 
-			.modal button {
-				background: #ff4d00;
-				border: none;
-				padding: 10px 20px;
-				border-radius: 20px;
-				margin: 10px;
-				cursor: pointer;
-			}
+        .modal {
+            background: #111;
+            margin: 5% auto;
+            padding: 20px;
+            width: 60%;
+            max-height: 80%;
+            overflow: auto;
+            border-radius: 16px;
+        }
 
-			/* Tab presets modal */
-			#presetModal {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background: #000b;
-				display: none;
-				z-index: 11000;
-			}
+        .modal button {
+            background: #ff4d00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
 
-			.presetBox {
-				background: #111;
-				margin: 5% auto;
-				padding: 20px;
-				width: 400px;
-				border-radius: 16px;
-			}
+        #presetModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000b;
+            display: none;
+            z-index: 11000;
+        }
 
-			.presetBox input {
-				width: 100%;
-				margin: 6px 0;
-				padding: 10px;
-				border-radius: 10px;
-				border: 2px solid #222;
-				background: #222;
-				color: #fff;
-			}
+        .presetBox {
+            background: #111;
+            margin: 5% auto;
+            padding: 20px;
+            width: 400px;
+            border-radius: 16px;
+        }
 
-			.presetBox input {
-				box-sizing: border-box;
-			}
+        .presetBox input {
+            width: 100%;
+            margin: 6px 0;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #222;
+            background: #222;
+            color: #fff;
+        }
 
-			.presetBox button {
-				background: #ff4d00;
-				border: none;
-				padding: 10px 20px;
-				border-radius: 20px;
-				margin: 10px;
-				cursor: pointer;
-			}
+        .presetBox input {
+            box-sizing: border-box;
+        }
 
-			.presetBox label {
-				background: #ff4d00;
-				border: none;
-				padding: 10px 20px;
-				border-radius: 20px;
-				margin: 10px;
-				cursor: pointer;
-				color: black;
-			}
+        .presetBox button {
+            background: #ff4d00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
 
-			::-webkit-scrollbar {
-				width: 10px;
-				height: 10px;
-			}
+        .presetBox label {
+            background: #ff4d00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 10px;
+            cursor: pointer;
+            color: black;
+        }
 
-			::-webkit-scrollbar-track {
-				background: #111;
-				border-radius: 10px;
-			}
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
 
-			::-webkit-scrollbar-thumb {
-				background: linear-gradient(180deg, #ff4d00, #ff8a00);
-				border-radius: 10px;
-				border: 2px solid #111;
-			}
+        ::-webkit-scrollbar-track {
+            background: #111;
+            border-radius: 10px;
+        }
 
-			::-webkit-scrollbar-thumb:hover {
-				background: linear-gradient(180deg, #ff8a00, #ff4d00);
-			}
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff4d00, #ff8a00);
+            border-radius: 10px;
+            border: 2px solid #111;
+        }
 
-			/* corner where horizontal + vertical meet */
-			::-webkit-scrollbar-corner {
-				background: #111;
-			}
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #ff8a00, #ff4d00);
+        }
 
-			/* ===== FIREFOX SCROLLBARS ===== */
-			* {
-				scrollbar-width: thin;
-				scrollbar-color: #ff4d00 #111;
-			}
-		</style>
-	</head>
-	<body>
-		<div id="topbar">
-			<img id="logo" src="https://nolsgames.xyz/logo.png">
-			<button class="tab" onclick="showTab('games')">Games</button>
-			<button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.d7cju37w6zwj','_blank')">Info</button>
-			<button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">Terminal</button>
-			<button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.biyfduhv1w7','_blank')">Events</button>
-			<button class="tab" onclick="showTab('settings')">Settings</button>
-		</div>
-		<div id="ticker">
-			<div id="tickerText"></div>
-		</div>
-		<div id="sidebar"></div>
-		<div id="main">
-			<div id="searchWrap">
-				<input id="search" placeholder="Search games...">
-			</div>
-		</div>
-		<!-- PRESETS -->
-		<div id="tocModal">
-			<div class="modal" id="tocContent"></div>
-		</div>
-		<div id="presetModal">
-			<div class="presetBox">
-				<h3>Tab Settings</h3>
-				<input id="tabName" placeholder="Tab Name">
-				<label style="display:inline-block;"> Upload Favicon <input type="file" id="tabIconUpload" accept="image/*" style="display:none" onchange="handleFaviconUpload(this.files[0])">
-				</label>
-				<input id="panicKey" placeholder="Panic Key (e.g. p)">
-				<input id="panicLink" placeholder="Redirect URL">
-				<button onclick="savePreset()">Save</button>
-				<button style="background:red;color:white;" onclick="resetPresets()"> Reset Settings </button>
-				<button onclick="closePresets()"> Close </button>
-			</div>
-		</div>
-		<script>
-			// ===== TICKER =====
-			const messages = ["Welcome to Nol'sGames!", "1900+ Games For You To Play", "This Is Still In BETA And Has Lots Of Bugs.", "Try Out The New Save Game Data Button In Settings!", "Enjoy!"];
-			let msgIndex = 0;
-			const tickerText = document.getElementById('tickerText');
+        ::-webkit-scrollbar-corner {
+            background: #111;
+        }
 
-			function cycleTicker() {
-				tickerText.textContent = messages[msgIndex];
-				tickerText.style.left = '100%';
-				let pos = window.innerWidth;
-				const interval = setInterval(() => {
-					pos--;
-					tickerText.style.left = pos + 'px';
-					if (pos < -tickerText.offsetWidth) {
-						clearInterval(interval);
-						msgIndex = (msgIndex + 1) % messages.length;
-						setTimeout(cycleTicker, 500);
-					}
-				}, 10);
-			}
-			cycleTicker();
-			// ===== TOC =====
-			const tocPages = [`
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #ff4d00 #111;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="topbar">
+        <img id="logo" src="https://nolsgames.xyz/logo.png">
+        <button class="tab" onclick="showTab('games')">Games</button>
+        <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.d7cju37w6zwj','_blank')">Info</button>
+        <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">Terminal</button>
+        <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.biyfduhv1w7','_blank')">Events</button>
+        <button class="tab" onclick="showTab('settings')">Settings</button>
+    </div>
+    <div id="ticker">
+        <div id="tickerText"></div>
+    </div>
+    <div id="sidebar"></div>
+    <div id="main">
+        <div id="searchWrap">
+            <input id="search" placeholder="Search games...">
+        </div>
+    </div>
+    <div id="tocModal">
+        <div class="modal" id="tocContent"></div>
+    </div>
+    <div id="presetModal">
+        <div class="presetBox">
+            <h3>Tab Settings</h3>
+            <input id="tabName" placeholder="Tab Name">
+            <label style="display:inline-block;"> Upload Favicon <input type="file" id="tabIconUpload" accept="image/*" style="display:none" onchange="handleFaviconUpload(this.files[0])">
+            </label>
+            <input id="panicKey" placeholder="Panic Key (e.g. p)">
+            <input id="panicLink" placeholder="Redirect URL">
+            <button onclick="savePreset()">Save</button>
+            <button style="background:red;color:white;" onclick="resetPresets()"> Reset Settings </button>
+            <button onclick="closePresets()"> Close </button>
+        </div>
+    </div>
+    <script>
+        const messages = ["Welcome to Nol'sGames!", "1900+ Games For You To Play", "This Is Still In BETA And Has Lots Of Bugs.", "Try Out The New Save Game Data Button In Settings!", "Enjoy!"];
+        let msgIndex = 0;
+        const tickerText = document.getElementById('tickerText');
+
+        function cycleTicker() {
+            tickerText.textContent = messages[msgIndex];
+            tickerText.style.left = '100%';
+            let pos = window.innerWidth;
+            const interval = setInterval(() => {
+                pos--;
+                tickerText.style.left = pos + 'px';
+                if (pos < -tickerText.offsetWidth) {
+                    clearInterval(interval);
+                    msgIndex = (msgIndex + 1) % messages.length;
+                    setTimeout(cycleTicker, 500);
+                }
+            }, 10);
+        }
+        cycleTicker();
+        const tocPages = [`
 																								<div style="
     font-family: 'Commissioner', sans-serif;
     line-height: 1.7;
@@ -528,232 +519,221 @@ Nol’sGames Terms of Use & Privacy Policy
 																																					<p>These Terms of Use and Privacy Policy may be modified, updated, or replaced at any time without prior notice. Continued use of Nol’sGames after changes become effective constitutes acceptance of the updated Terms.</p>
 																																				</div>
 																																				<button onclick="acceptToc()">Agree</button>`];
-			let tocIndex = 0;
+        let tocIndex = 0;
 
-			function openToc() {
-				document.getElementById('tocModal').style.display = 'block';
-				tocIndex = 0;
-				tocContent.innerHTML = tocPages[0];
-			}
+        function openToc() {
+            document.getElementById('tocModal').style.display = 'block';
+            tocIndex = 0;
+            tocContent.innerHTML = tocPages[0];
+        }
 
-			function acceptToc() {
-				localStorage.setItem('toc', '1');
-				tocModal.style.display = 'none';
-			}
-			if (!localStorage.getItem('toc')) setTimeout(openToc, 500);
-			// ===== DATA =====
-			let files = [];
-			let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-			async function loadGameList() {
-				try {
-					const res = await fetch('https://raw.githubusercontent.com/PizzaGamingYT/nol/refs/heads/main/list.js?t=' + Date.now());
-					const js = await res.text();
-					// executes: window.files = [...]
-					eval(js);
-					files = window.files || [];
-					build();
-				} catch (err) {
-					console.error('Failed to load game list:', err);
-					document.getElementById('main').innerHTML = `
+        function acceptToc() {
+            localStorage.setItem('toc', '1');
+            tocModal.style.display = 'none';
+        }
+        if (!localStorage.getItem('toc')) setTimeout(openToc, 500);
+        let files = [];
+        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        async function loadGameList() {
+            try {
+                const res = await fetch('https://raw.githubusercontent.com/PizzaGamingYT/nol/refs/heads/main/list.js?t=' + Date.now());
+                const js = await res.text();
+                eval(js);
+                files = window.files || [];
+                build();
+            } catch (err) {
+                console.error('Failed to load game list:', err);
+                document.getElementById('main').innerHTML = `
       
 																																				<h2>Failed to load games.</h2>
 																																				<p>Please try again later.</p>
     `;
-				}
-			}
-			// ===== BUILD =====
-			function build(filter = '') {
-				document.body.classList.add('withSidebar');
-				const main = document.getElementById('main');
-				const sidebar = document.getElementById('sidebar');
-				sidebar.innerHTML = '';
-				// rebuild main properly
-				main.innerHTML = `
+            }
+        }
+
+        function build(filter = '') {
+            document.body.classList.add('withSidebar');
+            const main = document.getElementById('main');
+            const sidebar = document.getElementById('sidebar');
+            sidebar.innerHTML = '';
+            main.innerHTML = `
  
 																																				<div id="searchWrap">
 																																					<input id="search" placeholder="Search games..." value="${filter}">
 																																					</div>
  `;
-				// restore search listener every rebuild
-				const search = document.getElementById("search");
-				search.addEventListener("input", (e) => {
-					build(e.target.value.toLowerCase());
-				});
-				if (favorites.length) {
-					const sec = document.createElement('div');
-					sec.className = 'section';
-					sec.innerHTML = ' < h2 > Favorites < /h2>';
-					favorites.filter(f => f.toLowerCase().includes(filter)).forEach(f => sec.appendChild(createGameBtn(f)));
-					if (sec.children.length > 1) main.appendChild(sec);
-				}
-				const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-				letters.forEach(l => {
-					const sec = document.createElement('div');
-					sec.className = 'section';
-					sec.id = 'sec' + l;
-					const title = document.createElement('h2');
-					title.textContent = l;
-					sec.appendChild(title);
-					let has = false;
-					files.forEach(f => {
-						const firstLetter = f.toLowerCase().startsWith('cl') ? f[2] : f.toLowerCase().startsWith('ng') ? f[2] : f[0];
-						if (firstLetter?.toUpperCase() === l && f.toLowerCase().includes(filter)) {
-							has = true;
-							sec.appendChild(createGameBtn(f));
-						}
-					});
-					if (has) {
-						main.appendChild(sec);
-						const b = document.createElement('button');
-						b.className = 'sidebar-btn';
-						b.textContent = l;
-						b.onclick = () => {
-							document.getElementById('sec' + l).scrollIntoView({
-								behavior: 'smooth'
-							});
-						};
-						sidebar.appendChild(b);
-					}
-				});
-				// keep cursor in search
-				search.focus();
-				search.setSelectionRange(search.value.length, search.value.length);
-			}
-			// ===== BUTTON =====
-			function createGameBtn(f) {
-				const btn = document.createElement('div');
-				btn.className = 'game-btn' + (favorites.includes(f) ? ' fav' : '');
-				const text = document.createElement('span');
-				text.textContent = f;
-				const star = document.createElement('span');
-				star.className = 'star ' + (favorites.includes(f) ? 'on' : 'off');
-				star.onclick = (e) => {
-					e.stopPropagation();
-					if (favorites.includes(f)) favorites = favorites.filter(x => x !== f);
-					else favorites.push(f);
-					localStorage.setItem('favorites', JSON.stringify(favorites));
-					build();
-				};
-				btn.onclick = () => {
-					const encoded = encodeURIComponent(f + '.html');
-					fetch(`https://raw.githubusercontent.com/PizzaGamingYT/nolsgames/refs/heads/main/UGS-Files/${encoded}?t=${Date.now()}`).then(r => r.text()).then(t => {
-						const w = window.open('about:blank', '_blank');
-						if (w) {
-							w.document.open();
-							w.document.write(t);
-							w.document.close();
-						}
-					});
-				};
-				btn.append(text, star);
-				return btn;
-			}
-			// ===== SETTINGS =====
-			let uploadedFavicon = '';
+            const search = document.getElementById("search");
+            search.addEventListener("input", (e) => {
+                build(e.target.value.toLowerCase());
+            });
+            if (favorites.length) {
+                const sec = document.createElement('div');
+                sec.className = 'section';
+                sec.innerHTML = ' < h2 > Favorites < /h2>';
+                favorites.filter(f => f.toLowerCase().includes(filter)).forEach(f => sec.appendChild(createGameBtn(f)));
+                if (sec.children.length > 1) main.appendChild(sec);
+            }
+            const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            letters.forEach(l => {
+                const sec = document.createElement('div');
+                sec.className = 'section';
+                sec.id = 'sec' + l;
+                const title = document.createElement('h2');
+                title.textContent = l;
+                sec.appendChild(title);
+                let has = false;
+                files.forEach(f => {
+                    const firstLetter = f.toLowerCase().startsWith('cl') ? f[2] : f.toLowerCase().startsWith('ng') ? f[2] : f[0];
+                    if (firstLetter?.toUpperCase() === l && f.toLowerCase().includes(filter)) {
+                        has = true;
+                        sec.appendChild(createGameBtn(f));
+                    }
+                });
+                if (has) {
+                    main.appendChild(sec);
+                    const b = document.createElement('button');
+                    b.className = 'sidebar-btn';
+                    b.textContent = l;
+                    b.onclick = () => {
+                        document.getElementById('sec' + l).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    };
+                    sidebar.appendChild(b);
+                }
+            });
+            search.focus();
+            search.setSelectionRange(search.value.length, search.value.length);
+        }
 
-			function openPreset() {
-				const p = JSON.parse(localStorage.getItem('preset') || '{}');
-				tabName.value = p.name || '';
-				panicKey.value = p.key || '';
-				panicLink.value = p.link || '';
-				uploadedFavicon = p.icon || '';
-				presetModal.style.display = 'block';
-			}
+        function createGameBtn(f) {
+            const btn = document.createElement('div');
+            btn.className = 'game-btn' + (favorites.includes(f) ? ' fav' : '');
+            const text = document.createElement('span');
+            text.textContent = f;
+            const star = document.createElement('span');
+            star.className = 'star ' + (favorites.includes(f) ? 'on' : 'off');
+            star.onclick = (e) => {
+                e.stopPropagation();
+                if (favorites.includes(f)) favorites = favorites.filter(x => x !== f);
+                else favorites.push(f);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                build();
+            };
+            btn.onclick = () => {
+                const encoded = encodeURIComponent(f + '.html');
+                fetch(`https://raw.githubusercontent.com/PizzaGamingYT/nolsgames/refs/heads/main/UGS-Files/${encoded}?t=${Date.now()}`).then(r => r.text()).then(t => {
+                    const w = window.open('about:blank', '_blank');
+                    if (w) {
+                        w.document.open();
+                        w.document.write(t);
+                        w.document.close();
+                    }
+                });
+            };
+            btn.append(text, star);
+            return btn;
+        }
+        let uploadedFavicon = '';
 
-			function handleFaviconUpload(file) {
-				if (!file) return;
-				const reader = new FileReader();
-				reader.onload = function(e) {
-					uploadedFavicon = e.target.result;
-				};
-				reader.readAsDataURL(file);
-			}
+        function openPreset() {
+            const p = JSON.parse(localStorage.getItem('preset') || '{}');
+            tabName.value = p.name || '';
+            panicKey.value = p.key || '';
+            panicLink.value = p.link || '';
+            uploadedFavicon = p.icon || '';
+            presetModal.style.display = 'block';
+        }
 
-			function savePreset() {
-				const rawLink = panicLink.value.trim();
-				const fixedLink = rawLink ? (rawLink.startsWith('http://') || rawLink.startsWith('https://')) ? rawLink : 'https://' + rawLink : '';
-				const data = {
-					name: tabName.value,
-					icon: uploadedFavicon,
-					key: panicKey.value,
-					link: fixedLink
-				};
-				localStorage.setItem('preset', JSON.stringify(data));
-				applyPreset();
-				presetModal.style.display = 'none';
-				location.reload();
-			}
+        function handleFaviconUpload(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedFavicon = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
 
-			function applyPreset() {
-				const p = JSON.parse(localStorage.getItem('preset') || '{}');
-				// DEFAULTS
-				const panicKeyValue = p.key || '\\';
-				const panicLinkValue = p.link || 'https://google.com';
-				// TITLE
-				document.title = p.name || "Nol'sGames";
-				// FAVICON
-				let favicon = document.getElementById('dynamicFavicon');
-				if (!favicon) {
-					favicon = document.createElement('link');
-					favicon.rel = 'icon';
-					favicon.id = 'dynamicFavicon';
-					document.head.appendChild(favicon);
-				}
-				favicon.href = p.icon || 'https://nolsgames.xyz/favicon.ico?v=2';
-				// PANIC KEY
-				document.onkeydown = null;
-				document.onkeydown = (e) => {
-					if (e.key.toLowerCase() === panicKeyValue.toLowerCase()) {
-						window.location.href = panicLinkValue;
-					}
-				};
-			}
+        function savePreset() {
+            const rawLink = panicLink.value.trim();
+            const fixedLink = rawLink ? (rawLink.startsWith('http://') || rawLink.startsWith('https://')) ? rawLink : 'https://' + rawLink : '';
+            const data = {
+                name: tabName.value,
+                icon: uploadedFavicon,
+                key: panicKey.value,
+                link: fixedLink
+            };
+            localStorage.setItem('preset', JSON.stringify(data));
+            applyPreset();
+            presetModal.style.display = 'none';
+            location.reload();
+        }
 
-			function resetPresets() {
-				if (!confirm('Reset all preset settings?')) return;
-				localStorage.removeItem('preset');
-				const defaultPreset = {
-					name: "Nol'sGames",
-					icon: "",
-					key: "\\",
-					link: "https://google.com"
-				};
-				localStorage.setItem('preset', JSON.stringify(defaultPreset));
-				uploadedFavicon = '';
-				document.getElementById('faviconPreview').style.display = 'none';
-				tabName.value = '';
-				panicKey.value = '\\';
-				panicLink.value = 'https://google.com';
-				applyPreset();
-				location.reload();
-			}
+        function applyPreset() {
+            const p = JSON.parse(localStorage.getItem('preset') || '{}');
+            const panicKeyValue = p.key || '\\';
+            const panicLinkValue = p.link || 'https://google.com';
+            document.title = p.name || "Nol'sGames";
+            let favicon = document.getElementById('dynamicFavicon');
+            if (!favicon) {
+                favicon = document.createElement('link');
+                favicon.rel = 'icon';
+                favicon.id = 'dynamicFavicon';
+                document.head.appendChild(favicon);
+            }
+            favicon.href = p.icon || 'https://nolsgames.xyz/favicon.ico?v=2';
+            document.onkeydown = null;
+            document.onkeydown = (e) => {
+                if (e.key.toLowerCase() === panicKeyValue.toLowerCase()) {
+                    window.location.href = panicLinkValue;
+                }
+            };
+        }
 
-			function closePresets() {
-				document.getElementById('presetModal').style.display = 'none';
-			}
-			// ===== DEFAULT PRESET =====
-			if (!localStorage.getItem('preset')) {
-				localStorage.setItem('preset', JSON.stringify({
-					name: "Nol'sGames",
-					icon: "",
-					key: "\\",
-					link: "https://google.com"
-				}));
-			}
-			applyPreset();
-			// ===== TABS =====
-			function showTab(tab) {
-				const main = document.getElementById('main');
-				const sidebar = document.getElementById('sidebar');
-				if (tab === 'games') {
-					document.body.classList.add('withSidebar');
-					build();
-					return;
-				}
-				document.body.classList.remove('withSidebar');
-				sidebar.innerHTML = '';
-				if (tab === 'settings') {
-					main.innerHTML = `
+        function resetPresets() {
+            if (!confirm('Reset all preset settings?')) return;
+            localStorage.removeItem('preset');
+            const defaultPreset = {
+                name: "Nol'sGames",
+                icon: "",
+                key: "\\",
+                link: "https://google.com"
+            };
+            localStorage.setItem('preset', JSON.stringify(defaultPreset));
+            uploadedFavicon = '';
+            document.getElementById('faviconPreview').style.display = 'none';
+            tabName.value = '';
+            panicKey.value = '\\';
+            panicLink.value = 'https://google.com';
+            applyPreset();
+            location.reload();
+        }
+
+        function closePresets() {
+            document.getElementById('presetModal').style.display = 'none';
+        }
+        if (!localStorage.getItem('preset')) {
+            localStorage.setItem('preset', JSON.stringify({
+                name: "Nol'sGames",
+                icon: "",
+                key: "\\",
+                link: "https://google.com"
+            }));
+        }
+        applyPreset();
+
+        function showTab(tab) {
+            const main = document.getElementById('main');
+            const sidebar = document.getElementById('sidebar');
+            if (tab === 'games') {
+                document.body.classList.add('withSidebar');
+                build();
+                return;
+            }
+            document.body.classList.remove('withSidebar');
+            sidebar.innerHTML = '';
+            if (tab === 'settings') {
+                main.innerHTML = `
  
 																																					<h2>Settings</h2>
 																																					<button class="standard" onclick="openPreset()">Tab Settings</button>
@@ -794,109 +774,106 @@ Nol’sGames Terms of Use & Privacy Policy
 																																																					<br>
 																																																						<br>
  `;
-				}
-				setTimeout(() => {
-					const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
-					const toggle = document.getElementById('autoRefreshToggle');
-					if (toggle) {
-						toggle.checked = settings.autoRefresh !== false;
-					}
-				}, 0);
-			}
+            }
+            setTimeout(() => {
+                const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+                const toggle = document.getElementById('autoRefreshToggle');
+                if (toggle) {
+                    toggle.checked = settings.autoRefresh !== false;
+                }
+            }, 0);
+        }
 
-			function toggleAutoRefresh(enabled) {
-				const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
-				settings.autoRefresh = enabled;
-				localStorage.setItem('ngSettings', JSON.stringify(settings));
-			}
+        function toggleAutoRefresh(enabled) {
+            const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+            settings.autoRefresh = enabled;
+            localStorage.setItem('ngSettings', JSON.stringify(settings));
+        }
 
-			function clearData() {
-				if (confirm('Delete ALL data?')) {
-					localStorage.clear();
-					location.reload();
-				}
-			}
-			// ===== EXPORT FULL STORAGE =====
-			function exportNGS() {
-				const saveData = {};
-				// grab EVERYTHING in localStorage
-				for (let i = 0; i < localStorage.length; i++) {
-					const key = localStorage.key(i);
-					try {
-						saveData[key] = localStorage.getItem(key);
-					} catch (err) {
-						console.log('Failed to save key:', key);
-					}
-				}
-				const finalData = {
-					created: new Date().toISOString(),
-					storage: saveData
-				};
-				const blob = new Blob(
-					[JSON.stringify(finalData, null, 2)], {
-						type: 'application/json'
-					});
-				const url = URL.createObjectURL(blob);
-				const a = document.createElement('a');
-				a.href = url;
-				const now = new Date();
-				const date = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + '_' + String(now.getHours()).padStart(2, '0') + '-' + String(now.getMinutes()).padStart(2, '0');
-				a.download = `gd_${date}.ngs`;
-				a.click();
-				URL.revokeObjectURL(url);
-				alert('Game data exported.');
-			}
-			// ===== IMPORT FULL STORAGE =====
-			function importNGS(file) {
-				if (!file) return;
-				const reader = new FileReader();
-				reader.onload = function(e) {
-					try {
-						const data = JSON.parse(e.target.result);
-						if (!data.storage) {
-							alert('Invalid .ngs save.');
-							return;
-						}
-						if (!confirm('Overwrite ALL current game data?')) return;
-						// wipe current storage
-						localStorage.clear();
-						// restore EVERYTHING
-						for (const key in data.storage) {
-							try {
-								localStorage.setItem(key, data.storage[key]);
-							} catch (err) {
-								console.log('Failed restoring:', key);
-							}
-						}
-						alert('Game data restored.');
-						location.reload();
-					} catch (err) {
-						console.error(err);
-						alert('Invalid .ngs file.');
-					}
-				};
-				reader.readAsText(file);
-			}
-			// ===== AUTO UPDATER =====
-			function checkDailyRefresh() {
-				const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
-				// enabled by default
-				const autoRefresh = settings.autoRefresh !== false;
-				if (!autoRefresh) return;
-				const today = new Date().toDateString();
-				const lastRefresh = localStorage.getItem('lastDailyRefresh');
-				if (lastRefresh !== today) {
-					localStorage.setItem('lastDailyRefresh', today);
-					location.reload();
-				}
-			}
-			if (!localStorage.getItem('ngSettings')) {
-				localStorage.setItem('ngSettings', JSON.stringify({
-					autoRefresh: true
-				}));
-			}
-			checkDailyRefresh();
-			loadGameList();
-		</script>
-	</body>
+        function clearData() {
+            if (confirm('Delete ALL data?')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        function exportNGS() {
+            const saveData = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                try {
+                    saveData[key] = localStorage.getItem(key);
+                } catch (err) {
+                    console.log('Failed to save key:', key);
+                }
+            }
+            const finalData = {
+                created: new Date().toISOString(),
+                storage: saveData
+            };
+            const blob = new Blob(
+                [JSON.stringify(finalData, null, 2)], {
+                    type: 'application/json'
+                });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const now = new Date();
+            const date = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + '_' + String(now.getHours()).padStart(2, '0') + '-' + String(now.getMinutes()).padStart(2, '0');
+            a.download = `gd_${date}.ngs`;
+            a.click();
+            URL.revokeObjectURL(url);
+            alert('Game data exported.');
+        }
+
+        function importNGS(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (!data.storage) {
+                        alert('Invalid .ngs save.');
+                        return;
+                    }
+                    if (!confirm('Overwrite ALL current game data?')) return;
+                    localStorage.clear();
+                    for (const key in data.storage) {
+                        try {
+                            localStorage.setItem(key, data.storage[key]);
+                        } catch (err) {
+                            console.log('Failed restoring:', key);
+                        }
+                    }
+                    alert('Game data restored.');
+                    location.reload();
+                } catch (err) {
+                    console.error(err);
+                    alert('Invalid .ngs file.');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function checkDailyRefresh() {
+            const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+            const autoRefresh = settings.autoRefresh !== false;
+            if (!autoRefresh) return;
+            const today = new Date().toDateString();
+            const lastRefresh = localStorage.getItem('lastDailyRefresh');
+            if (lastRefresh !== today) {
+                localStorage.setItem('lastDailyRefresh', today);
+                location.reload();
+            }
+        }
+        if (!localStorage.getItem('ngSettings')) {
+            localStorage.setItem('ngSettings', JSON.stringify({
+                autoRefresh: true
+            }));
+        }
+        checkDailyRefresh();
+        loadGameList();
+    </script>
+</body>
+
 </html>
