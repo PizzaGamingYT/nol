@@ -638,7 +638,7 @@ Nol’sGames Terms of Use & Privacy Policy
             };
             btn.onclick = () => {
                 const encoded = encodeURIComponent(f + '.html');
-                fetch(`https://raw.githubusercontent.com/PizzaGamingYT/nolsgames/refs/heads/main/UGS-Files/${encoded}?t=${Date.now()}`).then(r => r.text()).then(t => {
+                fetch(`https://raw.githubusercontent.com/bubbls/ugs-singlefile/refs/heads/main/UGS-Files/${encoded}?t=${Date.now()}`).then(r => r.text()).then(t => {
                     const w = window.open('about:blank', '_blank');
                     if (w) {
                         w.document.open();
