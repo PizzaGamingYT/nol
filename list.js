@@ -2,6 +2,7 @@ window.files = [
 "ngEaglyMCEaglercraft1.20",
 "ngcloverpit",
 "nghollowknight",
+"nghollowknightsilksong",
 "cl1",
 "cl100RoomsOfEnemies",
 "cl10bullets",
