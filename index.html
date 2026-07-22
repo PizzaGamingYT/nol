@@ -540,7 +540,7 @@ Nol’sGames Terms of Use & Privacy Policy
         let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
         async function loadGameList() {
             try {
-                const res = await fetch('https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/refs/heads/main/list.js?t=' + Date.now());
+                const res = await fetch('https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/list.js?t=' + Date.now());
                 const js = await res.text();
                 eval(js);
                 files = window.files || [];
@@ -638,7 +638,7 @@ Nol’sGames Terms of Use & Privacy Policy
             };
             btn.onclick = () => {
                 const encoded = encodeURIComponent(f + '.html');
-                fetch(`https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/refs/heads/main/UGS-Files/${encoded}?t=${Date.now()}`).then(r => r.text()).then(t => {
+                fetch(`https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/UGS-Files/${encoded}?t=${Date.now()}`).then(r => r.text()).then(t => {
                     const w = window.open('about:blank', '_blank');
                     if (w) {
                         w.document.open();
