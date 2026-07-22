@@ -234,13 +234,64 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            transition: background-color .25s ease,
+                border-color .25s ease,
+                color .25s ease,
+                transform .15s ease;
         }
 
         .game-btn:hover {
             background: #ff4d00;
         }
 
-        .fav {
+        .rainbow-game {
+            border-color: transparent;
+            background:
+                linear-gradient(#222, #222) padding-box,
+                linear-gradient(90deg,
+                    red, orange, yellow, lime, cyan, blue, violet) border-box;
+            transition: .25s;
+        }
+
+        .rainbow-game:hover {
+            background:
+                linear-gradient(90deg,
+                    red, orange, yellow, lime, cyan, blue, violet) padding-box,
+                linear-gradient(90deg,
+                    red, orange, yellow, lime, cyan, blue, violet) border-box;
+            color: white;
+            transition: .25s;
+        }
+
+        .rainbow-game:hover .star.off::after {
+            color: white;
+        }
+
+        .rainbow-game:hover .star.on::after {
+            color: gold;
+        }
+
+        .rainbow-game.fav {
+            border-color: transparent;
+            background:
+                linear-gradient(#222, #222) padding-box,
+                linear-gradient(90deg,
+                    red, orange, yellow, lime, cyan, blue, violet) border-box;
+            transition: .25s;
+        }
+
+        .rainbow-game.fav:hover {
+            background:
+                linear-gradient(90deg,
+                    red, orange, yellow, lime, cyan, blue, violet) padding-box,
+                linear-gradient(90deg,
+                    red, orange, yellow, lime, cyan, blue, violet) border-box;
+            color: white;
+            transition: .25s;
+        }
+
+        .game-btn.fav:not(.rainbow-game) {
             border-color: #FF4D00;
         }
 
@@ -567,15 +618,16 @@ Nol’sGames Terms of Use & Privacy Policy
                 favBtn.textContent = '★';
 
                 favBtn.onclick = () => {
-                    document
-                        .getElementById('favoritesSection')
-                        ?.scrollIntoView({
-                            behavior: 'smooth'
-                        });
+                    document.getElementById("favoritesSection")?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
                 };
 
                 sidebar.appendChild(favBtn);
             }
+
+
             main.innerHTML = `<div id="searchWrap"><input id="search" placeholder="Search games..." value="${filter}"></div>`;
             const search = document.getElementById("search");
             search.addEventListener("input", (e) => {
@@ -584,10 +636,16 @@ Nol’sGames Terms of Use & Privacy Policy
             if (favorites.length) {
                 const sec = document.createElement('div');
                 sec.className = 'section';
-                sec.innerHTML = ' <h2>Favorites</h2>';
-                favorites.filter(f => f.toLowerCase().includes(filter)).forEach(f => sec.appendChild(createGameBtn(f)));
+                sec.id = 'favoritesSection';
+                sec.innerHTML = '<h2>Favorites</h2>';
+
+                favorites
+                    .filter(f => f.toLowerCase().includes(filter))
+                    .forEach(f => sec.appendChild(createGameBtn(f)));
+
                 if (sec.children.length > 1) main.appendChild(sec);
             }
+
             const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
             letters.forEach(l => {
                 const sec = document.createElement('div');
@@ -624,32 +682,64 @@ Nol’sGames Terms of Use & Privacy Policy
 
         function createGameBtn(f) {
             const btn = document.createElement('div');
+
+            const isNG = f.toLowerCase().startsWith("ng");
+
             btn.className = 'game-btn' + (favorites.includes(f) ? ' fav' : '');
+
+            if (isNG) {
+                btn.classList.add('rainbow-game');
+            }
+
+
             const text = document.createElement('span');
             text.textContent = f;
+
             const star = document.createElement('span');
             star.className = 'star ' + (favorites.includes(f) ? 'on' : 'off');
+
             star.onclick = (e) => {
                 e.stopPropagation();
-                if (favorites.includes(f)) favorites = favorites.filter(x => x !== f);
-                else favorites.push(f);
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                build();
+
+                const fav = favorites.includes(f);
+
+                if (fav) {
+                    favorites = favorites.filter(x => x !== f);
+                    star.classList.replace("on", "off");
+                    btn.classList.remove("fav");
+                } else {
+                    favorites.push(f);
+                    star.classList.replace("off", "on");
+                    btn.classList.add("fav");
+                }
+
+                localStorage.setItem("favorites", JSON.stringify(favorites));
             };
+
+
             btn.onclick = () => {
                 const encoded = encodeURIComponent(f + '.html');
-                fetch(`https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/UGS-Files/${encoded}?t=${Date.now()}`).then(r => r.text()).then(t => {
-                    const w = window.open('about:blank', '_blank');
-                    if (w) {
-                        w.document.open();
-                        w.document.write(t);
-                        w.document.close();
-                    }
-                });
+
+                const url = isNG ?
+                    `https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/specialgames/${encoded}?t=${Date.now()}` :
+                    `https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/UGS-Files/${encoded}?t=${Date.now()}`;
+
+                fetch(url)
+                    .then(r => r.text())
+                    .then(t => {
+                        const w = window.open('about:blank', '_blank');
+                        if (w) {
+                            w.document.open();
+                            w.document.write(t);
+                            w.document.close();
+                        }
+                    });
             };
+
             btn.append(text, star);
             return btn;
         }
+
         let uploadedFavicon = '';
 
         function openPreset() {
