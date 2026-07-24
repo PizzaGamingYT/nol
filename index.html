@@ -442,6 +442,93 @@
             scrollbar-width: thin;
             scrollbar-color: #ff4d00 #111;
         }
+
+        .download-page {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .download-card {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+            border: 1px solid rgba(255, 255, 255, .1);
+        }
+
+        .download-logo {
+            width: 575px;
+            height: auto;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .download-card h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .download-card p {
+            opacity: .85;
+            font-size: 17px;
+        }
+
+        .download-info {
+            margin: 25px 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .download-info div {
+            background: rgba(255, 255, 255, .06);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .download-info strong {
+            display: block;
+            color: #ff4d00;
+            font-size: 18px;
+        }
+
+        .download-info span {
+            opacity: .8;
+        }
+
+        .download-button {
+            width: 100%;
+            padding: 16px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: none;
+            background: #ff4d00;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .download-button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .toc-link {
+            color: #ff4d00;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: .2s;
+        }
+
+        .toc-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -606,6 +693,8 @@ Nol’sGames Terms of Use & Privacy Policy
             }
         }
 
+        const runningFromFile = location.protocol === "file:";
+
         function build(filter = '') {
             document.body.classList.add('withSidebar');
             const main = document.getElementById('main');
@@ -695,8 +784,21 @@ Nol’sGames Terms of Use & Privacy Policy
             const text = document.createElement('span');
             text.textContent = f;
 
+            text.title = f;
+
+            text.style.flex = "1";
+            text.style.minWidth = "0";
+            text.style.overflow = "hidden";
+            text.style.whiteSpace = "nowrap";
+            text.style.textOverflow = "ellipsis";
+
+            text.title = f;
+
             const star = document.createElement('span');
             star.className = 'star ' + (favorites.includes(f) ? 'on' : 'off');
+
+            star.style.flexShrink = "0";
+            star.style.marginLeft = "12px";
 
             star.onclick = (e) => {
                 e.stopPropagation();
@@ -828,6 +930,14 @@ Nol’sGames Terms of Use & Privacy Policy
         }
         applyPreset();
 
+        if (!runningFromFile) {
+            const downloadBtn = document.createElement("button");
+            downloadBtn.className = "tab";
+            downloadBtn.textContent = "Downloads";
+            downloadBtn.onclick = () => showTab("downloads");
+            document.getElementById("topbar").appendChild(downloadBtn);
+        }
+
         function showTab(tab) {
             const main = document.getElementById('main');
             const sidebar = document.getElementById('sidebar');
@@ -838,6 +948,56 @@ Nol’sGames Terms of Use & Privacy Policy
             }
             document.body.classList.remove('withSidebar');
             sidebar.innerHTML = '';
+            if (tab === "downloads") {
+                main.innerHTML = `
+        <div class="download-page">
+            <div class="download-card">
+
+                <img src="https://nolsgames.xyz/logo.png" 
+                     class="download-logo" 
+                     alt="Nol'sGames Logo">
+
+                <h2>Download Nol'sGames</h2>
+
+                <p>
+                    Play your favorite games anytime.
+                    Download Nol'sGames for easy access.
+                </p>
+
+                <div class="download-info">
+                    <div>
+                        <strong>✓ Bypasses Enterprise Firewalls</strong>
+                        <span>The file grabs code right from the source so you can play games without getting blocked!</span>
+                    </div>
+
+                    <div>
+                        <strong>✓ Latest Version</strong>
+                        <span>Automatic updates just by reloading! No need for extra downloads.</span>
+                    </div>
+
+                    <div>
+                        <strong>✓ Safe Download</strong>
+                        <span>Official Nol'sGames release in HTML format.</span>
+                    </div>
+                </div>
+
+                <button class="download-button"
+                    onclick="window.open('https://drive.usercontent.google.com/u/0/uc?id=1IVVFFKsc6oOxVJre4ZL3UUvjjfbvdGzW&export=download','_blank')">
+                    ⬇ Download Latest Version
+                </button>
+
+                <div class="download-info">
+                    <div>
+                        By downloading, you agree to the <a class="toc-link"; href="#"; onclick="openToc()"; return false;>Terms & Conditions & Privacy Policy</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    `;
+
+                return;
+            }
             if (tab === 'settings') {
                 main.innerHTML = `
  
