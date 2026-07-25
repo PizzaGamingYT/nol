@@ -18,6 +18,7 @@
     <meta name="keywords" content="games, browser games, html5 games, nolsgames, nols games, online games">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://nolsgames.xyz">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
             margin: 0;
@@ -569,6 +570,12 @@
         </div>
     </div>
     <script>
+        // SUPABASE
+        const supabaseClient = supabase.createClient(
+            "https://akhqtuievksmpvpaziok.supabase.co",
+            "sb_publishable_dWiAEG0oO9A1EPWyqC_i_A_Wdo9PvH-"
+        );
+        // SUPABASE END
         const messages = ["Welcome to Nol'sGames!", "1900+ Games For You To Play", "This Is Still In BETA And Has Lots Of Bugs.", "Try Out The New Save Game Data Button In Settings!", "Enjoy!"];
         let msgIndex = 0;
         const tickerText = document.getElementById('tickerText');
