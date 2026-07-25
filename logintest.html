@@ -592,52 +592,50 @@
             background: #222;
             color: white;
             border: 2px solid white;
-            padding: 8px 14px;
-            border-radius: 16px;
+            padding: 6px 12px;
+            border-radius: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-family: "Commissioner";
+            transition: .2s;
         }
 
         .profile-btn:hover {
             background: #ff4d00;
+            transform: translateY(-2px);
         }
 
+
         .profile-avatar {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ff4d00;
         }
+
 
         .dropdown {
             display: none;
             position: absolute;
             right: 0;
-            top: 45px;
+            top: 55px;
             background: #111;
             border: 2px solid #ff4d00;
-            border-radius: 14px;
-            padding: 8px;
-            width: 160px;
-            z-index: 30000;
+            border-radius: 16px;
+            padding: 10px;
+            width: 190px;
+            box-shadow: 0 10px 30px #000;
         }
+
 
         .dropdown button {
             width: 100%;
-            background: #222;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 3px 0;
-            font-family: "Commissioner";
-        }
-
-        .dropdown button:hover {
-            background: #ff4d00;
+            margin: 4px 0;
+            padding: 12px;
+            border-radius: 12px;
         }
     </style>
 </head>
@@ -702,6 +700,7 @@
         const runningFromFile = location.protocol === "file:";
         // SUPABASE
         let supabaseClient;
+        let currentProfile = null;
 
         if (!runningFromFile) {
             supabaseClient = supabase.createClient(
@@ -710,126 +709,155 @@
             );
         }
 
+
         async function setupAccount() {
+
             if (runningFromFile) return;
 
             const area = document.getElementById("accountArea");
+
+            area.innerHTML = `
+        <button class="account-btn">
+            Loading...
+        </button>
+    `;
+
 
             const {
                 data
             } = await supabaseClient.auth.getSession();
 
-            if (data.session) {
 
-                const user = data.session.user;
-
-                const avatar =
-                    user.user_metadata?.avatar_url ||
-                    "https://www.gravatar.com/avatar/?d=mp";
-
-                const name =
-                    user.user_metadata?.user_name ||
-                    user.email.split("@")[0];
+            if (!data.session) {
 
                 area.innerHTML = `
-        <div class="profile-menu">
-
-            <button class="profile-btn" onclick="toggleProfileMenu()">
-                <img class="profile-avatar" src="${avatar}">
-                ${name}
-                ▾
+            <button class="account-btn" onclick="openAuth('login')">
+                Login
             </button>
 
-            <div class="dropdown" id="profileDropdown">
+            <button class="account-btn" onclick="openAuth('signup')">
+                Sign Up
+            </button>
+        `;
 
-                <button onclick="openProfile()">
-                    Profile
-                </button>
+                return;
+            }
 
-                <button onclick="logout()">
-                    Logout
-                </button>
 
-            </div>
+            const user = data.session.user;
+
+
+            // Get profile from database
+            const {
+                data: profile
+            } = await supabaseClient
+                .from("profiles")
+                .select("*")
+                .eq("id", user.id)
+                .single();
+
+
+            currentProfile = profile;
+
+
+            const avatar =
+                user.user_metadata?.avatar_url ||
+                "https://www.gravatar.com/avatar/?d=mp";
+
+
+            const username =
+                profile?.username ||
+                user.user_metadata?.user_name ||
+                user.email.split("@")[0];
+
+
+            const role =
+                profile?.role || "basic";
+
+
+            area.innerHTML = `
+
+    <div class="profile-menu">
+
+        <button class="profile-btn" onclick="toggleProfileMenu()">
+
+            <img 
+            class="profile-avatar"
+            src="${avatar}"
+            >
+
+            <span>
+                ${username}
+                ${role === "admin" ? " ⭐" : ""}
+            </span>
+
+            ▾
+
+        </button>
+
+
+        <div class="dropdown" id="profileDropdown">
+
+
+            <button onclick="openProfile()">
+                👤 Profile
+            </button>
+
+
+            <button>
+                🏷 Role: ${role}
+            </button>
+
+
+            ${
+                role === "admin"
+                ?
+                `<button onclick="adminPanel()">
+                    ⚙ Admin Panel
+                </button>`
+                :
+                ""
+            }
+
+
+            <button onclick="logout()">
+                🚪 Logout
+            </button>
+
 
         </div>
+
+    </div>
+
     `;
-
-            } else {
-                area.innerHTML = `
-    <button class="account-btn" onclick="openAuth('login')">
-        Login
-    </button>
-
-    <button class="account-btn" onclick="openAuth('signup')">
-        Sign Up
-    </button>
-`;
-            }
         }
+
+
 
         async function githubLogin() {
+
             await supabaseClient.auth.signInWithOAuth({
-                provider: "github"
-            });
-        }
-
-        async function loginEmail() {
-            const email = prompt("Email:");
-            const password = prompt("Password:");
-
-            const {
-                error
-            } = await supabaseClient.auth.signInWithPassword({
-                email,
-                password
+                provider: "github",
+                options: {
+                    redirectTo: window.location.href
+                }
             });
 
-            if (error) {
-                alert(error.message);
-            } else {
-                location.reload();
-            }
         }
 
-        async function logout() {
-            await supabaseClient.auth.signOut();
-            location.reload();
-        }
-
-        function toggleProfileMenu() {
-            const menu = document.getElementById("profileDropdown");
-
-            if (menu.style.display === "block") {
-                menu.style.display = "none";
-            } else {
-                menu.style.display = "block";
-            }
-        }
-
-
-        function openProfile() {
-            showTab("profile");
-        }
-
-        function openAuth(type) {
-            authModal.style.display = "block";
-
-            if (type === "signup") {
-                authTitle.textContent = "Sign Up";
-            } else {
-                authTitle.textContent = "Login";
-            }
-        }
-
-        function closeAuth() {
-            authModal.style.display = "none";
-        }
 
 
         async function emailAuth() {
+
             const email = authEmail.value;
             const password = authPassword.value;
+
+
+            if (!email || !password) {
+                alert("Enter email and password");
+                return;
+            }
+
 
             if (authTitle.textContent === "Sign Up") {
 
@@ -840,10 +868,14 @@
                     password
                 });
 
-                if (error) alert(error.message);
-                else alert("Check your email to verify your account!");
+
+                if (error)
+                    alert(error.message);
+                else
+                    alert("Account created! Check your email.");
 
             } else {
+
 
                 const {
                     error
@@ -852,13 +884,86 @@
                     password
                 });
 
-                if (error) alert(error.message);
-                else location.reload();
+
+                if (error)
+                    alert(error.message);
+                else
+                    location.reload();
 
             }
+
         }
 
-        setupAccount();
+
+
+        async function logout() {
+
+            await supabaseClient.auth.signOut();
+
+            currentProfile = null;
+
+            setupAccount();
+
+        }
+
+
+
+        function toggleProfileMenu() {
+
+            const menu = document.getElementById("profileDropdown");
+
+            menu.style.display =
+                menu.style.display === "block" ?
+                "none" :
+                "block";
+
+        }
+
+
+
+        function openProfile() {
+
+            showTab("profile");
+
+        }
+
+
+
+        function openAuth(type) {
+
+            authModal.style.display = "block";
+
+
+            authTitle.textContent =
+                type === "signup" ?
+                "Create Account" :
+                "Login";
+
+        }
+
+
+
+        function closeAuth() {
+
+            authModal.style.display = "none";
+
+        }
+
+
+
+        function adminPanel() {
+
+            alert("Admin panel coming soon!");
+
+        }
+
+
+
+        supabaseClient?.auth.onAuthStateChange(() => {
+            setupAccount();
+        });
+
+
         // SUPABASE END
         const messages = ["Welcome to Nol'sGames!", "1900+ Games For You To Play", "This Is Still In BETA And Has Lots Of Bugs.", "Try Out The New Save Game Data Button In Settings!", "Enjoy!"];
         let msgIndex = 0;
