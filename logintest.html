@@ -542,46 +542,24 @@
             align-items: center;
         }
 
+        /* --- Enhanced Account & Auth UI --- */
+
         .account-btn {
             background: #222;
             color: white;
-            border: 2px solid white;
-            padding: 8px 14px;
-            border-radius: 16px;
+            border: 2px solid #ff4d00;
+            padding: 8px 16px;
+            border-radius: 14px;
             cursor: pointer;
-            font-family: "Commissioner";
+            font-family: "Commissioner", sans-serif;
+            font-weight: 600;
+            transition: all 0.2s ease;
         }
 
         .account-btn:hover {
             background: #ff4d00;
-        }
-
-        #authModal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #000b;
-            z-index: 20000;
-        }
-
-        .authBox {
-            background: #111;
-            width: 350px;
-            margin: 10% auto;
-            padding: 25px;
-            border-radius: 16px;
-            text-align: center;
-        }
-
-        .authBox input {
-            width: 100%;
-            box-sizing: border-box;
-            margin: 8px 0;
-            padding: 12px;
-            background: #222;
-            border: 2px solid #333;
-            border-radius: 12px;
-            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 77, 0, 0.3);
         }
 
         .profile-menu {
@@ -591,51 +569,149 @@
         .profile-btn {
             background: #222;
             color: white;
-            border: 2px solid white;
-            padding: 6px 12px;
+            border: 2px solid #ff4d00;
+            padding: 6px 14px;
             border-radius: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-family: "Commissioner";
-            transition: .2s;
+            font-family: "Commissioner", sans-serif;
+            transition: all 0.2s ease;
         }
 
         .profile-btn:hover {
             background: #ff4d00;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 77, 0, 0.3);
         }
-
 
         .profile-avatar {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #ff4d00;
+            border: 2px solid #fff;
         }
-
 
         .dropdown {
             display: none;
             position: absolute;
             right: 0;
-            top: 55px;
-            background: #111;
+            top: 50px;
+            background: #161616;
             border: 2px solid #ff4d00;
             border-radius: 16px;
-            padding: 10px;
-            width: 190px;
-            box-shadow: 0 10px 30px #000;
+            padding: 8px;
+            width: 210px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 10001;
+            animation: fadeIn 0.15s ease-out;
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         .dropdown button {
             width: 100%;
-            margin: 4px 0;
+            margin: 3px 0;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: #fff;
+            text-align: left;
+            cursor: pointer;
+            font-family: "Commissioner", sans-serif;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .dropdown button:hover {
+            background: #ff4d00;
+        }
+
+        #authModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 20000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .authBox {
+            background: #161616;
+            border: 2px solid #ff4d00;
+            width: 100%;
+            max-width: 380px;
+            margin: 12vh auto;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            box-sizing: border-box;
+        }
+
+        .authBox h2 {
+            font-family: "Shrikhand", sans-serif;
+            color: #ff4d00;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .authBox input {
+            width: 100%;
+            box-sizing: border-box;
+            margin: 8px 0;
+            padding: 12px 14px;
+            background: #222;
+            border: 2px solid #333;
+            border-radius: 12px;
+            color: white;
+            font-family: "Commissioner", sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .authBox input:focus {
+            border-color: #ff4d00;
+        }
+
+        .authBox hr {
+            border: 0;
+            height: 1px;
+            background: #333;
+            margin: 18px 0;
+        }
+
+        .auth-github-btn {
+            width: 100%;
+            background: #24292e;
+            color: white;
+            border: 2px solid #444;
             padding: 12px;
             border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: "Commissioner", sans-serif;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+
+        .auth-github-btn:hover {
+            background: #2f363d;
+            border-color: #ff4d00;
         }
     </style>
 </head>
@@ -680,19 +756,19 @@
         <div class="authBox">
             <h2 id="authTitle">Login</h2>
 
-            <input id="authEmail" placeholder="Email">
+            <input id="authEmail" placeholder="Email address" type="email">
             <input id="authPassword" type="password" placeholder="Password">
 
-            <button class="standard" onclick="emailAuth()">Login</button>
+            <button class="standard" style="width:100%; margin-top: 6px;" onclick="emailAuth()">Continue</button>
 
             <hr>
 
-            <button class="standard" onclick="githubLogin()">
-                Login with GitHub
+            <button class="auth-github-btn" onclick="githubLogin()">
+                ⚡ Login with GitHub
             </button>
 
-            <button class="danger" onclick="closeAuth()">
-                Close
+            <button class="danger" style="width:100%; margin-top: 6px;" onclick="closeAuth()">
+                Cancel
             </button>
         </div>
     </div>
@@ -711,126 +787,87 @@
 
 
         async function setupAccount() {
-
             if (runningFromFile) return;
 
             const area = document.getElementById("accountArea");
-
-            area.innerHTML = `
-        <button class="account-btn">
-            Loading...
-        </button>
-    `;
-
+            area.innerHTML = `<button class="account-btn">Loading...</button>`;
 
             const {
-                data
+                data: sessionData
             } = await supabaseClient.auth.getSession();
 
-
-            if (!data.session) {
-
+            if (!sessionData.session) {
                 area.innerHTML = `
-            <button class="account-btn" onclick="openAuth('login')">
-                Login
-            </button>
-
-            <button class="account-btn" onclick="openAuth('signup')">
-                Sign Up
-            </button>
-        `;
-
+                    <button class="account-btn" onclick="openAuth('login')">Login</button>
+                    <button class="account-btn" onclick="openAuth('signup')">Sign Up</button>
+                `;
                 return;
             }
 
+            const user = sessionData.session.user;
 
-            const user = data.session.user;
-
-
-            // Get profile from database
-            const {
-                data: profile
+            // Fetch profile data safely with a fallback check
+            let {
+                data: profile,
+                error
             } = await supabaseClient
                 .from("profiles")
                 .select("*")
                 .eq("id", user.id)
-                .single();
+                .maybeSingle();
 
+            // If profile row doesn't exist yet, create a default one
+            if (!profile) {
+                const defaultUsername = user.user_metadata?.user_name || user.email.split("@")[0];
+                const {
+                    data: newProfile
+                } = await supabaseClient
+                    .from("profiles")
+                    .insert([{
+                        id: user.id,
+                        username: defaultUsername,
+                        role: "basic"
+                    }])
+                    .select()
+                    .single();
+                profile = newProfile;
+            }
 
             currentProfile = profile;
 
-
-            const avatar =
-                user.user_metadata?.avatar_url ||
-                "https://www.gravatar.com/avatar/?d=mp";
-
-
-            const username =
-                profile?.username ||
-                user.user_metadata?.user_name ||
-                user.email.split("@")[0];
-
-
-            const role =
-                profile?.role || "basic";
-
+            const avatar = user.user_metadata?.avatar_url || "https://www.gravatar.com/avatar/?d=mp";
+            const username = profile?.username || user.user_metadata?.user_name || user.email.split("@")[0];
+            const role = profile?.role || "basic";
 
             area.innerHTML = `
+                <div class="profile-menu">
+                    <button class="profile-btn" onclick="toggleProfileMenu()">
+                        <img class="profile-avatar" src="${avatar}">
+                        <span>${username} ${role === "admin" ? " ⭐" : ""}</span>
+                        <span style="font-size: 10px; opacity: 0.7;">▼</span>
+                    </button>
 
-    <div class="profile-menu">
-
-        <button class="profile-btn" onclick="toggleProfileMenu()">
-
-            <img 
-            class="profile-avatar"
-            src="${avatar}"
-            >
-
-            <span>
-                ${username}
-                ${role === "admin" ? " ⭐" : ""}
-            </span>
-
-            ▾
-
-        </button>
-
-
-        <div class="dropdown" id="profileDropdown">
-
-
-            <button onclick="openProfile()">
-                👤 Profile
-            </button>
-
-
-            <button>
-                🏷 Role: ${role}
-            </button>
-
-
-            ${
-                role === "admin"
-                ?
-                `<button onclick="adminPanel()">
-                    ⚙ Admin Panel
-                </button>`
-                :
-                ""
-            }
-
-
-            <button onclick="logout()">
-                🚪 Logout
-            </button>
-
-
-        </div>
-
-    </div>
-
-    `;
+                    <div class="dropdown" id="profileDropdown">
+                        <button onclick="openProfile()">👤 Profile</button>
+                        <button style="opacity: 0.7; cursor: default;">🏷 Role: <b>${role}</b></button>
+                        ${role === "admin" ? `<button onclick="adminPanel()">⚙ Admin Panel</button>` : ""}
+                        <hr style="border:0; height:1px; background:#222; margin:4px 0;">
+                        <button onclick="logout()" style="color: #ff4d00;">🚪 Logout</button>
+                    </div>
+                </div>
+            `;
         }
+
+        // Close dropdown when clicking outside of it
+        window.addEventListener('click', function(e) {
+            const dropdown = document.getElementById("profileDropdown");
+            const profileBtn = document.querySelector(".profile-btn");
+            if (dropdown && dropdown.style.display === "block") {
+                if (!dropdown.contains(e.target) && (!profileBtn || !profileBtn.contains(e.target))) {
+                    dropdown.style.display = "none";
+                }
+            }
+        });
 
 
 
