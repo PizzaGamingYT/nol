@@ -583,6 +583,62 @@
             border-radius: 12px;
             color: white;
         }
+
+        .profile-menu {
+            position: relative;
+        }
+
+        .profile-btn {
+            background: #222;
+            color: white;
+            border: 2px solid white;
+            padding: 8px 14px;
+            border-radius: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: "Commissioner";
+        }
+
+        .profile-btn:hover {
+            background: #ff4d00;
+        }
+
+        .profile-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 45px;
+            background: #111;
+            border: 2px solid #ff4d00;
+            border-radius: 14px;
+            padding: 8px;
+            width: 160px;
+            z-index: 30000;
+        }
+
+        .dropdown button {
+            width: 100%;
+            background: #222;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 3px 0;
+            font-family: "Commissioner";
+        }
+
+        .dropdown button:hover {
+            background: #ff4d00;
+        }
     </style>
 </head>
 
@@ -664,11 +720,41 @@
             } = await supabaseClient.auth.getSession();
 
             if (data.session) {
+
+                const user = data.session.user;
+
+                const avatar =
+                    user.user_metadata?.avatar_url ||
+                    "https://www.gravatar.com/avatar/?d=mp";
+
+                const name =
+                    user.user_metadata?.user_name ||
+                    user.email.split("@")[0];
+
                 area.innerHTML = `
-            <button class="account-btn" onclick="logout()">
-                Logout
+        <div class="profile-menu">
+
+            <button class="profile-btn" onclick="toggleProfileMenu()">
+                <img class="profile-avatar" src="${avatar}">
+                ${name}
+                ▾
             </button>
-        `;
+
+            <div class="dropdown" id="profileDropdown">
+
+                <button onclick="openProfile()">
+                    Profile
+                </button>
+
+                <button onclick="logout()">
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
             } else {
                 area.innerHTML = `
     <button class="account-btn" onclick="openAuth('login')">
@@ -709,6 +795,21 @@
         async function logout() {
             await supabaseClient.auth.signOut();
             location.reload();
+        }
+
+        function toggleProfileMenu() {
+            const menu = document.getElementById("profileDropdown");
+
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
+
+
+        function openProfile() {
+            showTab("profile");
         }
 
         function openAuth(type) {
@@ -755,13 +856,6 @@
                 else location.reload();
 
             }
-        }
-
-
-        async function githubLogin() {
-            await supabaseClient.auth.signInWithOAuth({
-                provider: "github"
-            });
         }
 
         setupAccount();
@@ -1135,7 +1229,11 @@ Nol’sGames Terms of Use & Privacy Policy
             document.getElementById("topbar").appendChild(downloadBtn);
         }
 
-        function showTab(tab) {
+        async function showTab(tab) {
+            const {
+                data: sessionData
+            } = await supabaseClient.auth.getSession();
+            const user = sessionData.session?.user;
             const main = document.getElementById('main');
             const sidebar = document.getElementById('sidebar');
             if (tab === 'games') {
@@ -1145,6 +1243,37 @@ Nol’sGames Terms of Use & Privacy Policy
             }
             document.body.classList.remove('withSidebar');
             sidebar.innerHTML = '';
+            if (tab === "profile") {
+
+                const main = document.getElementById("main");
+
+                main.innerHTML = `
+        <h2>Your Profile</h2>
+
+        <div class="download-card">
+
+            <img 
+            src="${user?.user_metadata?.avatar_url || 'https://www.gravatar.com/avatar/?d=mp'}"
+            class="profile-avatar"
+            >
+
+            <h3>
+            ${user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User"}
+            </h3>
+
+            <p>
+            ${user?.email || ""}
+            </p>
+
+            <button class="standard">
+                Change Profile Settings
+            </button>
+
+        </div>
+    `;
+
+                return;
+            }
             if (tab === "downloads") {
                 main.innerHTML = `
         <div class="download-page">
