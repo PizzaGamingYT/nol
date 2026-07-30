@@ -3,6 +3,7 @@ window.files = [
 "ngcloverpit",
 "nghollowknight",
 "nghollowknightsilksong",
+"ngBuckshotRoulette",
 "cl1",
 "cl100RoomsOfEnemies",
 "cl10bullets",
