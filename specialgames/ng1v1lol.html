@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>1v1.LOL</title>
+    <link rel="icon" href="https://onecloudcdn.site/favicon.ico">
+    <link rel="stylesheet" href="https://onecloudcdn.site/style/style.css">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        #gameContainer {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            background: #000;
+        }
+    </style>
+    <script>
+        ! function() {
+            console.log = function() {};
+            console.info = function() {};
+            console.debug = function() {};
+        }();
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-remote-config.js"></script>
+    <script src="https://onecloudcdn.site/server-mock.js"></script>
+    <script src="https://onecloudcdn.site/UnityLoader.js"></script>
+    <script src="https://onecloudcdn.site/UnityProgress.js"></script>
+</head>
+
+<body>
+    <div class="webgl-content">
+        <div id="gameContainer"></div>
+    </div>
+    <script src="https://onecloudcdn.site/firebase.js"></script>
+    <script src="https://onecloudcdn.site/login.js"></script>
+    <script src="https://onecloudcdn.site/firebase-config.js"></script>
+    <script>
+        var gameInstance = UnityLoader.instantiate("gameContainer", "https://onecloudcdn.site/build.json", {
+            onProgress: UnityProgress,
+            Module: {
+                onRuntimeInitialized: function() {
+                    UnityProgress(gameInstance, "complete")
+                }
+            }
+        });
+        window.unityInstance = gameInstance;
+        initializeFireBase();
+        initRemoteConfig();
+
+        function showAds() {}
+
+        function requestNewAd() {
+            unityAdFinishedCallback();
+        }
+
+        function unityAdFinishedCallback() {
+            try {
+                if (gameInstance) gameInstance.SendMessage("MainMenuManagers", "OnWebCallback");
+            } catch (e) {}
+        }
+
+        function onUnityReady() {
+            if (typeof sendConfig === "function") sendConfig();
+        }
+    </script>
+</body>
+
+</html>
