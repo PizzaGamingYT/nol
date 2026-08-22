@@ -637,7 +637,7 @@
             border: 2px solid;
             border-radius: 14px;
 
-            padding: 13px 16px 17px;
+            padding: 13px 35px 17px 16px;
 
             font-family: "Commissioner", sans-serif;
             font-weight: 600;
@@ -648,6 +648,8 @@
             box-shadow: 0 10px 30px #0008;
 
             animation: ngNoticeIn .35s ease forwards;
+
+            pointer-events: auto;
         }
 
         .ngNotice.success {
@@ -806,6 +808,83 @@
         .ngConfirm button:hover {
             filter: brightness(1.15);
         }
+
+        .ngNoticeClose {
+            position: absolute;
+            top: 5px;
+            right: 7px;
+
+            background: none;
+            border: none;
+
+            color: #888;
+            font-size: 20px;
+            line-height: 1;
+
+            padding: 2px 5px;
+            cursor: pointer;
+
+            font-family: Arial, sans-serif;
+        }
+
+        .ngNoticeClose:hover {
+            color: #fff;
+        }
+
+        #adminIndicator {
+            display: none;
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            color: #fff;
+            font-family: "Commissioner", sans-serif;
+            font-weight: 700;
+        }
+
+        .no-transition+.ngSlider {
+            transition: none !important;
+        }
+
+        .no-transition+.ngSlider::before {
+            transition: none !important;
+        }
+
+        .password-wrap {
+            position: relative;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .password-wrap input {
+            width: 100%;
+            padding-right: 75px;
+            margin-bottom: 0;
+        }
+
+        #showPasswordBtn {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            background: transparent;
+            color: #aaa;
+            border: none;
+
+            padding: 6px 8px;
+            margin: 0;
+
+            cursor: pointer;
+            font-family: "Commissioner", sans-serif;
+            font-weight: 600;
+        }
+
+        #showPasswordBtn:hover {
+            color: #fff;
+            filter: none;
+        }
     </style>
 </head>
 
@@ -818,6 +897,7 @@
         <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">Terminal</button>
         <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.biyfduhv1w7','_blank')">Events</button>
         <button class="tab" onclick="showTab('settings')">Settings</button>
+        <span id="adminIndicator">Administrator</span>
     </div>
     <div id="ticker">
         <div id="tickerText"></div>
@@ -833,14 +913,22 @@
     </div>
     <div id="adminLoginModal">
         <div class="adminLoginBox">
-            <h2>Administrator Login</h2>
+            <form id="adminLoginForm" onsubmit="submitAdminLogin(); return false;">
+                <h2>Administrator Login</h2>
 
-            <input type="password" id="adminPassword" placeholder="Administrator Password" autocomplete="current-password">
+                <div class="password-wrap">
+                    <input type="password" id="adminPassword" name="password" placeholder="Administrator Password" autocomplete="current-password">
 
-            <div id="adminLoginStatus"></div>
+                    <button type="button" id="showPasswordBtn" onclick="toggleAdminPassword()" aria-label="Show password">
+                        Show
+                    </button>
+                </div>
 
-            <button onclick="submitAdminLogin()">Login</button>
-            <button class="adminCancel" onclick="closeAdminLogin()">Cancel</button>
+                <div id="adminLoginStatus"></div>
+
+                <button type="submit">Login</button>
+                <button type="button" class="adminCancel" onclick="closeAdminLogin()">Cancel</button>
+            </form>
         </div>
     </div>
     <div id="presetModal">
@@ -862,14 +950,6 @@
         let isAdmin = false;
 
         function alertNotice(type, message) {
-            if (type === "success") {
-                console.log(message);
-            } else if (type === "warning") {
-                console.warn(message);
-            } else if (type === "alert") {
-                console.error(message);
-            }
-
             const container = document.getElementById('noticeContainer');
 
             if (!container) return;
@@ -880,16 +960,21 @@
             let icon = '';
 
             if (type === 'success') {
-                icon = '●';
+                icon = '●︎';
+                console.log(message);
             } else if (type === 'warning') {
-                icon = '⯅';
+                icon = '▲︎';
+                console.warn(message);
             } else if (type === 'alert') {
-                icon = '⯃';
+                icon = '●︎';
+                console.error(message);
             } else {
                 return;
             }
 
             notice.innerHTML = `
+        <button class="ngNoticeClose" aria-label="Close">×</button>
+
         <div class="ngNoticeContent">
             <span class="ngNoticeIcon">${icon}</span>
             <span>${message}</span>
@@ -900,13 +985,44 @@
 
             container.appendChild(notice);
 
-            setTimeout(() => {
+            let closed = false;
+
+            const closeNotice = () => {
+                if (closed) return;
+                closed = true;
+
                 notice.classList.add('closing');
 
                 setTimeout(() => {
                     notice.remove();
                 }, 350);
-            }, 3000);
+            };
+
+            notice.querySelector('.ngNoticeClose').onclick = closeNotice;
+
+            setTimeout(closeNotice, 3000);
+        }
+
+        function updateEruda() {
+            if (isAdmin) {
+                if (!document.getElementById('erudaScript')) {
+                    const script = document.createElement('script');
+                    script.id = 'erudaScript';
+                    script.src = 'https://cdn.jsdelivr.net/npm/eruda';
+                    script.onload = () => {
+                        if (window.eruda) {
+                            eruda.init();
+                        }
+                    };
+                    document.head.appendChild(script);
+                }
+            } else {
+                if (window.eruda) {
+                    eruda.destroy();
+                }
+
+                document.getElementById('erudaScript')?.remove();
+            }
         }
 
         function alertConfirm(message, onConfirm) {
@@ -947,6 +1063,29 @@
                     onConfirm();
                 }
             };
+        }
+
+        function toggleAdminPassword() {
+            const passwordInput = document.getElementById('adminPassword');
+            const button = document.getElementById('showPasswordBtn');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                button.textContent = 'Hide';
+                button.setAttribute('aria-label', 'Hide password');
+            } else {
+                passwordInput.type = 'password';
+                button.textContent = 'Show';
+                button.setAttribute('aria-label', 'Show password');
+            }
+        }
+
+        function updateAdminIndicator() {
+            const indicator = document.getElementById('adminIndicator');
+
+            if (!indicator) return;
+
+            indicator.style.display = isAdmin ? 'block' : 'none';
         }
 
         async function adminLogin() {
@@ -991,6 +1130,9 @@
                 adminToken = data.token;
                 isAdmin = true;
 
+                updateAdminIndicator();
+                updateEruda();
+
                 closeAdminLogin();
 
                 alertNotice("success", "Administrator login successful.");
@@ -999,6 +1141,7 @@
             } catch (err) {
                 console.error("Admin login failed:", err);
                 alertNotice("alert", "Unable to connect to Login API. Please check your internet connection.");
+                status.textContent = '';
             }
         }
 
@@ -1028,12 +1171,16 @@
 
                 isAdmin = true;
                 return true;
+                updateAdminIndicator();
+                updateEruda();
             } catch (err) {
                 console.error("Admin verification failed:", err);
                 alertNotice("alert", "Admin verification timed out or failed.");
                 adminToken = null;
                 isAdmin = false;
                 return false;
+                updateAdminIndicator();
+                updateEruda();
             }
         }
 
@@ -1152,6 +1299,8 @@ Nol’sGames Terms of Use & Privacy Policy
         if (!localStorage.getItem('toc')) setTimeout(openToc, 500);
         let files = [];
         let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        favorites = favorites.filter(f => !f.toLowerCase().startsWith('dv'));
+        localStorage.setItem('favorites', JSON.stringify(favorites));
         async function loadGameList() {
             try {
                 const res = await fetch('https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/list.js?t=' + Date.now());
@@ -1205,6 +1354,7 @@ Nol’sGames Terms of Use & Privacy Policy
                 sec.innerHTML = '<h2>Favorites</h2>';
 
                 favorites
+                    .filter(f => !f.toLowerCase().startsWith('dv'))
                     .filter(f => f.toLowerCase().includes(filter))
                     .forEach(f => sec.appendChild(createGameBtn(f)));
 
@@ -1317,28 +1467,31 @@ Nol’sGames Terms of Use & Privacy Policy
             text.title = f;
 
             const star = document.createElement('span');
-            star.className = 'star ' + (favorites.includes(f) ? 'on' : 'off');
 
-            star.style.flexShrink = "0";
-            star.style.marginLeft = "12px";
+            if (!isDV) {
+                star.className = 'star ' + (favorites.includes(f) ? 'on' : 'off');
 
-            star.onclick = (e) => {
-                e.stopPropagation();
+                star.style.flexShrink = "0";
+                star.style.marginLeft = "12px";
 
-                const fav = favorites.includes(f);
+                star.onclick = (e) => {
+                    e.stopPropagation();
 
-                if (fav) {
-                    favorites = favorites.filter(x => x !== f);
-                    star.classList.replace("on", "off");
-                    btn.classList.remove("fav");
-                } else {
-                    favorites.push(f);
-                    star.classList.replace("off", "on");
-                    btn.classList.add("fav");
-                }
+                    const fav = favorites.includes(f);
 
-                localStorage.setItem("favorites", JSON.stringify(favorites));
-            };
+                    if (fav) {
+                        favorites = favorites.filter(x => x !== f);
+                        star.classList.replace("on", "off");
+                        btn.classList.remove("fav");
+                    } else {
+                        favorites.push(f);
+                        star.classList.replace("off", "on");
+                        btn.classList.add("fav");
+                    }
+
+                    localStorage.setItem("favorites", JSON.stringify(favorites));
+                };
+            }
 
 
             btn.onclick = () => {
@@ -1525,9 +1678,23 @@ Nol’sGames Terms of Use & Privacy Policy
                 </div>
 
                 <button class="download-button"
-				    onclick="window.open('https://drive.usercontent.google.com/u/0/uc?id=1IVVFFKsc6oOxVJre4ZL3UUvjjfbvdGzW&export=download','_blank'); alertNotice('success', 'Nol\\'sGames downloaded.');">
-				    ⬇ Download Latest Version
-				</button>
+    onclick="
+        const downloadWindow = window.open(
+            'https://drive.usercontent.google.com/u/0/uc?id=1IVVFFKsc6oOxVJre4ZL3UUvjjfbvdGzW&export=download',
+            '_blank'
+        );
+
+        if (downloadWindow) {
+            const handleReturn = () => {
+                alertNotice('success', &quot;Nol'sGames downloaded.&quot;);
+                window.removeEventListener('focus', handleReturn);
+            };
+
+            window.addEventListener('focus', handleReturn, { once: true });
+        }
+    ">
+    ↓︎ Download Latest Version
+</button>
 
                 <div class="download-info">
                     <div>
@@ -1594,8 +1761,16 @@ Nol’sGames Terms of Use & Privacy Policy
             setTimeout(() => {
                 const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
                 const toggle = document.getElementById('autoRefreshToggle');
+
                 if (toggle) {
+                    toggle.classList.add('no-transition');
                     toggle.checked = settings.autoRefresh !== false;
+
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            toggle.classList.remove('no-transition');
+                        });
+                    });
                 }
             }, 0);
         }
@@ -1706,6 +1881,8 @@ Nol’sGames Terms of Use & Privacy Policy
             alertConfirm("Are you sure you want to sign out of Administrator mode?", () => {
                 adminToken = null;
                 isAdmin = false;
+                updateAdminIndicator();
+                updateEruda();
 
                 alertNotice("success", "Administrator signed out.");
 
