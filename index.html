@@ -885,10 +885,131 @@
             color: #fff;
             filter: none;
         }
+
+        .searchBox {
+            position: relative;
+            width: 100%;
+        }
+
+        #search {
+            padding-right: 45px;
+        }
+
+        #clearSearch {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 32px;
+            height: 32px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: #333;
+            color: #fff;
+
+            font-size: 22px;
+            line-height: 1;
+
+            cursor: pointer;
+
+            display: none;
+        }
+
+        #clearSearch:hover {
+            background: #ff4d00;
+        }
+
+        .noResults {
+            text-align: center;
+            padding: 50px 20px;
+            color: #888;
+        }
+
+        .noResults h2 {
+            color: #fff;
+        }
+
+        #loadingScreen {
+            position: fixed;
+            inset: 0;
+            z-index: 50000;
+
+            background: #111;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+        }
+
+        #loadingScreen img {
+            width: min(400px, 70vw);
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        #loadingScreen h1 {
+            margin: 0;
+            font-family: "Shrikhand", sans-serif;
+        }
+
+        #loadingScreen p {
+            color: #aaa;
+        }
+
+        #loadingScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease;
+        }
+
+        .settings-page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .settings-page>h2 {
+            font-size: 32px;
+            margin-bottom: 25px;
+        }
+
+        .settings-section {
+            background: #1a1a1a;
+            border: 2px solid #222;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .settings-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #ff4d00;
+        }
+
+        .settings-section .standard,
+        .settings-section .danger {
+            margin: 5px;
+        }
+
+        .settings-section .ngToggleWrap {
+            margin: 10px 5px;
+        }
     </style>
 </head>
 
 <body>
+    <div id="loadingScreen">
+        <img src="https://nolsgames.xyz/logo.png" alt="Nol'sGames">
+        <h1>Loading Nol'sGames...</h1>
+        <p>Loading game library...</p>
+    </div>
     <div id="noticeContainer"></div>
     <div id="topbar">
         <img id="logo" src="https://nolsgames.xyz/logo.png">
@@ -1170,17 +1291,17 @@
                 }
 
                 isAdmin = true;
-                return true;
                 updateAdminIndicator();
                 updateEruda();
+                return true;
             } catch (err) {
                 console.error("Admin verification failed:", err);
                 alertNotice("alert", "Admin verification timed out or failed.");
                 adminToken = null;
                 isAdmin = false;
-                return false;
                 updateAdminIndicator();
                 updateEruda();
+                return false;
             }
         }
 
@@ -1308,8 +1429,17 @@ Nol’sGames Terms of Use & Privacy Policy
                 eval(js);
                 files = window.files || [];
                 build();
+                const loadingScreen = document.getElementById("loadingScreen");
+
+                if (loadingScreen) {
+                    loadingScreen.classList.add("hidden");
+
+                    setTimeout(() => {
+                        loadingScreen.remove();
+                    }, 300);
+                }
             } catch (err) {
-                alertNotice("alert","Could not load games. Please check your internet connection.");
+                alertNotice("alert", "Could not load games. Please check your internet connection.");
                 document.getElementById('main').innerHTML = `
       
 																																				<h2>Failed to load games.</h2>
@@ -1321,6 +1451,7 @@ Nol’sGames Terms of Use & Privacy Policy
         const runningFromFile = location.protocol === "file:";
 
         function build(filter = '') {
+            let gameCount = 0;
             document.body.classList.add('withSidebar');
             const main = document.getElementById('main');
             const sidebar = document.getElementById('sidebar');
@@ -1342,21 +1473,42 @@ Nol’sGames Terms of Use & Privacy Policy
             }
 
 
-            main.innerHTML = `<div id="searchWrap"><input id="search" placeholder="Search games..." value="${filter}"></div>`;
+            main.innerHTML = `
+    <div id="searchWrap">
+        <div class="searchBox">
+            <input id="search" placeholder="Search games..." value="${filter}">
+            <button id="clearSearch" title="Clear search">×</button>
+        </div>
+    </div>
+`;
             const search = document.getElementById("search");
             search.addEventListener("input", (e) => {
                 build(e.target.value.toLowerCase());
             });
+            const clearSearch = document.getElementById("clearSearch");
+
+            function updateClearButton() {
+                clearSearch.style.display = search.value ? "block" : "none";
+            }
+
+            updateClearButton();
+
+            clearSearch.onclick = () => {
+                build("");
+            };
             if (favorites.length) {
                 const sec = document.createElement('div');
                 sec.className = 'section';
                 sec.id = 'favoritesSection';
-                sec.innerHTML = '<h2>Favorites</h2>';
+                sec.innerHTML = `<h2>Favorites (${favorites.length})</h2>`;
 
                 favorites
                     .filter(f => !f.toLowerCase().startsWith('dv'))
                     .filter(f => f.toLowerCase().includes(filter))
-                    .forEach(f => sec.appendChild(createGameBtn(f)));
+                    .forEach(f => {
+                        sec.appendChild(createGameBtn(f));
+                        gameCount++;
+                    });
 
                 if (sec.children.length > 1) main.appendChild(sec);
             }
@@ -1376,7 +1528,10 @@ Nol’sGames Terms of Use & Privacy Policy
 
                     adminGames
                         .filter(f => f.toLowerCase().includes(filter))
-                        .forEach(f => sec.appendChild(createGameBtn(f)));
+                        .forEach(f => {
+                            sec.appendChild(createGameBtn(f));
+                            gameCount++;
+                        });
 
                     if (sec.children.length > 1) {
                         main.appendChild(sec);
@@ -1420,6 +1575,7 @@ Nol’sGames Terms of Use & Privacy Policy
                     ) {
                         has = true;
                         sec.appendChild(createGameBtn(f));
+                        gameCount++;
                     }
                 });
                 if (has) {
@@ -1435,6 +1591,18 @@ Nol’sGames Terms of Use & Privacy Policy
                     sidebar.appendChild(b);
                 }
             });
+            if (filter && gameCount === 0) {
+                const noResults = document.createElement("div");
+                noResults.className = "noResults";
+
+                noResults.innerHTML = `
+        <h2>No games found</h2>
+        <p>Try a different search.</p>
+    `;
+
+                main.appendChild(noResults);
+            }
+
             search.focus();
             search.setSelectionRange(search.value.length, search.value.length);
         }
@@ -1726,53 +1894,75 @@ Nol’sGames Terms of Use & Privacy Policy
             }
             if (tab === 'settings') {
                 main.innerHTML = `
- 
-																																					<h2>Settings</h2>
-																																					<button class="standard" onclick="openPreset()">Tab Settings</button>
-																																					<br>
-																																						<br>
-																																							<button class="standard" onclick="openToc()">Terms And Conditions & Privacy Policy</button>
-																																							<br>
-																																								<br><br><br>
-																												
+        <div class="settings-page">
 
-    <button class="standard" onclick="isAdmin ? adminLogout() : adminLogin()">
-    ${isAdmin ? 'Administrator Signout' : 'Administrator Login'}
-</button>
-    <br>
-    <br>
-																																									<br>
-																																										<br>
-																																											<button class="standard" onclick="exportNGS()">Download Game Data (.ngs)</button>
-																																											<br>
-																																												<br>
-																																													<button class="standard" onclick="document.getElementById('ngsUpload').click()">
- Upload Game Data (.ngs)
- </button>
-																																													<input
-   type="file"
-   id="ngsUpload"
-   accept=".ngs"
-   style="display:none"
-   onchange="importNGS(this.files[0])"
- >
-																																														<br>
-																																															<br>
-																																																<br><br>
-																																																	<label class="ngToggleWrap">
-																																																		<span>Auto Refresh Daily</span>
-																																																		<div class="ngSwitch">
-																																																			<input type="checkbox" id="autoRefreshToggle" onchange="toggleAutoRefresh(this.checked)" >
-																																																				<span class="ngSlider"></span>
-																																																			</div>
-																																																		</label>
-																																																		<br>
-																																																			<br>
-																																																				<br><br>
-																																																					<button class="danger" onclick="clearData()">Clear Game Data</button>
-																																																					<br>
-																																																						<br>
- `;
+            <h2>Settings</h2>
+
+            <div class="settings-section">
+                <h3>Appearance</h3>
+
+                <button class="standard" onclick="openPreset()">
+                    Tab Settings
+                </button>
+            </div>
+
+            <div class="settings-section">
+                <h3>Legal</h3>
+
+                <button class="standard" onclick="openToc()">
+                    Terms & Conditions & Privacy Policy
+                </button>
+            </div>
+
+            <div class="settings-section">
+                <h3>Game Data</h3>
+
+                <button class="standard" onclick="exportNGS()">
+                    Download Game Data (.ngs)
+                </button>
+
+                <button class="standard"
+                    onclick="document.getElementById('ngsUpload').click()">
+                    Upload Game Data (.ngs)
+                </button>
+
+                <input
+                    type="file"
+                    id="ngsUpload"
+                    accept=".ngs"
+                    style="display:none"
+                    onchange="importNGS(this.files[0])"
+                >
+
+                <label class="ngToggleWrap">
+                    <span>Auto Refresh Daily</span>
+
+                    <div class="ngSwitch">
+                        <input
+                            type="checkbox"
+                            id="autoRefreshToggle"
+                            onchange="toggleAutoRefresh(this.checked)"
+                        >
+                        <span class="ngSlider"></span>
+                    </div>
+                </label>
+
+                <button class="danger" onclick="clearData()">
+                    Clear Game Data
+                </button>
+            </div>
+
+            <div class="settings-section">
+                <h3>Administrator</h3>
+
+                <button class="standard"
+                    onclick="isAdmin ? adminLogout() : adminLogin()">
+                    ${isAdmin ? 'Administrator Signout' : 'Administrator Login'}
+                </button>
+            </div>
+
+        </div>
+    `;
             }
             setTimeout(() => {
                 const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
@@ -1905,6 +2095,16 @@ Nol’sGames Terms of Use & Privacy Policy
                 showTab('games');
             });
         }
+
+        window.addEventListener("error", (event) => {
+            console.error(event.error || event.message);
+            alertNotice("alert", "Something went wrong. Check the console for details.");
+        });
+
+        window.addEventListener("unhandledrejection", (event) => {
+            console.error(event.reason);
+            alertNotice("alert", "Something went wrong. Check the console for details.");
+        });
 
 
 
