@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Page Not Found - Nol'sGames</title>
+    <link rel="icon" href="https://nolsgames.xyz/favicon.ico?v=2">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=Shrikhand&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Commissioner", sans-serif;
+            background: #111;
+            color: #fff;
+        }
+
+        #topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            background: #ff4d00;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9998;
+        }
+
+        #logo {
+            height: 36px;
+        }
+
+        .tab {
+            background: #ff4d00;
+            border: 0;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: "Shrikhand";
+            -webkit-text-stroke: 7.5px black;
+            paint-order: stroke fill;
+        }
+
+        .tab:hover {
+            background: #222;
+        }
+
+        .error {
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 20px 40px;
+        }
+
+        .error h1 {
+            font-size: 80px;
+            margin: 0;
+            font-family: "Shrikhand";
+            -webkit-text-stroke: 4px #000;
+            paint-order: stroke fill;
+        }
+
+        .error h2 {
+            margin: 10px 0;
+            font-size: 28px;
+        }
+
+        .error p {
+            opacity: .75;
+            margin-bottom: 25px;
+        }
+
+        .home-button {
+            background: #ff4d00;
+            color: #fff;
+            border: none;
+            padding: 13px 22px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-family: "Commissioner", sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .home-button:hover {
+            background: #222;
+        }
+
+        @media (max-width: 600px) {
+            #topbar {
+                gap: 5px;
+            }
+
+            #logo {
+                height: 30px;
+            }
+
+            .tab {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .error h1 {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="topbar">
+        <img id="logo" src="https://nolsgames.xyz/logo.png" alt="Nol'sGames">
+
+        <button class="tab" onclick="window.location.href='https://nolsgames.xyz'">
+            Home
+        </button>
+
+        <button class="tab"
+            onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">
+            Terminal
+        </button>
+    </div>
+
+    <main class="error">
+        <h1>404</h1>
+        <h2>Page Not Found</h2>
+        <p>Looks like this page doesn't exist.</p>
+
+        <button class="home-button" onclick="window.location.href='https://nolsgames.xyz'">
+            ← Back to Home
+        </button>
+    </main>
+
+</body>
+
+</html>
