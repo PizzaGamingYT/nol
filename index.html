@@ -897,7 +897,7 @@
         <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">Terminal</button>
         <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.biyfduhv1w7','_blank')">Events</button>
         <button class="tab" onclick="showTab('settings')">Settings</button>
-        <span id="adminIndicator">Administrator</span>
+        <span id="adminIndicator">⚒︎ Administrator</span>
     </div>
     <div id="ticker">
         <div id="tickerText"></div>
@@ -1309,7 +1309,7 @@ Nol’sGames Terms of Use & Privacy Policy
                 files = window.files || [];
                 build();
             } catch (err) {
-                console.error('Failed to load game list:', err);
+                alertNotice("alert","Could not load games. Please check your internet connection.");
                 document.getElementById('main').innerHTML = `
       
 																																				<h2>Failed to load games.</h2>
@@ -1383,7 +1383,7 @@ Nol’sGames Terms of Use & Privacy Policy
 
                         const adminBtn = document.createElement('button');
                         adminBtn.className = 'sidebar-btn';
-                        adminBtn.textContent = '⚒︎';
+                        adminBtn.textContent = '⚒︎︎';
 
                         adminBtn.onclick = () => {
                             document.getElementById('adminSection')?.scrollIntoView({
@@ -1504,13 +1504,29 @@ Nol’sGames Terms of Use & Privacy Policy
                     `https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/UGS-Files/${encoded}?t=${Date.now()}`;
 
                 fetch(url)
-                    .then(r => r.text())
+                    .then(r => {
+                        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                        return r.text();
+                    })
                     .then(t => {
                         const w = window.open('about:blank', '_blank');
-                        if (w) {
-                            w.document.open();
-                            w.document.write(t);
-                            w.document.close();
+
+                        if (!w) {
+                            alertNotice("warning", "Game could not open. Please allow popups for this website.");
+                            return;
+                        }
+
+                        w.document.open();
+                        w.document.write(t);
+                        w.document.close();
+                    })
+                    .catch(err => {
+                        console.error(err);
+
+                        if (!navigator.onLine) {
+                            alertNotice("warning", "Game could not be loaded. Please check your internet connection.");
+                        } else {
+                            alertNotice("alert", "Game could not be loaded. Please try again.");
                         }
                     });
             };
