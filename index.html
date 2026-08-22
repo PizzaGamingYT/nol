@@ -18,7 +18,6 @@
     <meta name="keywords" content="games, browser games, html5 games, nolsgames, nols games, online games">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://nolsgames.xyz">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
             margin: 0;
@@ -532,10 +531,286 @@
         .toc-link:hover {
             text-decoration: underline;
         }
+
+        #adminLoginModal {
+            position: fixed;
+            inset: 0;
+            background: #000b;
+            display: none;
+            z-index: 12000;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .adminLoginBox {
+            width: 400px;
+            max-width: calc(100% - 40px);
+            box-sizing: border-box;
+
+            background: #111;
+            border: 2px solid #ff4d00;
+            border-radius: 16px;
+            padding: 25px;
+
+            box-shadow: 0 15px 50px #000;
+        }
+
+        .adminLoginBox h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .adminLoginBox input {
+            width: 100%;
+            box-sizing: border-box;
+
+            padding: 14px;
+            margin-bottom: 10px;
+
+            background: #222;
+            color: #fff;
+
+            border: 2px solid #222;
+            border-radius: 12px;
+
+            font-family: "Commissioner", sans-serif;
+        }
+
+        .adminLoginBox input:focus {
+            outline: none;
+            border-color: #ff4d00;
+        }
+
+        .adminLoginBox button {
+            background: #ff4d00;
+            color: #fff;
+
+            border: none;
+            border-radius: 12px;
+
+            padding: 12px 20px;
+            margin: 5px;
+
+            cursor: pointer;
+            font-family: "Commissioner", sans-serif;
+            font-weight: bold;
+        }
+
+        .adminLoginBox button:hover {
+            filter: brightness(1.1);
+        }
+
+        .adminLoginBox .adminCancel {
+            background: #222;
+        }
+
+        #adminLoginStatus {
+            min-height: 20px;
+            margin-bottom: 10px;
+            color: #ff4d00;
+        }
+
+        #noticeContainer {
+            position: fixed;
+            top: 95px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20000;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+
+            pointer-events: none;
+        }
+
+        .ngNotice {
+            width: 360px;
+            max-width: calc(100vw - 30px);
+            box-sizing: border-box;
+
+            background: #222;
+            color: #fff;
+
+            border: 2px solid;
+            border-radius: 14px;
+
+            padding: 13px 16px 17px;
+
+            font-family: "Commissioner", sans-serif;
+            font-weight: 600;
+
+            position: relative;
+            overflow: hidden;
+
+            box-shadow: 0 10px 30px #0008;
+
+            animation: ngNoticeIn .35s ease forwards;
+        }
+
+        .ngNotice.success {
+            border-color: #22c55e;
+        }
+
+        .ngNotice.warning {
+            border-color: #ff8a00;
+        }
+
+        .ngNotice.alert {
+            border-color: #ff3333;
+        }
+
+        .ngNoticeContent {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ngNoticeIcon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .ngNotice.success .ngNoticeIcon {
+            color: #22c55e;
+        }
+
+        .ngNotice.warning .ngNoticeIcon {
+            color: #ff8a00;
+        }
+
+        .ngNotice.alert .ngNoticeIcon {
+            color: #ff3333;
+        }
+
+        .ngNoticeBar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+
+            height: 4px;
+            width: 100%;
+
+            transform-origin: left;
+            animation: ngNoticeDecay 3s linear forwards;
+        }
+
+        .ngNotice.success .ngNoticeBar {
+            background: #22c55e;
+        }
+
+        .ngNotice.warning .ngNoticeBar {
+            background: #ff8a00;
+        }
+
+        .ngNotice.alert .ngNoticeBar {
+            background: #ff3333;
+        }
+
+        .ngNotice.closing {
+            animation: ngNoticeOut .35s ease forwards;
+        }
+
+        @keyframes ngNoticeIn {
+            from {
+                transform: translateY(-40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes ngNoticeOut {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes ngNoticeDecay {
+            from {
+                transform: scaleX(1);
+            }
+
+            to {
+                transform: scaleX(0);
+            }
+        }
+
+        .ngConfirm {
+            width: 360px;
+            max-width: calc(100vw - 30px);
+            box-sizing: border-box;
+
+            background: #222;
+            color: #fff;
+
+            border: 2px solid #ff4d00;
+            border-radius: 14px;
+
+            padding: 16px;
+
+            font-family: "Commissioner", sans-serif;
+
+            box-shadow: 0 10px 30px #0008;
+
+            pointer-events: auto;
+
+            animation: ngNoticeIn .35s ease forwards;
+        }
+
+        .ngConfirmTitle {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .ngConfirmButtons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .ngConfirm button {
+            border: none;
+            border-radius: 10px;
+
+            padding: 9px 16px;
+
+            cursor: pointer;
+
+            font-family: "Commissioner", sans-serif;
+            font-weight: 700;
+        }
+
+        .ngConfirmYes {
+            background: #ff4d00;
+            color: #fff;
+        }
+
+        .ngConfirmNo {
+            background: #333;
+            color: #fff;
+        }
+
+        .ngConfirm button:hover {
+            filter: brightness(1.15);
+        }
     </style>
 </head>
 
 <body>
+    <div id="noticeContainer"></div>
     <div id="topbar">
         <img id="logo" src="https://nolsgames.xyz/logo.png">
         <button class="tab" onclick="showTab('games')">Games</button>
@@ -556,6 +831,18 @@
     <div id="tocModal">
         <div class="modal" id="tocContent"></div>
     </div>
+    <div id="adminLoginModal">
+        <div class="adminLoginBox">
+            <h2>Administrator Login</h2>
+
+            <input type="password" id="adminPassword" placeholder="Administrator Password" autocomplete="current-password">
+
+            <div id="adminLoginStatus"></div>
+
+            <button onclick="submitAdminLogin()">Login</button>
+            <button class="adminCancel" onclick="closeAdminLogin()">Cancel</button>
+        </div>
+    </div>
     <div id="presetModal">
         <div class="presetBox">
             <h3>Tab Settings</h3>
@@ -570,12 +857,184 @@
         </div>
     </div>
     <script>
-        // SUPABASE
-        const supabaseClient = supabase.createClient(
-            "https://akhqtuievksmpvpaziok.supabase.co",
-            "sb_publishable_dWiAEG0oO9A1EPWyqC_i_A_Wdo9PvH-"
-        );
-        // SUPABASE END
+        const API_URL = "https://awkward-angeline-n-gs-c66a8b94.koyeb.app";
+        let adminToken = null;
+        let isAdmin = false;
+
+        function alertNotice(type, message) {
+            const container = document.getElementById('noticeContainer');
+
+            if (!container) return;
+
+            const notice = document.createElement('div');
+            notice.className = `ngNotice ${type}`;
+
+            let icon = '';
+
+            if (type === 'success') {
+                icon = '●';
+            } else if (type === 'warning') {
+                icon = '⯅';
+            } else if (type === 'alert') {
+                icon = '⯃';
+            } else {
+                return;
+            }
+
+            notice.innerHTML = `
+        <div class="ngNoticeContent">
+            <span class="ngNoticeIcon">${icon}</span>
+            <span>${message}</span>
+        </div>
+
+        <div class="ngNoticeBar"></div>
+    `;
+
+            container.appendChild(notice);
+
+            setTimeout(() => {
+                notice.classList.add('closing');
+
+                setTimeout(() => {
+                    notice.remove();
+                }, 350);
+            }, 3000);
+        }
+
+        function alertConfirm(message, onConfirm) {
+            const container = document.getElementById('noticeContainer');
+
+            if (!container) return;
+
+            const confirmBox = document.createElement('div');
+            confirmBox.className = 'ngConfirm';
+
+            confirmBox.innerHTML = `
+        <div class="ngConfirmTitle">
+            ${message}
+        </div>
+
+        <div class="ngConfirmButtons">
+            <button class="ngConfirmNo">Cancel</button>
+            <button class="ngConfirmYes">Confirm</button>
+        </div>
+    `;
+
+            container.appendChild(confirmBox);
+
+            const close = () => {
+                confirmBox.classList.add('closing');
+
+                setTimeout(() => {
+                    confirmBox.remove();
+                }, 350);
+            };
+
+            confirmBox.querySelector('.ngConfirmNo').onclick = close;
+
+            confirmBox.querySelector('.ngConfirmYes').onclick = () => {
+                close();
+
+                if (typeof onConfirm === 'function') {
+                    onConfirm();
+                }
+            };
+        }
+
+        async function adminLogin() {
+            document.getElementById('adminLoginModal').style.display = 'flex';
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('adminPassword').focus();
+        }
+
+        async function submitAdminLogin() {
+            const passwordInput = document.getElementById('adminPassword');
+            const status = document.getElementById('adminLoginStatus');
+            const password = passwordInput.value;
+
+            if (!password) {
+                alertNotice("warning", "Password field cannot be blank.");
+                return;
+            }
+
+            status.textContent = 'Authenticating...';
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    alertNotice("alert", "Incorrect administrator password.");
+                    status.textContent = '';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    return;
+                }
+
+                adminToken = data.token;
+                isAdmin = true;
+
+                closeAdminLogin();
+
+                alertNotice("success", "Administrator login successful.");
+                status.textContent = '';
+                showTab('games');
+            } catch (err) {
+                console.error("Admin login failed:", err);
+                alertNotice("alert", "Unable to connect to Login API. Please check your internet connection.");
+            }
+        }
+
+        function closeAdminLogin() {
+            document.getElementById('adminLoginModal').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('adminLoginStatus').textContent = '';
+        }
+
+        async function verifyAdmin() {
+            if (!adminToken) return false;
+
+            try {
+                const response = await fetch(`${API_URL}/verify`, {
+                    headers: {
+                        "Authorization": `Bearer ${adminToken}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.authenticated) {
+                    adminToken = null;
+                    isAdmin = false;
+                    return false;
+                }
+
+                isAdmin = true;
+                return true;
+            } catch (err) {
+                console.error("Admin verification failed:", err);
+                alertNotice("alert", "Admin verification timed out or failed.");
+                adminToken = null;
+                isAdmin = false;
+                return false;
+            }
+        }
+
+        setInterval(async () => {
+            if (isAdmin) {
+                await verifyAdmin();
+            }
+        }, 30000);
+
         const messages = ["Welcome to Nol'sGames!", "1900+ Games For You To Play", "This Is Still In BETA And Has Lots Of Bugs.", "Try Out The New Save Game Data Button In Settings!", "Enjoy!"];
         let msgIndex = 0;
         const tickerText = document.getElementById('tickerText');
@@ -743,7 +1202,42 @@ Nol’sGames Terms of Use & Privacy Policy
 
                 if (sec.children.length > 1) main.appendChild(sec);
             }
+            if (isAdmin) {
+                const adminGames = files.filter(f =>
+                    f.toLowerCase().startsWith('dv')
+                );
 
+                if (adminGames.length) {
+                    const sec = document.createElement('div');
+                    sec.className = 'section';
+                    sec.id = 'adminSection';
+
+                    const title = document.createElement('h2');
+                    title.textContent = 'Developer';
+                    sec.appendChild(title);
+
+                    adminGames
+                        .filter(f => f.toLowerCase().includes(filter))
+                        .forEach(f => sec.appendChild(createGameBtn(f)));
+
+                    if (sec.children.length > 1) {
+                        main.appendChild(sec);
+
+                        const adminBtn = document.createElement('button');
+                        adminBtn.className = 'sidebar-btn';
+                        adminBtn.textContent = '⚒︎';
+
+                        adminBtn.onclick = () => {
+                            document.getElementById('adminSection')?.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        };
+
+                        sidebar.appendChild(adminBtn);
+                    }
+                }
+            }
             const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
             letters.forEach(l => {
                 const sec = document.createElement('div');
@@ -755,8 +1249,17 @@ Nol’sGames Terms of Use & Privacy Policy
                 sec.appendChild(title);
                 let has = false;
                 files.forEach(f => {
-                    const firstLetter = f.toLowerCase().startsWith('cl') ? f[2] : f.toLowerCase().startsWith('ng') ? f[2] : f[0];
-                    if (firstLetter?.toUpperCase() === l && f.toLowerCase().includes(filter)) {
+                    const lower = f.toLowerCase();
+
+                    const firstLetter =
+                        lower.startsWith('cl') || lower.startsWith('ng') || lower.startsWith('dv') ?
+                        f[2] :
+                        f[0];
+                    if (
+                        firstLetter?.toUpperCase() === l &&
+                        f.toLowerCase().includes(filter) &&
+                        !f.toLowerCase().startsWith('dv')
+                    ) {
                         has = true;
                         sec.appendChild(createGameBtn(f));
                     }
@@ -781,7 +1284,9 @@ Nol’sGames Terms of Use & Privacy Policy
         function createGameBtn(f) {
             const btn = document.createElement('div');
 
-            const isNG = f.toLowerCase().startsWith("ng");
+            const lowerName = f.toLowerCase();
+            const isNG = lowerName.startsWith("ng");
+            const isDV = lowerName.startsWith("dv");
 
             btn.className = 'game-btn' + (favorites.includes(f) ? ' fav' : '');
 
@@ -833,6 +1338,8 @@ Nol’sGames Terms of Use & Privacy Policy
 
                 const url = isNG ?
                     `https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/specialgames/${encoded}?t=${Date.now()}` :
+                    isDV ?
+                    `https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/devuses/${encoded}?t=${Date.now()}` :
                     `https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/UGS-Files/${encoded}?t=${Date.now()}`;
 
                 fetch(url)
@@ -850,6 +1357,13 @@ Nol’sGames Terms of Use & Privacy Policy
             btn.append(text, star);
             return btn;
         }
+
+        document.getElementById('adminPassword').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitAdminLogin();
+            }
+        });
 
         let uploadedFavicon = '';
 
@@ -908,14 +1422,26 @@ Nol’sGames Terms of Use & Privacy Policy
         }
 
         function resetPresets() {
-            if (!confirm('Reset all preset settings?')) return;
-            localStorage.removeItem('preset');
-            const defaultPreset = {
-                name: "Nol'sGames",
-                icon: "",
-                key: "\\",
-                link: "https://google.com"
-            };
+            alertConfirm("Reset all preset settings?", () => {
+                localStorage.removeItem('preset');
+
+                const defaultPreset = {
+                    name: "Nol'sGames",
+                    icon: "",
+                    key: "\\",
+                    link: "https://google.com"
+                };
+
+                localStorage.setItem('preset', JSON.stringify(defaultPreset));
+
+                uploadedFavicon = '';
+                tabName.value = '';
+                panicKey.value = '\\';
+                panicLink.value = 'https://google.com';
+
+                applyPreset();
+                location.reload();
+            });
             localStorage.setItem('preset', JSON.stringify(defaultPreset));
             uploadedFavicon = '';
             document.getElementById('faviconPreview').style.display = 'none';
@@ -1016,7 +1542,14 @@ Nol’sGames Terms of Use & Privacy Policy
 																																						<br>
 																																							<button class="standard" onclick="openToc()">Terms And Conditions & Privacy Policy</button>
 																																							<br>
-																																								<br>
+																																								<br><br><br>
+																												
+
+    <button class="standard" onclick="isAdmin ? adminLogout() : adminLogin()">
+    ${isAdmin ? 'Administrator Signout' : 'Administrator Login'}
+</button>
+    <br>
+    <br>
 																																									<br>
 																																										<br>
 																																											<button class="standard" onclick="exportNGS()">Download Game Data (.ngs)</button>
@@ -1034,7 +1567,7 @@ Nol’sGames Terms of Use & Privacy Policy
  >
 																																														<br>
 																																															<br>
-																																																<br>
+																																																<br><br>
 																																																	<label class="ngToggleWrap">
 																																																		<span>Auto Refresh Daily</span>
 																																																		<div class="ngSwitch">
@@ -1044,7 +1577,7 @@ Nol’sGames Terms of Use & Privacy Policy
 																																																		</label>
 																																																		<br>
 																																																			<br>
-																																																				<br>
+																																																				<br><br>
 																																																					<button class="danger" onclick="clearData()">Clear Game Data</button>
 																																																					<br>
 																																																						<br>
@@ -1066,10 +1599,10 @@ Nol’sGames Terms of Use & Privacy Policy
         }
 
         function clearData() {
-            if (confirm('Delete ALL data?')) {
+            alertConfirm("Delete ALL data?", () => {
                 localStorage.clear();
                 location.reload();
-            }
+            });
         }
 
         function exportNGS() {
@@ -1079,6 +1612,7 @@ Nol’sGames Terms of Use & Privacy Policy
                 try {
                     saveData[key] = localStorage.getItem(key);
                 } catch (err) {
+                    alertNotice("warning", "Download failure.");
                     console.log('Failed to save key:', key);
                 }
             }
@@ -1098,7 +1632,7 @@ Nol’sGames Terms of Use & Privacy Policy
             a.download = `gd_${date}.ngs`;
             a.click();
             URL.revokeObjectURL(url);
-            alert('Game data exported.');
+            alertNotice("success", "Game data downloaded.");
         }
 
         function importNGS(file) {
@@ -1108,23 +1642,28 @@ Nol’sGames Terms of Use & Privacy Policy
                 try {
                     const data = JSON.parse(e.target.result);
                     if (!data.storage) {
-                        alert('Invalid .ngs save.');
+                        alertNotice("warning", "Invalid or malformed .ngs file.");
                         return;
                     }
-                    if (!confirm('Overwrite ALL current game data?')) return;
-                    localStorage.clear();
-                    for (const key in data.storage) {
-                        try {
-                            localStorage.setItem(key, data.storage[key]);
-                        } catch (err) {
-                            console.log('Failed restoring:', key);
+                    alertConfirm("Overwrite ALL current game data?", () => {
+                        localStorage.clear();
+
+                        for (const key in data.storage) {
+                            try {
+                                localStorage.setItem(key, data.storage[key]);
+                            } catch (err) {
+                                console.log('Failed restoring:', key);
+                            }
                         }
-                    }
-                    alert('Game data restored.');
+
+                        alertNotice("success", "Game data restored.");
+                        location.reload();
+                    });
+                    alertNotice("success", "Game data restored.");
                     location.reload();
                 } catch (err) {
                     console.error(err);
-                    alert('Invalid .ngs file.');
+                    alertNotice("warning", "Invalid or malformed .ngs file.");
                 }
             };
             reader.readAsText(file);
@@ -1146,6 +1685,20 @@ Nol’sGames Terms of Use & Privacy Policy
                 autoRefresh: true
             }));
         }
+
+        function adminLogout() {
+            alertConfirm("Are you sure you want to sign out of Administrator mode?", () => {
+                adminToken = null;
+                isAdmin = false;
+
+                alertNotice("success", "Administrator signed out.");
+
+                showTab('games');
+            });
+        }
+
+
+
         checkDailyRefresh();
         loadGameList();
     </script>
