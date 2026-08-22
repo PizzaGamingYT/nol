@@ -862,6 +862,14 @@
         let isAdmin = false;
 
         function alertNotice(type, message) {
+            if (type === "success") {
+                console.log(message);
+            } else if (type === "warning") {
+                console.warn(message);
+            } else if (type === "alert") {
+                console.error(message);
+            }
+
             const container = document.getElementById('noticeContainer');
 
             if (!container) return;
@@ -1517,7 +1525,7 @@ Nol’sGames Terms of Use & Privacy Policy
                 </div>
 
                 <button class="download-button"
-                    onclick="window.open('https://drive.usercontent.google.com/u/0/uc?id=1IVVFFKsc6oOxVJre4ZL3UUvjjfbvdGzW&export=download','_blank')">
+                    onclick="window.open('https://drive.usercontent.google.com/u/0/uc?id=1IVVFFKsc6oOxVJre4ZL3UUvjjfbvdGzW&export=download','_blank'); alertNotice("success", "Nol'sGames downloaded.");">
                     ⬇ Download Latest Version
                 </button>
 
@@ -1613,7 +1621,6 @@ Nol’sGames Terms of Use & Privacy Policy
                     saveData[key] = localStorage.getItem(key);
                 } catch (err) {
                     alertNotice("warning", "Download failure.");
-                    console.log('Failed to save key:', key);
                 }
             }
             const finalData = {
@@ -1637,14 +1644,18 @@ Nol’sGames Terms of Use & Privacy Policy
 
         function importNGS(file) {
             if (!file) return;
+
             const reader = new FileReader();
+
             reader.onload = function(e) {
                 try {
                     const data = JSON.parse(e.target.result);
+
                     if (!data.storage) {
                         alertNotice("warning", "Invalid or malformed .ngs file.");
                         return;
                     }
+
                     alertConfirm("Overwrite ALL current game data?", () => {
                         localStorage.clear();
 
@@ -1652,20 +1663,25 @@ Nol’sGames Terms of Use & Privacy Policy
                             try {
                                 localStorage.setItem(key, data.storage[key]);
                             } catch (err) {
-                                console.log('Failed restoring:', key);
+                                console.log("Failed restoring:", key);
+                                alertNotice("warning", "Failed restoration.");
                             }
                         }
 
                         alertNotice("success", "Game data restored.");
-                        location.reload();
+
+                        // Give the notice time to appear
+                        setTimeout(() => {
+                            location.reload();
+                        }, 3000);
                     });
-                    alertNotice("success", "Game data restored.");
-                    location.reload();
+
                 } catch (err) {
                     console.error(err);
                     alertNotice("warning", "Invalid or malformed .ngs file.");
                 }
             };
+
             reader.readAsText(file);
         }
 
