@@ -5,6 +5,7 @@ window.files = [
 "nghollowknightsilksong",
 "ngBuckshotRoulette",
 "ng1v1lol",
+"dvjsdelivrassistant",
 "cl1",
 "cl100RoomsOfEnemies",
 "cl10bullets",
