@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>NGDev jsDelivr Fetch Assistant</title>
+    <link rel="icon" href="https://nolsgames.xyz/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #000;
+            --panel: #222222;
+            --orange: #FF4D00;
+            --white: #FFFFFF;
+            --text: #fff;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: Segoe UI, Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .container {
+            width: min(1100px, 95%);
+            margin: 35px auto;
+        }
+
+        h1 {
+            color: var(--white);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card {
+            background: var(--panel);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #333;
+        }
+
+        .toggleBar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .toggle {
+            background: #FF4D00;
+            color: white;
+            border: 3px solid transparent;
+            border-radius: 8px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .toggle:hover {
+            background: #ffffff;
+            color: #FF4D00;
+        }
+
+        .toggle.active {
+            border-color: #FFFFFF;
+        }
+
+        .urlRow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .prefix {
+            background: #111;
+            color: var(--orange);
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 12px;
+            min-width: 210px;
+            transition: .2s;
+        }
+
+        input {
+            flex: 1;
+            background: #111;
+            color: white;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 15px;
+        }
+
+        button.fetch {
+            background: #FF4D00;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button.fetch:hover {
+            background: #ffffff;
+            color: #FF4D00;
+        }
+
+        button.copy {
+            background: #0066FF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button.copy:hover {
+            background: #ffffff;
+            color: #0066FF;
+        }
+
+        button.download {
+            background: #00C853;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button.download:hover {
+            background: #ffffff;
+            color: #00C853;
+        }
+
+        button.clear {
+            background: #FF3B30;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button.clear:hover {
+            background: #ffffff;
+            color: #FF3B30;
+        }
+
+        .controls {
+            margin-top: 18px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        pre {
+            margin-top: 25px;
+            border-radius: 10px;
+            overflow: auto;
+            background: #111;
+            padding: 20px;
+            max-height: 650px;
+        }
+
+        .footer {
+            margin-top: 12px;
+            color: #aaa;
+        }
+
+        .fileInfo {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        .fileInfo div {
+            background: #111;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #111;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg,
+                    #FF4D00,
+                    #ff8c00,
+                    #FF4D00);
+            border-radius: 10px;
+            border: 3px solid #111;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF4D00;
+        }
+
+        code {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>jsDelivr Fetch Assistant</h1>
+
+        <div class="card">
+
+            <div class="toggleBar">
+
+                <button class="toggle active" data-type="gh">GitHub</button>
+                <button class="toggle" data-type="npm">NPM</button>
+                <button class="toggle" data-type="wp">WordPress</button>
+                <button class="toggle" data-type="manual">Manual URL</button>
+
+            </div>
+
+            <div class="urlRow">
+
+                <div class="prefix" id="prefix">
+                    https://cdn.jsdelivr.net/gh/
+                </div>
+
+                <input id="path" placeholder="owner/repository/file.js" value="">
+
+                <button class="fetch" onclick="fetchCode()">Fetch</button>
+
+            </div>
+
+            <div class="controls">
+
+                <button class="copy" onclick="copyCode()">Copy</button>
+                <button class="download" onclick="downloadCode()">Download</button>
+                <button class="clear" onclick="clearCode()">Clear</button>
+
+            </div>
+
+            <div class="fileInfo">
+                <div><b>Name:</b> <span id="fileName">-</span></div>
+                <div><b>Author:</b> <span id="fileAuthor">Unknown</span></div>
+                <div><b>Type:</b> <span id="fileType">-</span></div>
+                <div><b>Size:</b> <span id="fileSize">-</span></div>
+            </div>
+
+            <pre><code id="code" class="language-javascript">// Code will appear here.</code></pre>
+
+            <div class="footer">
+                Made by Nol for Nol'sGames Developer Purposes
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const prefix = document.getElementById("prefix");
+        const path = document.getElementById("path");
+
+        let mode = "gh";
+        let currentCode = "";
+        let currentFilename = "code.txt";
+
+        const settings = {
+            gh: {
+                prefix: "https://cdn.jsdelivr.net/gh/",
+                placeholder: "owner/repository/file.js"
+            },
+            npm: {
+                prefix: "https://cdn.jsdelivr.net/npm/",
+                placeholder: "package@version/file.js"
+            },
+            wp: {
+                prefix: "https://cdn.jsdelivr.net/wp/",
+                placeholder: "plugins/plugin/file.js"
+            },
+            manual: {
+                prefix: "",
+                placeholder: "https://raw.githubusercontent.com/..."
+            }
+        };
+
+        document.querySelectorAll(".toggle").forEach(btn => {
+
+            btn.onclick = () => {
+
+                document.querySelectorAll(".toggle")
+                    .forEach(b => b.classList.remove("active"));
+
+                btn.classList.add("active");
+
+                mode = btn.dataset.type;
+
+                if (mode === "manual") {
+                    prefix.style.display = "none";
+                } else {
+                    prefix.style.display = "block";
+                    prefix.textContent = settings[mode].prefix;
+                }
+
+                path.placeholder = settings[mode].placeholder;
+                path.value = "";
+
+            };
+
+        });
+
+        async function fetchCode() {
+
+            let url;
+
+            if (mode === "manual")
+                url = path.value.trim();
+            else
+                url = settings[mode].prefix + path.value.trim();
+
+            if (!url) {
+                alert("Enter a path.");
+                return;
+            }
+
+            try {
+
+                const fetchButton = document.querySelector(".fetch");
+
+                fetchButton.textContent = "Loading...";
+                fetchButton.disabled = true;
+
+                const res = await fetch(url);
+
+                if (!res.ok)
+                    throw new Error(`Unable to fetch file (${res.status} ${res.statusText})`);
+
+                currentCode = await res.text();
+
+                currentFilename = url.split("/").pop() || "download.txt";
+
+                const lang = getLanguage(currentFilename);
+
+                document.getElementById("fileName").textContent = currentFilename;
+                document.getElementById("fileAuthor").textContent = getAuthor(url);
+                document.getElementById("fileType").textContent = lang.toUpperCase();
+                const size = new Blob([currentCode]).size;
+                document.getElementById("fileSize").textContent = formatSize(size);
+
+                const code = document.getElementById("code");
+
+                code.removeAttribute("data-highlighted");
+
+                code.className = "";
+                code.classList.add("language-" + lang);
+
+                code.textContent = currentCode;
+
+                hljs.highlightElement(code);
+
+            } catch (e) {
+
+                const code = document.getElementById("code");
+
+                let errorMessage = e.message;
+
+                if (e instanceof TypeError) {
+                    errorMessage = "Network error or CORS blocked request.";
+                }
+
+                if (!path.value.trim()) {
+                    errorMessage = "No URL or file path entered.";
+                }
+
+                code.removeAttribute("data-highlighted");
+                code.className = "language-javascript";
+
+                code.textContent =
+                    `// Fetch Error
+
+${errorMessage}`;
+
+                document.getElementById("fileName").textContent = "Error";
+                document.getElementById("fileAuthor").textContent = "-";
+                document.getElementById("fileType").textContent = "ERROR";
+                document.getElementById("fileSize").textContent = "-";
+
+            } finally {
+                const fetchButton = document.querySelector(".fetch");
+                fetchButton.textContent = "Fetch";
+                fetchButton.disabled = false;
+            }
+
+        }
+
+        async function copyCode() {
+
+            if (!currentCode) return;
+
+            await navigator.clipboard.writeText(currentCode);
+
+            alert("Copied!");
+
+        }
+
+        function downloadCode() {
+
+            if (!currentCode) return;
+
+            const blob = new Blob([currentCode], {
+                type: "text/plain"
+            });
+
+            const a = document.createElement("a");
+
+            a.href = URL.createObjectURL(blob);
+
+            a.download = currentFilename;
+
+            a.click();
+
+            URL.revokeObjectURL(a.href);
+
+        }
+
+        function formatSize(bytes) {
+
+            if (bytes < 1024)
+                return bytes + " B";
+
+            if (bytes < 1024 * 1024)
+                return (bytes / 1024).toFixed(2) + " KB";
+
+            return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+
+        }
+
+        function getAuthor(url) {
+
+            try {
+
+                if (url.includes("/gh/")) {
+
+                    const part = url.split("/gh/")[1];
+
+                    return part.split("/")[0];
+
+                }
+
+                if (url.includes("/npm/")) {
+
+                    const part = url.split("/npm/")[1];
+
+                    return part.split("@")[0];
+
+                }
+
+                if (url.includes("/wp/")) {
+
+                    return "WordPress";
+
+                }
+
+            } catch {}
+
+            return "Unknown";
+
+        }
+
+        function clearCode() {
+
+            currentCode = "";
+            currentFilename = "code.txt";
+
+            document.getElementById("code").textContent =
+                "// Code cleared.";
+
+            document.getElementById("code").className =
+                "language-javascript";
+
+            document.getElementById("fileName").textContent = "-";
+            document.getElementById("fileAuthor").textContent = "Unknown";
+            document.getElementById("fileType").textContent = "-";
+            document.getElementById("fileSize").textContent = "-";
+
+        }
+
+        function getLanguage(filename) {
+
+            const ext = filename.split(".").pop().toLowerCase();
+
+            const map = {
+
+                js: "javascript",
+                mjs: "javascript",
+                cjs: "javascript",
+
+                ts: "typescript",
+
+                html: "html",
+                htm: "html",
+                xhtml: "xhtml",
+
+                css: "css",
+
+                json: "json",
+
+                xml: "xml",
+
+                php: "php",
+
+                py: "python",
+
+                java: "java",
+
+                cpp: "cpp",
+                cc: "cpp",
+                cxx: "cpp",
+
+                c: "c",
+
+                cs: "csharp",
+
+                go: "go",
+
+                rs: "rust",
+
+                rb: "ruby",
+
+                sh: "bash",
+
+                bat: "dos",
+
+                ps1: "powershell",
+
+                sql: "sql",
+
+                md: "markdown",
+
+                yaml: "yaml",
+                yml: "yaml",
+
+                toml: "ini",
+
+                ini: "ini"
+
+            };
+
+            return map[ext] || "plaintext";
+
+        }
+
+        path.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                fetchCode();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
