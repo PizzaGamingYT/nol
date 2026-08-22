@@ -1760,7 +1760,7 @@ Nol’sGames Terms of Use & Privacy Policy
             favicon.href = p.icon || 'https://nolsgames.xyz/favicon.ico?v=2';
             document.onkeydown = null;
             document.onkeydown = (e) => {
-                if (e.key.toLowerCase() === panicKeyValue.toLowerCase()) {
+                if (typeof e.key === "string" && e.key.toLowerCase() === panicKeyValue.toLowerCase()) {
                     window.location.href = panicLinkValue;
                 }
             };
