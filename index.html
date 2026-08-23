@@ -44,6 +44,9 @@
             position: absolute;
             white-space: nowrap;
             font-family: "Shrikhand";
+            will-change: transform;
+            -webkit-text-stroke: 7.5px black;
+            paint-order: stroke fill;
         }
 
         .ngToggleWrap {
@@ -157,6 +160,12 @@
             overflow: auto;
             background: #111;
             z-index: 5;
+            transition: top .2s ease, height .2s ease;
+        }
+
+        body.ticker-hidden #sidebar {
+            top: 60px;
+            height: calc(100% - 60px);
         }
 
         #main {
@@ -166,6 +175,11 @@
             overflow: auto;
             padding: 0 10px;
             box-sizing: border-box;
+        }
+
+        body.ticker-hidden #main {
+            margin-top: 56px;
+            height: calc(100vh - 56px);
         }
 
         .withSidebar #sidebar {
@@ -841,6 +855,8 @@
             color: #fff;
             font-family: "Commissioner", sans-serif;
             font-weight: 700;
+            -webkit-text-stroke: 7.5px black;
+            paint-order: stroke fill;
         }
 
         .no-transition+.ngSlider {
@@ -1311,25 +1327,180 @@
             }
         }, 30000);
 
-        const messages = ["Welcome to Nol'sGames!", "1900+ Games For You To Play", "This Is Still In BETA And Has Lots Of Bugs.", "Try Out The New Save Game Data Button In Settings!", "Enjoy!"];
-        let msgIndex = 0;
-        const tickerText = document.getElementById('tickerText');
+        const messages = [
+            "Welcome to Nol'sGames!",
+            "1900+ Games For You To Play",
+            "This Is Still In BETA And Has Lots Of Bugs.",
+            "Try Out The New Save Game Data Button In Settings!",
+            "Enjoy!",
+            "New Games Are Added Regularly!",
+            "Find Your Next Favorite Game!",
+            "Use The Search Bar To Find A Game Fast!",
+            "Don't Forget To Favorite Your Favorite Games!",
+            "Have Fun Exploring Nol'sGames!"
+        ];
+
+        const tickerText = document.getElementById("tickerText");
+        const ticker = document.getElementById("ticker");
+
+        let lastMessage = -1;
+        let tickerAnimation = null;
+        let tickerTimeout = null;
+
+        function getRandomMessage() {
+            let index;
+
+            do {
+                index = Math.floor(Math.random() * messages.length);
+            } while (index === lastMessage && messages.length > 1);
+
+            lastMessage = index;
+            return messages[index];
+        }
+
+        function stopTicker() {
+            if (tickerAnimation !== null) {
+                cancelAnimationFrame(tickerAnimation);
+                tickerAnimation = null;
+            }
+
+            if (tickerTimeout !== null) {
+                clearTimeout(tickerTimeout);
+                tickerTimeout = null;
+            }
+        }
 
         function cycleTicker() {
-            tickerText.textContent = messages[msgIndex];
-            tickerText.style.left = '100%';
-            let pos = window.innerWidth;
-            const interval = setInterval(() => {
-                pos--;
-                tickerText.style.left = pos + 'px';
-                if (pos < -tickerText.offsetWidth) {
-                    clearInterval(interval);
-                    msgIndex = (msgIndex + 1) % messages.length;
-                    setTimeout(cycleTicker, 500);
+            if (!ticker || !tickerText) return;
+
+            const settings = JSON.parse(
+                localStorage.getItem('ngSettings') || '{}'
+            );
+
+            if (settings.ticker === false) {
+                stopTicker();
+                return;
+            }
+
+            stopTicker();
+
+            tickerText.textContent = getRandomMessage();
+
+            // Force the browser to calculate the text width
+            const textWidth = tickerText.offsetWidth;
+
+            const startPosition = window.innerWidth;
+            const endPosition = -textWidth;
+
+            const speed = 120;
+
+            tickerText.style.transform =
+                `translateX(${startPosition}px)`;
+
+            const startTime = performance.now();
+
+            function animate(currentTime) {
+                const currentSettings = JSON.parse(
+                    localStorage.getItem('ngSettings') || '{}'
+                );
+
+                if (currentSettings.ticker === false) {
+                    tickerAnimation = null;
+                    return;
                 }
-            }, 10);
+
+                const elapsed =
+                    (currentTime - startTime) / 1000;
+
+                const position =
+                    startPosition - (elapsed * speed);
+
+                tickerText.style.transform =
+                    `translateX(${position}px)`;
+
+                if (position <= endPosition) {
+                    tickerAnimation = null;
+
+                    tickerTimeout = setTimeout(() => {
+                        tickerTimeout = null;
+                        cycleTicker();
+                    }, 500);
+
+                    return;
+                }
+
+                tickerAnimation =
+                    requestAnimationFrame(animate);
+            }
+
+            tickerAnimation =
+                requestAnimationFrame(animate);
         }
-        cycleTicker();
+
+        function toggleTicker(enabled) {
+            const settings = JSON.parse(
+                localStorage.getItem('ngSettings') || '{}'
+            );
+
+            settings.ticker = enabled;
+
+            localStorage.setItem(
+                'ngSettings',
+                JSON.stringify(settings)
+            );
+
+            if (enabled) {
+                ticker.style.display = 'flex';
+                document.body.classList.remove('ticker-hidden');
+
+                // Restart the animation from the beginning
+                stopTicker();
+
+                tickerText.style.transform =
+                    `translateX(${window.innerWidth}px)`;
+
+                cycleTicker();
+            } else {
+                stopTicker();
+
+                ticker.style.display = 'none';
+                document.body.classList.add('ticker-hidden');
+
+                // Completely remove the ticker's visual position
+                tickerText.style.transform =
+                    'translateX(100vw)';
+            }
+        }
+
+        function applyTickerSetting() {
+            const settings = JSON.parse(
+                localStorage.getItem('ngSettings') || '{}'
+            );
+
+            const enabled = settings.ticker !== false;
+
+            if (enabled) {
+                ticker.style.display = 'flex';
+                document.body.classList.remove('ticker-hidden');
+
+                if (
+                    tickerAnimation === null &&
+                    tickerTimeout === null
+                ) {
+                    cycleTicker();
+                }
+            } else {
+                stopTicker();
+
+                ticker.style.display = 'none';
+                document.body.classList.add('ticker-hidden');
+
+                tickerText.style.transform =
+                    'translateX(100vw)';
+            }
+        }
+
+        applyTickerSetting();
         const tocPages = [`
 																								<div style="
     font-family: 'Commissioner', sans-serif;
@@ -1904,6 +2075,19 @@ Nol’sGames Terms of Use & Privacy Policy
                 <button class="standard" onclick="openPreset()">
                     Tab Settings
                 </button>
+                
+                <label class="ngToggleWrap">
+    <span>Show Ticker</span>
+
+    <div class="ngSwitch">
+        <input
+            type="checkbox"
+            id="tickerToggle"
+            onchange="toggleTicker(this.checked)"
+        >
+        <span class="ngSlider"></span>
+    </div>
+</label>
             </div>
 
             <div class="settings-section">
@@ -1966,15 +2150,27 @@ Nol’sGames Terms of Use & Privacy Policy
             }
             setTimeout(() => {
                 const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
-                const toggle = document.getElementById('autoRefreshToggle');
+                const autoRefreshToggle = document.getElementById('autoRefreshToggle');
+                const tickerToggle = document.getElementById('tickerToggle');
 
-                if (toggle) {
-                    toggle.classList.add('no-transition');
-                    toggle.checked = settings.autoRefresh !== false;
+                if (autoRefreshToggle) {
+                    autoRefreshToggle.classList.add('no-transition');
+                    autoRefreshToggle.checked = settings.autoRefresh !== false;
 
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
-                            toggle.classList.remove('no-transition');
+                            autoRefreshToggle.classList.remove('no-transition');
+                        });
+                    });
+                }
+
+                if (tickerToggle) {
+                    tickerToggle.classList.add('no-transition');
+                    tickerToggle.checked = settings.ticker !== false;
+
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            tickerToggle.classList.remove('no-transition');
                         });
                     });
                 }
@@ -1985,6 +2181,16 @@ Nol’sGames Terms of Use & Privacy Policy
             const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
             settings.autoRefresh = enabled;
             localStorage.setItem('ngSettings', JSON.stringify(settings));
+        }
+
+        function toggleTicker(enabled) {
+            const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+
+            settings.ticker = enabled;
+
+            localStorage.setItem('ngSettings', JSON.stringify(settings));
+
+            applyTickerSetting();
         }
 
         function clearData() {
@@ -2079,9 +2285,11 @@ Nol’sGames Terms of Use & Privacy Policy
         }
         if (!localStorage.getItem('ngSettings')) {
             localStorage.setItem('ngSettings', JSON.stringify({
-                autoRefresh: true
+                autoRefresh: true,
+                ticker: true
             }));
         }
+        applyTickerSetting();
 
         function adminLogout() {
             alertConfirm("Are you sure you want to sign out of Administrator mode?", () => {
@@ -2110,6 +2318,10 @@ Nol’sGames Terms of Use & Privacy Policy
 
         checkDailyRefresh();
         loadGameList();
+        console.log(
+            "%cDon't mess around in here unless you know what you're doing. If you think you do, you probably don't!",
+            "font-weight: bold; font-size: 16px;"
+        );
     </script>
 </body>
 
