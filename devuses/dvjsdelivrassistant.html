@@ -24,6 +24,15 @@
             font-family: Segoe UI, Arial, sans-serif;
         }
 
+        pre,
+        pre code,
+        #code {
+            background: #111 !important;
+            color: #fff !important;
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 14px !important;
+        }
+
         body {
             margin: 0;
             background: var(--bg);
@@ -230,10 +239,163 @@
             display: block;
             margin: 0 auto;
         }
+
+        #noticeContainer {
+            position: fixed;
+            top: 95px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20000;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+
+            pointer-events: none;
+        }
+
+        .ngNotice {
+            width: 360px;
+            max-width: calc(100vw - 30px);
+            box-sizing: border-box;
+
+            background: #222;
+            color: #fff;
+
+            border: 2px solid;
+            border-radius: 14px;
+
+            padding: 13px 35px 17px 16px;
+
+            font-family: "Commissioner", sans-serif;
+            font-weight: 600;
+
+            position: relative;
+            overflow: hidden;
+
+            box-shadow: 0 10px 30px #0008;
+
+            animation: ngNoticeIn .35s ease forwards;
+
+            pointer-events: auto;
+        }
+
+        .ngNotice.fetch {
+            border-color: #FF4D00;
+        }
+
+        .ngNotice.copy {
+            border-color: #0066FF;
+        }
+
+        .ngNotice.download {
+            border-color: #00C853;
+        }
+
+        .ngNotice.clear {
+            border-color: #FF3B30;
+        }
+
+        .ngNoticeContent {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ngNoticeBar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+
+            height: 4px;
+            width: 100%;
+
+            transform-origin: left;
+            animation: ngNoticeDecay 3s linear forwards;
+        }
+
+        .ngNotice.fetch .ngNoticeBar {
+            background: #FF4D00;
+        }
+
+        .ngNotice.copy .ngNoticeBar {
+            background: #0066FF;
+        }
+
+        .ngNotice.download .ngNoticeBar {
+            background: #00C853;
+        }
+
+        .ngNotice.clear .ngNoticeBar {
+            background: #FF3B30;
+        }
+
+        .ngNotice.closing {
+            animation: ngNoticeOut .35s ease forwards;
+        }
+
+        .ngNoticeClose {
+            position: absolute;
+            top: 5px;
+            right: 7px;
+
+            background: none;
+            border: none;
+
+            color: #888;
+            font-size: 20px;
+            line-height: 1;
+
+            padding: 2px 5px;
+            cursor: pointer;
+
+            font-family: Arial, sans-serif;
+        }
+
+        .ngNoticeClose:hover {
+            color: #fff;
+        }
+
+        @keyframes ngNoticeIn {
+            from {
+                transform: translateY(-40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes ngNoticeOut {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes ngNoticeDecay {
+            from {
+                transform: scaleX(1);
+            }
+
+            to {
+                transform: scaleX(0);
+            }
+        }
     </style>
 </head>
 
 <body>
+
+    <div id="noticeContainer"></div>
 
     <div class="container">
 
@@ -293,6 +455,46 @@
         const prefix = document.getElementById("prefix");
         const path = document.getElementById("path");
 
+        function alertNotice(type, message) {
+            const container = document.getElementById('noticeContainer');
+
+            if (!container) return;
+
+            const notice = document.createElement('div');
+            notice.className = `ngNotice ${type}`;
+
+            notice.innerHTML = `
+        <button class="ngNoticeClose" aria-label="Close">×</button>
+
+        <div class="ngNoticeContent">
+            <span>${message}</span>
+        </div>
+
+        <div class="ngNoticeBar"></div>
+    `;
+
+            container.appendChild(notice);
+
+            console.log(message);
+
+            let closed = false;
+
+            const closeNotice = () => {
+                if (closed) return;
+                closed = true;
+
+                notice.classList.add('closing');
+
+                setTimeout(() => {
+                    notice.remove();
+                }, 350);
+            };
+
+            notice.querySelector('.ngNoticeClose').onclick = closeNotice;
+
+            setTimeout(closeNotice, 5000);
+        }
+
         let mode = "gh";
         let currentCode = "";
         let currentFilename = "code.txt";
@@ -344,6 +546,7 @@
         async function fetchCode() {
 
             let url;
+            let fetchSuccessful = false;
 
             if (mode === "manual")
                 url = path.value.trim();
@@ -351,13 +554,13 @@
                 url = settings[mode].prefix + path.value.trim();
 
             if (!url) {
-                alert("Enter a path.");
+                alertNotice("fetch", "Enter a path.");
                 return;
             }
 
             try {
 
-                const fetchButton = document.querySelector(".fetch");
+                const fetchButton = document.querySelector("button.fetch");
 
                 fetchButton.textContent = "Loading...";
                 fetchButton.disabled = true;
@@ -376,6 +579,7 @@
                 document.getElementById("fileName").textContent = currentFilename;
                 document.getElementById("fileAuthor").textContent = getAuthor(url);
                 document.getElementById("fileType").textContent = lang.toUpperCase();
+
                 const size = new Blob([currentCode]).size;
                 document.getElementById("fileSize").textContent = formatSize(size);
 
@@ -389,6 +593,8 @@
                 code.textContent = currentCode;
 
                 hljs.highlightElement(code);
+
+                fetchSuccessful = true;
 
             } catch (e) {
 
@@ -412,15 +618,28 @@
 
 ${errorMessage}`;
 
+                alertNotice("fetch", errorMessage);
+
                 document.getElementById("fileName").textContent = "Error";
                 document.getElementById("fileAuthor").textContent = "-";
                 document.getElementById("fileType").textContent = "ERROR";
                 document.getElementById("fileSize").textContent = "-";
 
             } finally {
-                const fetchButton = document.querySelector(".fetch");
+
+                const fetchButton = document.querySelector("button.fetch");
+
                 fetchButton.textContent = "Fetch";
                 fetchButton.disabled = false;
+
+                if (fetchSuccessful) {
+                    try {
+                        alertNotice("fetch", "Fetched!");
+                    } catch (noticeError) {
+                        console.error("Success notice failed:", noticeError);
+                    }
+                }
+
             }
 
         }
@@ -431,7 +650,7 @@ ${errorMessage}`;
 
             await navigator.clipboard.writeText(currentCode);
 
-            alert("Copied!");
+            alertNotice("copy", "Copied!");
 
         }
 
@@ -452,6 +671,8 @@ ${errorMessage}`;
             a.click();
 
             URL.revokeObjectURL(a.href);
+
+            alertNotice("download", "Downloaded!");
 
         }
 
@@ -514,6 +735,8 @@ ${errorMessage}`;
             document.getElementById("fileAuthor").textContent = "Unknown";
             document.getElementById("fileType").textContent = "-";
             document.getElementById("fileSize").textContent = "-";
+
+            alertNotice("clear", "Cleared!");
 
         }
 
