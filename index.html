@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nol'sGames</title>
@@ -19,2020 +18,1777 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://nolsgames.xyz">
     <style>
-        body {
-            margin: 0;
-            font-family: "Commissioner", sans-serif;
-            background: #111;
-            color: #fff;
-            overflow: hidden;
-        }
-
-        #ticker {
-            position: fixed;
-            top: 56px;
-            left: 0;
-            width: 100%;
-            height: 28px;
-            background: #ff4d00;
-            overflow: hidden;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-        }
-
-        #tickerText {
-            position: absolute;
-            white-space: nowrap;
-            font-family: "Shrikhand";
-            will-change: transform;
-            -webkit-text-stroke: 7.5px black;
-            paint-order: stroke fill;
-        }
-
-        .ngToggleWrap {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: fit-content;
-            min-width: 260px;
-            background: #222222;
-            color: #fff;
-            border: 2px solid #ff4d00;
-            border-radius: 12px;
-            padding: 12px;
-            font-family: "Commissioner", sans-serif;
-            box-sizing: border-box;
-            cursor: pointer;
-        }
-
-        .ngToggleWrap:hover {
-            background: #ff4d00;
-        }
-
-        .ngSwitch {
-            position: relative;
-            width: 42px;
-            height: 22px;
-            margin-left: 12px;
-            flex-shrink: 0;
-        }
-
-        .ngSwitch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .ngSlider {
-            position: absolute;
-            inset: 0;
-            background: #111;
-            border: 2px solid #fff;
-            border-radius: 999px;
-            transition: .2s;
-        }
-
-        .ngSlider:before {
-            content: "";
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            left: 2px;
-            top: 2px;
-            background: #FFF;
-            border-radius: 50%;
-            transition: .2s;
-        }
-
-        .ngSwitch input:checked+.ngSlider {
-            background: #FF4D00;
-        }
-
-        .ngSwitch input:checked+.ngSlider:before {
-            transform: translateX(18px);
-            background: #FFF;
-        }
-
-        .section {
-            scroll-margin-top: 70px;
-        }
-
-        #topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: #ff4d00;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 9998;
-        }
-
-        #logo {
-            height: 36px;
-        }
-
-        .tab {
-            background: #ff4d00;
-            border: 0;
-            color: #fff;
-            padding: 10px 16px;
-            border-radius: 16px;
-            cursor: pointer;
-            font-family: "Shrikhand";
-            -webkit-text-stroke: 7.5px black;
-            paint-order: stroke fill;
-        }
-
-        .tab:hover {
-            background: #222;
-        }
-
-        #sidebar {
-            display: none;
-            position: fixed;
-            top: 84px;
-            left: 0;
-            width: 60px;
-            height: calc(100% - 84px);
-            overflow: auto;
-            background: #111;
-            z-index: 5;
-            transition: top .2s ease, height .2s ease;
-        }
-
-        body.ticker-hidden #sidebar {
-            top: 60px;
-            height: calc(100% - 60px);
-        }
-
-        #main {
-            margin-left: 0;
-            margin-top: 84px;
-            height: calc(100vh - 84px);
-            overflow: auto;
-            padding: 0 10px;
-            box-sizing: border-box;
-        }
-
-        body.ticker-hidden #main {
-            margin-top: 56px;
-            height: calc(100vh - 56px);
-        }
-
-        .withSidebar #sidebar {
-            display: block;
-        }
-
-        .withSidebar #main {
-            margin-left: 70px;
-        }
-
-        #searchWrap {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding: 10px 0;
-            background: #111;
-        }
-
-        #search {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 14px;
-            border-radius: 14px;
-            border: 2px solid #222;
-            background: #222;
-            color: #fff;
-            font-family: "Shrikhand";
-        }
-
-        #search:focus {
-            outline: none;
-            border-color: #ff4d00;
-        }
-
-        .sidebar-btn {
-            display: block;
-            width: 100%;
-            padding: 8px;
-            background: #222;
-            color: #fff;
-            border: none;
-            font-family: "Shrikhand";
-        }
-
-        .sidebar-btn:hover {
-            background: #ff4d00;
-        }
-
-        .section {
-            margin-bottom: 20px;
-        }
-
-        .section h2 {
-            margin: 10px 0;
-        }
-
-        .game-btn {
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
-            padding: 14px;
-            margin: 6px 0;
-            background: #222;
-            color: #fff;
-            border: 2px solid #222;
-            border-radius: 14px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            transition: background-color .25s ease,
-                border-color .25s ease,
-                color .25s ease,
-                transform .15s ease;
-        }
-
-        .game-btn:hover {
-            background: #ff4d00;
-        }
-
-        .rainbow-game {
-            border-color: transparent;
-            background:
-                linear-gradient(#222, #222) padding-box,
-                linear-gradient(90deg,
-                    red, orange, yellow, lime, cyan, blue, violet) border-box;
-            transition: .25s;
-        }
-
-        .rainbow-game:hover {
-            background:
-                linear-gradient(90deg,
-                    red, orange, yellow, lime, cyan, blue, violet) padding-box,
-                linear-gradient(90deg,
-                    red, orange, yellow, lime, cyan, blue, violet) border-box;
-            color: white;
-            transition: .25s;
-        }
-
-        .rainbow-game:hover .star.off::after {
-            color: white;
-        }
-
-        .rainbow-game:hover .star.on::after {
-            color: gold;
-        }
-
-        .rainbow-game.fav {
-            border-color: transparent;
-            background:
-                linear-gradient(#222, #222) padding-box,
-                linear-gradient(90deg,
-                    red, orange, yellow, lime, cyan, blue, violet) border-box;
-            transition: .25s;
-        }
-
-        .rainbow-game.fav:hover {
-            background:
-                linear-gradient(90deg,
-                    red, orange, yellow, lime, cyan, blue, violet) padding-box,
-                linear-gradient(90deg,
-                    red, orange, yellow, lime, cyan, blue, violet) border-box;
-            color: white;
-            transition: .25s;
-        }
-
-        .game-btn.fav:not(.rainbow-game) {
-            border-color: #FF4D00;
-        }
-
-        .star {
-            cursor: pointer;
-            position: relative;
-        }
-
-        .star.off::after {
-            content: "★";
-            color: #888;
-        }
-
-        .star.on::after {
-            content: "★";
-            color: gold;
-        }
-
-        .danger {
-            background: red;
-            color: #fff;
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
-            cursor: pointer;
-        }
-
-        .standard {
-            background: #222222;
-            color: #fff;
-            border: 2px solid #ff4d00;
-            padding: 12px;
-            border-radius: 12px;
-            cursor: pointer;
-        }
-
-        .standard:hover {
-            background: #ff4d00;
-        }
-
-        #tocModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000d;
-            display: none;
-            z-index: 10000;
-        }
-
-        .modal {
-            background: #111;
-            margin: 5% auto;
-            padding: 20px;
-            width: 60%;
-            max-height: 80%;
-            overflow: auto;
-            border-radius: 16px;
-        }
-
-        .modal button {
-            background: #ff4d00;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin: 10px;
-            cursor: pointer;
-        }
-
-        #presetModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000b;
-            display: none;
-            z-index: 11000;
-        }
-
-        .presetBox {
-            background: #111;
-            margin: 5% auto;
-            padding: 20px;
-            width: 400px;
-            border-radius: 16px;
-        }
-
-        .presetBox input {
-            width: 100%;
-            margin: 6px 0;
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid #222;
-            background: #222;
-            color: #fff;
-        }
-
-        .presetBox input {
-            box-sizing: border-box;
-        }
-
-        .presetBox button {
-            background: #ff4d00;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin: 10px;
-            cursor: pointer;
-        }
-
-        .presetBox label {
-            background: #ff4d00;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin: 10px;
-            cursor: pointer;
-            color: black;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #111;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #ff4d00, #ff8a00);
-            border-radius: 10px;
-            border: 2px solid #111;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #ff8a00, #ff4d00);
-        }
-
-        ::-webkit-scrollbar-corner {
-            background: #111;
-        }
-
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: #ff4d00 #111;
-        }
-
-        .download-page {
-            display: flex;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-
-        .download-card {
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
-            border: 1px solid rgba(255, 255, 255, .1);
-        }
-
-        .download-logo {
-            width: 575px;
-            height: auto;
-            object-fit: contain;
-            margin-bottom: 15px;
-        }
-
-        .download-card h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .download-card p {
-            opacity: .85;
-            font-size: 17px;
-        }
-
-        .download-info {
-            margin: 25px 0;
-            display: grid;
-            gap: 12px;
-        }
-
-        .download-info div {
-            background: rgba(255, 255, 255, .06);
-            padding: 15px;
-            border-radius: 12px;
-        }
-
-        .download-info strong {
-            display: block;
-            color: #ff4d00;
-            font-size: 18px;
-        }
-
-        .download-info span {
-            opacity: .8;
-        }
-
-        .download-button {
-            width: 100%;
-            padding: 16px;
-            margin: 10px 0;
-            border-radius: 12px;
-            border: none;
-            background: #ff4d00;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .download-button:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-        }
-
-        .toc-link {
-            color: #ff4d00;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: bold;
-            transition: .2s;
-        }
-
-        .toc-link:hover {
-            text-decoration: underline;
-        }
-
-        #adminLoginModal {
-            position: fixed;
-            inset: 0;
-            background: #000b;
-            display: none;
-            z-index: 12000;
-
-            align-items: center;
-            justify-content: center;
-        }
-
-        .adminLoginBox {
-            width: 400px;
-            max-width: calc(100% - 40px);
-            box-sizing: border-box;
-
-            background: #111;
-            border: 2px solid #ff4d00;
-            border-radius: 16px;
-            padding: 25px;
-
-            box-shadow: 0 15px 50px #000;
-        }
-
-        .adminLoginBox h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-
-        .adminLoginBox input {
-            width: 100%;
-            box-sizing: border-box;
-
-            padding: 14px;
-            margin-bottom: 10px;
-
-            background: #222;
-            color: #fff;
-
-            border: 2px solid #222;
-            border-radius: 12px;
-
-            font-family: "Commissioner", sans-serif;
-        }
-
-        .adminLoginBox input:focus {
-            outline: none;
-            border-color: #ff4d00;
-        }
-
-        .adminLoginBox button {
-            background: #ff4d00;
-            color: #fff;
-
-            border: none;
-            border-radius: 12px;
-
-            padding: 12px 20px;
-            margin: 5px;
-
-            cursor: pointer;
-            font-family: "Commissioner", sans-serif;
-            font-weight: bold;
-        }
-
-        .adminLoginBox button:hover {
-            filter: brightness(1.1);
-        }
-
-        .adminLoginBox .adminCancel {
-            background: #222;
-        }
-
-        #adminLoginStatus {
-            min-height: 20px;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        #noticeContainer {
-            position: fixed;
-            top: 95px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20000;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-
-            pointer-events: none;
-        }
-
-        .ngNotice {
-            width: 360px;
-            max-width: calc(100vw - 30px);
-            box-sizing: border-box;
-
-            background: #222;
-            color: #fff;
-
-            border: 2px solid;
-            border-radius: 14px;
-
-            padding: 13px 35px 17px 16px;
-
-            font-family: "Commissioner", sans-serif;
-            font-weight: 600;
-
-            position: relative;
-            overflow: hidden;
-
-            box-shadow: 0 10px 30px #0008;
-
-            animation: ngNoticeIn .35s ease forwards;
-
-            pointer-events: auto;
-        }
-
-        .ngNotice.success {
-            border-color: #22c55e;
-        }
-
-        .ngNotice.warning {
-            border-color: #ff8a00;
-        }
-
-        .ngNotice.alert {
-            border-color: #ff3333;
-        }
-
-        .ngNoticeContent {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .ngNoticeIcon {
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .ngNotice.success .ngNoticeIcon {
-            color: #22c55e;
-        }
-
-        .ngNotice.warning .ngNoticeIcon {
-            color: #ff8a00;
-        }
-
-        .ngNotice.alert .ngNoticeIcon {
-            color: #ff3333;
-        }
-
-        .ngNoticeBar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-
-            height: 4px;
-            width: 100%;
-
-            transform-origin: left;
-            animation: ngNoticeDecay 3s linear forwards;
-        }
-
-        .ngNotice.success .ngNoticeBar {
-            background: #22c55e;
-        }
-
-        .ngNotice.warning .ngNoticeBar {
-            background: #ff8a00;
-        }
-
-        .ngNotice.alert .ngNoticeBar {
-            background: #ff3333;
-        }
-
-        .ngNotice.closing {
-            animation: ngNoticeOut .35s ease forwards;
-        }
-
-        @keyframes ngNoticeIn {
-            from {
-                transform: translateY(-40px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes ngNoticeOut {
-            from {
-                transform: translateY(0);
-                opacity: 1;
-            }
-
-            to {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-        }
-
-        @keyframes ngNoticeDecay {
-            from {
-                transform: scaleX(1);
-            }
-
-            to {
-                transform: scaleX(0);
-            }
-        }
-
-        .ngConfirm {
-            width: 360px;
-            max-width: calc(100vw - 30px);
-            box-sizing: border-box;
-
-            background: #222;
-            color: #fff;
-
-            border: 2px solid #ff4d00;
-            border-radius: 14px;
-
-            padding: 16px;
-
-            font-family: "Commissioner", sans-serif;
-
-            box-shadow: 0 10px 30px #0008;
-
-            pointer-events: auto;
-
-            animation: ngNoticeIn .35s ease forwards;
-        }
-
-        .ngConfirmTitle {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 14px;
-        }
-
-        .ngConfirmButtons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-
-        .ngConfirm button {
-            border: none;
-            border-radius: 10px;
-
-            padding: 9px 16px;
-
-            cursor: pointer;
-
-            font-family: "Commissioner", sans-serif;
-            font-weight: 700;
-        }
-
-        .ngConfirmYes {
-            background: #ff4d00;
-            color: #fff;
-        }
-
-        .ngConfirmNo {
-            background: #333;
-            color: #fff;
-        }
-
-        .ngConfirm button:hover {
-            filter: brightness(1.15);
-        }
-
-        .ngNoticeClose {
-            position: absolute;
-            top: 5px;
-            right: 7px;
-
-            background: none;
-            border: none;
-
-            color: #888;
-            font-size: 20px;
-            line-height: 1;
-
-            padding: 2px 5px;
-            cursor: pointer;
-
-            font-family: Arial, sans-serif;
-        }
-
-        .ngNoticeClose:hover {
-            color: #fff;
-        }
-
-        #adminIndicator {
-            display: none;
-            position: absolute;
-            right: 50px;
-            top: 50%;
-            transform: translateY(-50%);
-
-            color: #fff;
-            font-family: "Commissioner", sans-serif;
-            font-weight: 700;
-            -webkit-text-stroke: 7.5px black;
-            paint-order: stroke fill;
-        }
-
-        .no-transition+.ngSlider {
-            transition: none !important;
-        }
-
-        .no-transition+.ngSlider::before {
-            transition: none !important;
-        }
-
-        .password-wrap {
-            position: relative;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .password-wrap input {
-            width: 100%;
-            padding-right: 75px;
-            margin-bottom: 0;
-        }
-
-        #showPasswordBtn {
-            position: absolute;
-            right: 6px;
-            top: 50%;
-            transform: translateY(-50%);
-
-            background: transparent;
-            color: #aaa;
-            border: none;
-
-            padding: 6px 8px;
-            margin: 0;
-
-            cursor: pointer;
-            font-family: "Commissioner", sans-serif;
-            font-weight: 600;
-        }
-
-        #showPasswordBtn:hover {
-            color: #fff;
-            filter: none;
-        }
-
-        .searchBox {
-            position: relative;
-            width: 100%;
-        }
-
-        #search {
-            padding-right: 45px;
-        }
-
-        #clearSearch {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-
-            width: 32px;
-            height: 32px;
-
-            border: none;
-            border-radius: 50%;
-
-            background: #333;
-            color: #fff;
-
-            font-size: 22px;
-            line-height: 1;
-
-            cursor: pointer;
-
-            display: none;
-        }
-
-        #clearSearch:hover {
-            background: #ff4d00;
-        }
-
-        .noResults {
-            text-align: center;
-            padding: 50px 20px;
-            color: #888;
-        }
-
-        .noResults h2 {
-            color: #fff;
-        }
-
-        #loadingScreen {
-            position: fixed;
-            inset: 0;
-            z-index: 50000;
-
-            background: #111;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            text-align: center;
-        }
-
-        #loadingScreen img {
-            width: min(400px, 70vw);
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        #loadingScreen h1 {
-            margin: 0;
-            font-family: "Shrikhand", sans-serif;
-        }
-
-        #loadingScreen p {
-            color: #aaa;
-        }
-
-        #loadingScreen.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity .3s ease;
-        }
-
-        .settings-page {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .settings-page>h2 {
-            font-size: 32px;
-            margin-bottom: 25px;
-        }
-
-        .settings-section {
-            background: #1a1a1a;
-            border: 2px solid #222;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .settings-section h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: #ff4d00;
-        }
-
-        .settings-section .standard,
-        .settings-section .danger {
-            margin: 5px;
-        }
-
-        .settings-section .ngToggleWrap {
-            margin: 10px 5px;
-        }
+      body {
+        margin: 0;
+        font-family: "Commissioner", sans-serif;
+        background: #111;
+        color: #fff;
+        overflow: hidden;
+      }
+
+      #ticker {
+        position: fixed;
+        top: 56px;
+        left: 0;
+        width: 100%;
+        height: 28px;
+        background: #ff4d00;
+        overflow: hidden;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+      }
+
+      #tickerText {
+        position: absolute;
+        white-space: nowrap;
+        font-family: "Shrikhand";
+        will-change: transform;
+        -webkit-text-stroke: 7.5px black;
+        paint-order: stroke fill;
+      }
+
+      .ngToggleWrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: fit-content;
+        min-width: 260px;
+        background: #222222;
+        color: #fff;
+        border: 2px solid #ff4d00;
+        border-radius: 12px;
+        padding: 12px;
+        font-family: "Commissioner", sans-serif;
+        box-sizing: border-box;
+        cursor: pointer;
+      }
+
+      .ngToggleWrap:hover {
+        background: #ff4d00;
+      }
+
+      .ngSwitch {
+        position: relative;
+        width: 42px;
+        height: 22px;
+        margin-left: 12px;
+        flex-shrink: 0;
+      }
+
+      .ngSwitch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .ngSlider {
+        position: absolute;
+        inset: 0;
+        background: #111;
+        border: 2px solid #fff;
+        border-radius: 999px;
+        transition: .2s;
+      }
+
+      .ngSlider:before {
+        content: "";
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        left: 2px;
+        top: 2px;
+        background: #FFF;
+        border-radius: 50%;
+        transition: .2s;
+      }
+
+      .ngSwitch input:checked+.ngSlider {
+        background: #FF4D00;
+      }
+
+      .ngSwitch input:checked+.ngSlider:before {
+        transform: translateX(18px);
+        background: #FFF;
+      }
+
+      .section {
+        scroll-margin-top: 70px;
+      }
+
+      #topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #ff4d00;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 9998;
+      }
+
+      #logo {
+        height: 36px;
+      }
+
+      .tab {
+        background: #ff4d00;
+        border: 0;
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: 16px;
+        cursor: pointer;
+        font-family: "Shrikhand";
+        -webkit-text-stroke: 7.5px black;
+        paint-order: stroke fill;
+      }
+
+      .tab:hover {
+        background: #222;
+      }
+
+      #sidebar {
+        display: none;
+        position: fixed;
+        top: 84px;
+        left: 0;
+        width: 60px;
+        height: calc(100% - 84px);
+        overflow: auto;
+        background: #111;
+        z-index: 5;
+        transition: top .2s ease, height .2s ease;
+      }
+
+      body.ticker-hidden #sidebar {
+        top: 60px;
+        height: calc(100% - 60px);
+      }
+
+      #main {
+        margin-left: 0;
+        margin-top: 84px;
+        height: calc(100vh - 84px);
+        overflow: auto;
+        padding: 0 10px;
+        box-sizing: border-box;
+      }
+
+      body.ticker-hidden #main {
+        margin-top: 56px;
+        height: calc(100vh - 56px);
+      }
+
+      .withSidebar #sidebar {
+        display: block;
+      }
+
+      .withSidebar #main {
+        margin-left: 70px;
+      }
+
+      #searchWrap {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        padding: 10px 0;
+        background: #111;
+      }
+
+      #search {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px;
+        border-radius: 14px;
+        border: 2px solid #222;
+        background: #222;
+        color: #fff;
+        font-family: "Shrikhand";
+      }
+
+      #search:focus {
+        outline: none;
+        border-color: #ff4d00;
+      }
+
+      .sidebar-btn {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        background: #222;
+        color: #fff;
+        border: none;
+        font-family: "Shrikhand";
+      }
+
+      .sidebar-btn:hover {
+        background: #ff4d00;
+      }
+
+      .section {
+        margin-bottom: 20px;
+      }
+
+      .section h2 {
+        margin: 10px 0;
+      }
+
+      .game-btn {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 14px;
+        margin: 6px 0;
+        background: #222;
+        color: #fff;
+        border: 2px solid #222;
+        border-radius: 14px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color .25s ease,
+          border-color .25s ease,
+          color .25s ease,
+          transform .15s ease;
+      }
+
+      .game-btn:hover {
+        background: #ff4d00;
+      }
+
+      .rainbow-game {
+        border-color: transparent;
+        background:
+          linear-gradient(#222, #222) padding-box,
+          linear-gradient(90deg,
+            red, orange, yellow, lime, cyan, blue, violet) border-box;
+        transition: .25s;
+      }
+
+      .rainbow-game:hover {
+        background:
+          linear-gradient(90deg,
+            red, orange, yellow, lime, cyan, blue, violet) padding-box,
+          linear-gradient(90deg,
+            red, orange, yellow, lime, cyan, blue, violet) border-box;
+        color: white;
+        transition: .25s;
+      }
+
+      .rainbow-game:hover .star.off::after {
+        color: white;
+      }
+
+      .rainbow-game:hover .star.on::after {
+        color: gold;
+      }
+
+      .rainbow-game.fav {
+        border-color: transparent;
+        background:
+          linear-gradient(#222, #222) padding-box,
+          linear-gradient(90deg,
+            red, orange, yellow, lime, cyan, blue, violet) border-box;
+        transition: .25s;
+      }
+
+      .rainbow-game.fav:hover {
+        background:
+          linear-gradient(90deg,
+            red, orange, yellow, lime, cyan, blue, violet) padding-box,
+          linear-gradient(90deg,
+            red, orange, yellow, lime, cyan, blue, violet) border-box;
+        color: white;
+        transition: .25s;
+      }
+
+      .game-btn.fav:not(.rainbow-game) {
+        border-color: #FF4D00;
+      }
+
+      .star {
+        cursor: pointer;
+        position: relative;
+      }
+
+      .star.off::after {
+        content: "★";
+        color: #888;
+      }
+
+      .star.on::after {
+        content: "★";
+        color: gold;
+      }
+
+      .danger {
+        background: red;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+
+      .standard {
+        background: #222222;
+        color: #fff;
+        border: 2px solid #ff4d00;
+        padding: 12px;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+
+      .standard:hover {
+        background: #ff4d00;
+      }
+
+      #tocModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000d;
+        display: none;
+        z-index: 10000;
+      }
+
+      .modal {
+        background: #111;
+        margin: 5% auto;
+        padding: 20px;
+        width: 60%;
+        max-height: 80%;
+        overflow: auto;
+        border-radius: 16px;
+      }
+
+      .modal button {
+        background: #ff4d00;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        margin: 10px;
+        cursor: pointer;
+      }
+
+      #presetModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000b;
+        display: none;
+        z-index: 11000;
+      }
+
+      .presetBox {
+        background: #111;
+        margin: 5% auto;
+        padding: 20px;
+        width: 400px;
+        border-radius: 16px;
+      }
+
+      .presetBox input {
+        width: 100%;
+        margin: 6px 0;
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid #222;
+        background: #222;
+        color: #fff;
+      }
+
+      .presetBox input {
+        box-sizing: border-box;
+      }
+
+      .presetBox button {
+        background: #ff4d00;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        margin: 10px;
+        cursor: pointer;
+      }
+
+      .presetBox label {
+        background: #ff4d00;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        margin: 10px;
+        cursor: pointer;
+        color: black;
+      }
+
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #111;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #ff4d00, #ff8a00);
+        border-radius: 10px;
+        border: 2px solid #111;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #ff8a00, #ff4d00);
+      }
+
+      ::-webkit-scrollbar-corner {
+        background: #111;
+      }
+
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: #ff4d00 #111;
+      }
+
+      .download-page {
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+
+      .download-card {
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+        border: 1px solid rgba(255, 255, 255, .1);
+      }
+
+      .download-logo {
+        width: 575px;
+        height: auto;
+        object-fit: contain;
+        margin-bottom: 15px;
+      }
+
+      .download-card h2 {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      .download-card p {
+        opacity: .85;
+        font-size: 17px;
+      }
+
+      .download-info {
+        margin: 25px 0;
+        display: grid;
+        gap: 12px;
+      }
+
+      .download-info div {
+        background: rgba(255, 255, 255, .06);
+        padding: 15px;
+        border-radius: 12px;
+      }
+
+      .download-info strong {
+        display: block;
+        color: #ff4d00;
+        font-size: 18px;
+      }
+
+      .download-info span {
+        opacity: .8;
+      }
+
+      .download-button {
+        width: 100%;
+        padding: 16px;
+        margin: 10px 0;
+        border-radius: 12px;
+        border: none;
+        background: #ff4d00;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: .2s;
+      }
+
+      .download-button:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.1);
+      }
+
+      .toc-link {
+        color: #ff4d00;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: bold;
+        transition: .2s;
+      }
+
+      .toc-link:hover {
+        text-decoration: underline;
+      }
+
+      #adminLoginModal {
+        position: fixed;
+        inset: 0;
+        background: #000b;
+        display: none;
+        z-index: 12000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .adminLoginBox {
+        width: 400px;
+        max-width: calc(100% - 40px);
+        box-sizing: border-box;
+        background: #111;
+        border: 2px solid #ff4d00;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 15px 50px #000;
+      }
+
+      .adminLoginBox h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+
+      .adminLoginBox input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px;
+        margin-bottom: 10px;
+        background: #222;
+        color: #fff;
+        border: 2px solid #222;
+        border-radius: 12px;
+        font-family: "Commissioner", sans-serif;
+      }
+
+      .adminLoginBox input:focus {
+        outline: none;
+        border-color: #ff4d00;
+      }
+
+      .adminLoginBox button {
+        background: #ff4d00;
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 20px;
+        margin: 5px;
+        cursor: pointer;
+        font-family: "Commissioner", sans-serif;
+        font-weight: bold;
+      }
+
+      .adminLoginBox button:hover {
+        filter: brightness(1.1);
+      }
+
+      .adminLoginBox .adminCancel {
+        background: #222;
+      }
+
+      #adminLoginStatus {
+        min-height: 20px;
+        margin-bottom: 10px;
+        color: #fff;
+      }
+
+      #noticeContainer {
+        position: fixed;
+        top: 95px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 20000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        pointer-events: none;
+      }
+
+      .ngNotice {
+        width: 360px;
+        max-width: calc(100vw - 30px);
+        box-sizing: border-box;
+        background: #222;
+        color: #fff;
+        border: 2px solid;
+        border-radius: 14px;
+        padding: 13px 35px 17px 16px;
+        font-family: "Commissioner", sans-serif;
+        font-weight: 600;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px #0008;
+        animation: ngNoticeIn .35s ease forwards;
+        pointer-events: auto;
+      }
+
+      .ngNotice.success {
+        border-color: #22c55e;
+      }
+
+      .ngNotice.warning {
+        border-color: #ff8a00;
+      }
+
+      .ngNotice.alert {
+        border-color: #ff3333;
+      }
+
+      .ngNoticeContent {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .ngNoticeIcon {
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+
+      .ngNotice.success .ngNoticeIcon {
+        color: #22c55e;
+      }
+
+      .ngNotice.warning .ngNoticeIcon {
+        color: #ff8a00;
+      }
+
+      .ngNotice.alert .ngNoticeIcon {
+        color: #ff3333;
+      }
+
+      .ngNoticeBar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        transform-origin: left;
+        animation: ngNoticeDecay 3s linear forwards;
+      }
+
+      .ngNotice.success .ngNoticeBar {
+        background: #22c55e;
+      }
+
+      .ngNotice.warning .ngNoticeBar {
+        background: #ff8a00;
+      }
+
+      .ngNotice.alert .ngNoticeBar {
+        background: #ff3333;
+      }
+
+      .ngNotice.closing {
+        animation: ngNoticeOut .35s ease forwards;
+      }
+
+      @keyframes ngNoticeIn {
+        from {
+          transform: translateY(-40px);
+          opacity: 0;
+        }
+
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes ngNoticeOut {
+        from {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        to {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+      }
+
+      @keyframes ngNoticeDecay {
+        from {
+          transform: scaleX(1);
+        }
+
+        to {
+          transform: scaleX(0);
+        }
+      }
+
+      .ngConfirm {
+        width: 360px;
+        max-width: calc(100vw - 30px);
+        box-sizing: border-box;
+        background: #222;
+        color: #fff;
+        border: 2px solid #ff4d00;
+        border-radius: 14px;
+        padding: 16px;
+        font-family: "Commissioner", sans-serif;
+        box-shadow: 0 10px 30px #0008;
+        pointer-events: auto;
+        animation: ngNoticeIn .35s ease forwards;
+      }
+
+      .ngConfirmTitle {
+        font-size: 17px;
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+
+      .ngConfirmButtons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .ngConfirm button {
+        border: none;
+        border-radius: 10px;
+        padding: 9px 16px;
+        cursor: pointer;
+        font-family: "Commissioner", sans-serif;
+        font-weight: 700;
+      }
+
+      .ngConfirmYes {
+        background: #ff4d00;
+        color: #fff;
+      }
+
+      .ngConfirmNo {
+        background: #333;
+        color: #fff;
+      }
+
+      .ngConfirm button:hover {
+        filter: brightness(1.15);
+      }
+
+      .ngNoticeClose {
+        position: absolute;
+        top: 5px;
+        right: 7px;
+        background: none;
+        border: none;
+        color: #888;
+        font-size: 20px;
+        line-height: 1;
+        padding: 2px 5px;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+      }
+
+      .ngNoticeClose:hover {
+        color: #fff;
+      }
+
+      #adminIndicator {
+        display: none;
+        position: absolute;
+        right: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fff;
+        font-family: "Commissioner", sans-serif;
+        font-weight: 700;
+        -webkit-text-stroke: 7.5px black;
+        paint-order: stroke fill;
+      }
+
+      .no-transition+.ngSlider {
+        transition: none !important;
+      }
+
+      .no-transition+.ngSlider::before {
+        transition: none !important;
+      }
+
+      .password-wrap {
+        position: relative;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .password-wrap input {
+        width: 100%;
+        padding-right: 75px;
+        margin-bottom: 0;
+      }
+
+      #showPasswordBtn {
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        color: #aaa;
+        border: none;
+        padding: 6px 8px;
+        margin: 0;
+        cursor: pointer;
+        font-family: "Commissioner", sans-serif;
+        font-weight: 600;
+      }
+
+      #showPasswordBtn:hover {
+        color: #fff;
+        filter: none;
+      }
+
+      .searchBox {
+        position: relative;
+        width: 100%;
+      }
+
+      #search {
+        padding-right: 45px;
+      }
+
+      #clearSearch {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 50%;
+        background: #333;
+        color: #fff;
+        font-size: 22px;
+        line-height: 1;
+        cursor: pointer;
+        display: none;
+      }
+
+      #clearSearch:hover {
+        background: #ff4d00;
+      }
+
+      .noResults {
+        text-align: center;
+        padding: 50px 20px;
+        color: #888;
+      }
+
+      .noResults h2 {
+        color: #fff;
+      }
+
+      #loadingScreen {
+        position: fixed;
+        inset: 0;
+        z-index: 50000;
+        background: #111;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      #loadingScreen img {
+        width: min(400px, 70vw);
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      #loadingScreen h1 {
+        margin: 0;
+        font-family: "Shrikhand", sans-serif;
+      }
+
+      #loadingScreen p {
+        color: #aaa;
+      }
+
+      #loadingScreen.hidden {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .3s ease;
+      }
+
+      .settings-page {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .settings-page>h2 {
+        font-size: 32px;
+        margin-bottom: 25px;
+      }
+
+      .settings-section {
+        background: #1a1a1a;
+        border: 2px solid #222;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .settings-section h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #ff4d00;
+      }
+
+      .settings-section .standard,
+      .settings-section .danger {
+        margin: 5px;
+      }
+
+      .settings-section .ngToggleWrap {
+        margin: 10px 5px;
+      }
     </style>
-</head>
-
-<body>
+  </head>
+  <body>
     <div id="loadingScreen">
-        <img src="https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/logo.png" alt="Nol'sGames">
-        <h1>Loading Nol'sGames...</h1>
-        <p>Loading game library...</p>
+      <img src="https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/logo.png" alt="Nol'sGames">
+      <h1>Loading Nol'sGames...</h1>
+      <p>Loading game library...</p>
     </div>
     <div id="noticeContainer"></div>
     <div id="topbar">
-        <img id="logo" src="https://nolsgames.xyz/logo.png">
-        <button class="tab" onclick="showTab('games')">Games</button>
-        <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.d7cju37w6zwj','_blank')">Info</button>
-        <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">Terminal</button>
-        <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.biyfduhv1w7','_blank')">Events</button>
-        <button class="tab" onclick="showTab('settings')">Settings</button>
-        <span id="adminIndicator">⚒︎ Administrator</span>
+      <img id="logo" src="https://nolsgames.xyz/logo.png">
+      <button class="tab" onclick="showTab('games')">Games</button>
+      <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.d7cju37w6zwj','_blank')">Info</button>
+      <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.0','_blank')">Terminal</button>
+      <button class="tab" onclick="window.open('https://docs.google.com/document/d/1BaIyWZoUosVcc7D3rwwEsx7-fWeDGgD4DC45MmIpTog/edit?tab=t.biyfduhv1w7','_blank')">Events</button>
+      <button class="tab" onclick="showTab('settings')">Settings</button>
+      <span id="adminIndicator">⚒︎ Administrator</span>
     </div>
     <div id="ticker">
-        <div id="tickerText"></div>
+      <div id="tickerText"></div>
     </div>
     <div id="sidebar"></div>
     <div id="main">
-        <div id="searchWrap">
-            <input id="search" placeholder="Search games...">
-        </div>
+      <div id="searchWrap">
+        <input id="search" placeholder="Search games...">
+      </div>
     </div>
     <div id="tocModal">
-        <div class="modal" id="tocContent"></div>
+      <div class="modal" id="tocContent"></div>
     </div>
     <div id="adminLoginModal">
-        <div class="adminLoginBox">
-            <form id="adminLoginForm" onsubmit="submitAdminLogin(); return false;" autocomplete="on">
-                <h2>Administrator Login</h2>
-
-                <div class="password-wrap">
-                    <input type="password" id="adminPassword" name="password" placeholder="Administrator Password" autocomplete="current-password">
-
-                    <button type="button" id="showPasswordBtn" onclick="toggleAdminPassword()" aria-label="Show password">
-                        Show
-                    </button>
-                </div>
-
-                <div id="adminLoginStatus"></div>
-
-                <button type="submit">Login</button>
-                <button type="button" class="adminCancel" onclick="closeAdminLogin()">Cancel</button>
-            </form>
-        </div>
+      <div class="adminLoginBox">
+        <form id="adminLoginForm" onsubmit="submitAdminLogin(); return false;" autocomplete="on">
+          <h2>Administrator Login</h2>
+          <div class="password-wrap">
+            <input type="password" id="adminPassword" name="password" placeholder="Administrator Password" autocomplete="current-password">
+            <button type="button" id="showPasswordBtn" onclick="toggleAdminPassword()" aria-label="Show password"> Show </button>
+          </div>
+          <div id="adminLoginStatus"></div>
+          <button type="submit">Login</button>
+          <button type="button" class="adminCancel" onclick="closeAdminLogin()">Cancel</button>
+        </form>
+      </div>
     </div>
     <div id="presetModal">
-        <div class="presetBox">
-            <h3>Tab Settings</h3>
-            <input id="tabName" placeholder="Tab Name">
-            <label style="display:inline-block;"> Upload Favicon <input type="file" id="tabIconUpload" accept="image/*" style="display:none" onchange="handleFaviconUpload(this.files[0])">
-            </label>
-            <input id="panicKey" placeholder="Panic Key (e.g. p)">
-            <input id="panicLink" placeholder="Redirect URL">
-            <button onclick="savePreset()">Save</button>
-            <button style="background:red;color:white;" onclick="resetPresets()"> Reset Settings </button>
-            <button onclick="closePresets()"> Close </button>
-        </div>
+      <div class="presetBox">
+        <h3>Tab Settings</h3>
+        <input id="tabName" placeholder="Tab Name">
+        <label style="display:inline-block;"> Upload Favicon <input type="file" id="tabIconUpload" accept="image/*" style="display:none" onchange="handleFaviconUpload(this.files[0])">
+        </label>
+        <input id="panicKey" placeholder="Panic Key (e.g. p)">
+        <input id="panicLink" placeholder="Redirect URL">
+        <button onclick="savePreset()">Save</button>
+        <button style="background:red;color:white;" onclick="resetPresets()"> Reset Settings </button>
+        <button onclick="closePresets()"> Close </button>
+      </div>
     </div>
     <script>
-        const API_URL = "https://awkward-angeline-n-gs-c66a8b94.koyeb.app";
-        let adminToken = null;
-        let isAdmin = false;
+      const API_URL = "https://awkward-angeline-n-gs-c66a8b94.koyeb.app";
+      let adminToken = null;
+      let isAdmin = false;
 
-        function alertNotice(type, message) {
-            const container = document.getElementById('noticeContainer');
-
-            if (!container) return;
-
-            const notice = document.createElement('div');
-            notice.className = `ngNotice ${type}`;
-
-            let icon = '';
-
-            if (type === 'success') {
-                icon = '●︎';
-                console.log(message);
-            } else if (type === 'warning') {
-                icon = '▲︎';
-                console.warn(message);
-            } else if (type === 'alert') {
-                icon = '⯃︎';
-                console.error(message);
-            } else {
-                return;
-            }
-
-            notice.innerHTML = `
-        <button class="ngNoticeClose" aria-label="Close">×</button>
-
-        <div class="ngNoticeContent">
-            <span class="ngNoticeIcon">${icon}</span>
-            <span>${message}</span>
-        </div>
-
-        <div class="ngNoticeBar"></div>
+      function alertNotice(type, message) {
+        const container = document.getElementById('noticeContainer');
+        if (!container) return;
+        const notice = document.createElement('div');
+        notice.className = `ngNotice ${type}`;
+        let icon = '';
+        if (type === 'success') {
+          icon = '●︎';
+          console.log(message);
+        } else if (type === 'warning') {
+          icon = '▲︎';
+          console.warn(message);
+        } else if (type === 'alert') {
+          icon = '⯃︎';
+          console.error(message);
+        } else {
+          return;
+        }
+        notice.innerHTML = `
+        
+																										<button class="ngNoticeClose" aria-label="Close">×</button>
+																										<div class="ngNoticeContent">
+																											<span class="ngNoticeIcon">${icon}</span>
+																											<span>${message}</span>
+																										</div>
+																										<div class="ngNoticeBar"></div>
     `;
+        container.appendChild(notice);
+        let closed = false;
+        const closeNotice = () => {
+          if (closed) return;
+          closed = true;
+          notice.classList.add('closing');
+          setTimeout(() => {
+            notice.remove();
+          }, 350);
+        };
+        notice.querySelector('.ngNoticeClose').onclick = closeNotice;
+        setTimeout(closeNotice, 3000);
+      }
 
-            container.appendChild(notice);
-
-            let closed = false;
-
-            const closeNotice = () => {
-                if (closed) return;
-                closed = true;
-
-                notice.classList.add('closing');
-
-                setTimeout(() => {
-                    notice.remove();
-                }, 350);
+      function updateEruda() {
+        if (isAdmin) {
+          if (!document.getElementById('erudaScript')) {
+            const script = document.createElement('script');
+            script.id = 'erudaScript';
+            script.src = 'https://cdn.jsdelivr.net/npm/eruda';
+            script.onload = () => {
+              if (window.eruda) {
+                eruda.init();
+              }
             };
-
-            notice.querySelector('.ngNoticeClose').onclick = closeNotice;
-
-            setTimeout(closeNotice, 3000);
+            document.head.appendChild(script);
+          }
+        } else {
+          if (window.eruda) {
+            eruda.destroy();
+          }
+          document.getElementById('erudaScript')?.remove();
         }
+      }
 
-        function updateEruda() {
-            if (isAdmin) {
-                if (!document.getElementById('erudaScript')) {
-                    const script = document.createElement('script');
-                    script.id = 'erudaScript';
-                    script.src = 'https://cdn.jsdelivr.net/npm/eruda';
-                    script.onload = () => {
-                        if (window.eruda) {
-                            eruda.init();
-                        }
-                    };
-                    document.head.appendChild(script);
-                }
-            } else {
-                if (window.eruda) {
-                    eruda.destroy();
-                }
-
-                document.getElementById('erudaScript')?.remove();
-            }
-        }
-
-        function alertConfirm(message, onConfirm) {
-            const container = document.getElementById('noticeContainer');
-
-            if (!container) return;
-
-            const confirmBox = document.createElement('div');
-            confirmBox.className = 'ngConfirm';
-
-            confirmBox.innerHTML = `
-        <div class="ngConfirmTitle">
+      function alertConfirm(message, onConfirm) {
+        const container = document.getElementById('noticeContainer');
+        if (!container) return;
+        const confirmBox = document.createElement('div');
+        confirmBox.className = 'ngConfirm';
+        confirmBox.innerHTML = `
+        
+																										<div class="ngConfirmTitle">
             ${message}
         </div>
-
-        <div class="ngConfirmButtons">
-            <button class="ngConfirmNo">Cancel</button>
-            <button class="ngConfirmYes">Confirm</button>
-        </div>
+																										<div class="ngConfirmButtons">
+																											<button class="ngConfirmNo">Cancel</button>
+																											<button class="ngConfirmYes">Confirm</button>
+																										</div>
     `;
+        container.appendChild(confirmBox);
+        const close = () => {
+          confirmBox.classList.add('closing');
+          setTimeout(() => {
+            confirmBox.remove();
+          }, 350);
+        };
+        confirmBox.querySelector('.ngConfirmNo').onclick = close;
+        confirmBox.querySelector('.ngConfirmYes').onclick = () => {
+          close();
+          if (typeof onConfirm === 'function') {
+            onConfirm();
+          }
+        };
+      }
 
-            container.appendChild(confirmBox);
-
-            const close = () => {
-                confirmBox.classList.add('closing');
-
-                setTimeout(() => {
-                    confirmBox.remove();
-                }, 350);
-            };
-
-            confirmBox.querySelector('.ngConfirmNo').onclick = close;
-
-            confirmBox.querySelector('.ngConfirmYes').onclick = () => {
-                close();
-
-                if (typeof onConfirm === 'function') {
-                    onConfirm();
-                }
-            };
+      function toggleAdminPassword() {
+        const passwordInput = document.getElementById('adminPassword');
+        const button = document.getElementById('showPasswordBtn');
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          button.textContent = 'Hide';
+          button.setAttribute('aria-label', 'Hide password');
+        } else {
+          passwordInput.type = 'password';
+          button.textContent = 'Show';
+          button.setAttribute('aria-label', 'Show password');
         }
+      }
 
-        function toggleAdminPassword() {
-            const passwordInput = document.getElementById('adminPassword');
-            const button = document.getElementById('showPasswordBtn');
+      function updateAdminIndicator() {
+        const indicator = document.getElementById('adminIndicator');
+        if (!indicator) return;
+        indicator.style.display = isAdmin ? 'block' : 'none';
+      }
+      async function adminLogin() {
+        document.getElementById('adminLoginModal').style.display = 'flex';
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminPassword').focus();
+      }
+      async function submitAdminLogin() {
+        const passwordInput = document.getElementById('adminPassword');
+        const status = document.getElementById('adminLoginStatus');
+        const password = passwordInput.value;
+        if (!password) {
+          alertNotice("warning", "Password field cannot be blank.");
+          return;
+        }
+        status.textContent = 'Authenticating...';
+        try {
+          const response = await fetch(`${API_URL}/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              password
+            })
+          });
+          const data = await response.json();
+          if (!response.ok || !data.success) {
+            alertNotice("alert", "Incorrect administrator password.");
+            status.textContent = '';
+            passwordInput.value = '';
+            passwordInput.focus();
+            return;
+          }
+          adminToken = data.token;
+          isAdmin = true;
+          updateAdminIndicator();
+          updateEruda();
+          closeAdminLogin();
+          alertNotice("success", "Administrator login successful.");
+          status.textContent = '';
+          showTab('games');
+        } catch (err) {
+          console.error("Admin login failed:", err);
+          alertNotice("alert", "Unable to connect to Login API. Please check your internet connection.");
+          status.textContent = '';
+        }
+      }
 
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                button.textContent = 'Hide';
-                button.setAttribute('aria-label', 'Hide password');
-            } else {
-                passwordInput.type = 'password';
-                button.textContent = 'Show';
-                button.setAttribute('aria-label', 'Show password');
+      function closeAdminLogin() {
+        document.getElementById('adminLoginModal').style.display = 'none';
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminLoginStatus').textContent = '';
+      }
+      async function verifyAdmin() {
+        if (!adminToken) {
+          isAdmin = false;
+          updateAdminIndicator();
+          updateEruda();
+          return false;
+        }
+        try {
+          const response = await fetch(`${API_URL}/verify`, {
+            headers: {
+              "Authorization": `Bearer ${adminToken}`
             }
+          });
+          const data = await response.json();
+          if (!response.ok || !data.authenticated) {
+            adminToken = null;
+            isAdmin = false;
+            updateAdminIndicator();
+            updateEruda();
+            return false;
+          }
+          isAdmin = true;
+          updateAdminIndicator();
+          updateEruda();
+          return true;
+        } catch (err) {
+          console.error("Admin verification failed:", err);
+          adminToken = null;
+          isAdmin = false;
+          updateAdminIndicator();
+          updateEruda();
+          return false;
         }
-
-        function updateAdminIndicator() {
-            const indicator = document.getElementById('adminIndicator');
-
-            if (!indicator) return;
-
-            indicator.style.display = isAdmin ? 'block' : 'none';
+      }
+      setInterval(async () => {
+        if (isAdmin) {
+          await verifyAdmin();
         }
+      }, 30000);
+      const messages = ["Welcome to Nol'sGames!", "1900+ Games For You To Play", "This Is Still In BETA And Has Lots Of Bugs.", "Try Out The New Save Game Data Button In Settings!", "Enjoy!", "New Games Are Added Regularly!", "Find Your Next Favorite Game!", "Use The Search Bar To Find A Game Fast!", "Don't Forget To Favorite Your Favorite Games!", "Have Fun Exploring Nol'sGames!"];
+      const tickerText = document.getElementById("tickerText");
+      const ticker = document.getElementById("ticker");
+      let lastMessage = -1;
+      let tickerAnimation = null;
+      let tickerTimeout = null;
 
-        async function adminLogin() {
-            document.getElementById('adminLoginModal').style.display = 'flex';
-            document.getElementById('adminPassword').value = '';
-            document.getElementById('adminPassword').focus();
+      function getRandomMessage() {
+        let index;
+        do {
+          index = Math.floor(Math.random() * messages.length);
+        } while (index === lastMessage && messages.length > 1);
+        lastMessage = index;
+        return messages[index];
+      }
+
+      function stopTicker() {
+        if (tickerAnimation !== null) {
+          cancelAnimationFrame(tickerAnimation);
+          tickerAnimation = null;
         }
-
-        async function submitAdminLogin() {
-            const passwordInput = document.getElementById('adminPassword');
-            const status = document.getElementById('adminLoginStatus');
-            const password = passwordInput.value;
-
-            if (!password) {
-                alertNotice("warning", "Password field cannot be blank.");
-                return;
-            }
-
-            status.textContent = 'Authenticating...';
-
-            try {
-                const response = await fetch(`${API_URL}/login`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        password
-                    })
-                });
-
-                const data = await response.json();
-
-                if (!response.ok || !data.success) {
-                    alertNotice("alert", "Incorrect administrator password.");
-                    status.textContent = '';
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                    return;
-                }
-
-                adminToken = data.token;
-                isAdmin = true;
-
-                updateAdminIndicator();
-                updateEruda();
-
-                closeAdminLogin();
-
-                alertNotice("success", "Administrator login successful.");
-                status.textContent = '';
-                showTab('games');
-            } catch (err) {
-                console.error("Admin login failed:", err);
-                alertNotice("alert", "Unable to connect to Login API. Please check your internet connection.");
-                status.textContent = '';
-            }
+        if (tickerTimeout !== null) {
+          clearTimeout(tickerTimeout);
+          tickerTimeout = null;
         }
+      }
 
-        function closeAdminLogin() {
-            document.getElementById('adminLoginModal').style.display = 'none';
-            document.getElementById('adminPassword').value = '';
-            document.getElementById('adminLoginStatus').textContent = '';
+      function cycleTicker() {
+        if (!ticker || !tickerText) return;
+        const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+        if (settings.ticker === false) {
+          stopTicker();
+          return;
         }
+        stopTicker();
+        tickerText.textContent = getRandomMessage();
+        const textWidth = tickerText.offsetWidth;
+        const startPosition = window.innerWidth;
+        const endPosition = -textWidth;
+        const speed = 120;
+        tickerText.style.transform = `translateX(${startPosition}px)`;
+        const startTime = performance.now();
 
-        async function verifyAdmin() {
-            if (!adminToken) return false;
-
-            try {
-                const response = await fetch(`${API_URL}/verify`, {
-                    headers: {
-                        "Authorization": `Bearer ${adminToken}`
-                    }
-                });
-
-                const data = await response.json();
-
-                if (!response.ok || !data.authenticated) {
-                    adminToken = null;
-                    isAdmin = false;
-                    return false;
-                }
-
-                isAdmin = true;
-                updateAdminIndicator();
-                updateEruda();
-                return true;
-            } catch (err) {
-                console.error("Admin verification failed:", err);
-                alertNotice("alert", "Admin verification timed out or failed.");
-                adminToken = null;
-                isAdmin = false;
-                updateAdminIndicator();
-                updateEruda();
-                return false;
-            }
+        function animate(currentTime) {
+          const currentSettings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+          if (currentSettings.ticker === false) {
+            tickerAnimation = null;
+            return;
+          }
+          const elapsed = (currentTime - startTime) / 1000;
+          const position = startPosition - (elapsed * speed);
+          tickerText.style.transform = `translateX(${position}px)`;
+          if (position <= endPosition) {
+            tickerAnimation = null;
+            tickerTimeout = setTimeout(() => {
+              tickerTimeout = null;
+              cycleTicker();
+            }, 500);
+            return;
+          }
+          tickerAnimation = requestAnimationFrame(animate);
         }
+        tickerAnimation = requestAnimationFrame(animate);
+      }
 
-        setInterval(async () => {
-            if (isAdmin) {
-                await verifyAdmin();
-            }
-        }, 30000);
-
-        const messages = [
-            "Welcome to Nol'sGames!",
-            "1900+ Games For You To Play",
-            "This Is Still In BETA And Has Lots Of Bugs.",
-            "Try Out The New Save Game Data Button In Settings!",
-            "Enjoy!",
-            "New Games Are Added Regularly!",
-            "Find Your Next Favorite Game!",
-            "Use The Search Bar To Find A Game Fast!",
-            "Don't Forget To Favorite Your Favorite Games!",
-            "Have Fun Exploring Nol'sGames!"
-        ];
-
-        const tickerText = document.getElementById("tickerText");
-        const ticker = document.getElementById("ticker");
-
-        let lastMessage = -1;
-        let tickerAnimation = null;
-        let tickerTimeout = null;
-
-        function getRandomMessage() {
-            let index;
-
-            do {
-                index = Math.floor(Math.random() * messages.length);
-            } while (index === lastMessage && messages.length > 1);
-
-            lastMessage = index;
-            return messages[index];
+      function toggleTicker(enabled) {
+        const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+        settings.ticker = enabled;
+        localStorage.setItem('ngSettings', JSON.stringify(settings));
+        if (enabled) {
+          ticker.style.display = 'flex';
+          document.body.classList.remove('ticker-hidden');
+          stopTicker();
+          tickerText.style.transform = `translateX(${window.innerWidth}px)`;
+          cycleTicker();
+        } else {
+          stopTicker();
+          ticker.style.display = 'none';
+          document.body.classList.add('ticker-hidden');
+          tickerText.style.transform = 'translateX(100vw)';
         }
+      }
 
-        function stopTicker() {
-            if (tickerAnimation !== null) {
-                cancelAnimationFrame(tickerAnimation);
-                tickerAnimation = null;
-            }
-
-            if (tickerTimeout !== null) {
-                clearTimeout(tickerTimeout);
-                tickerTimeout = null;
-            }
+      function applyTickerSetting() {
+        const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+        const enabled = settings.ticker !== false;
+        if (enabled) {
+          ticker.style.display = 'flex';
+          document.body.classList.remove('ticker-hidden');
+          if (tickerAnimation === null && tickerTimeout === null) {
+            cycleTicker();
+          }
+        } else {
+          stopTicker();
+          ticker.style.display = 'none';
+          document.body.classList.add('ticker-hidden');
+          tickerText.style.transform = 'translateX(100vw)';
         }
-
-        function cycleTicker() {
-            if (!ticker || !tickerText) return;
-
-            const settings = JSON.parse(
-                localStorage.getItem('ngSettings') || '{}'
-            );
-
-            if (settings.ticker === false) {
-                stopTicker();
-                return;
-            }
-
-            stopTicker();
-
-            tickerText.textContent = getRandomMessage();
-
-            // Force the browser to calculate the text width
-            const textWidth = tickerText.offsetWidth;
-
-            const startPosition = window.innerWidth;
-            const endPosition = -textWidth;
-
-            const speed = 120;
-
-            tickerText.style.transform =
-                `translateX(${startPosition}px)`;
-
-            const startTime = performance.now();
-
-            function animate(currentTime) {
-                const currentSettings = JSON.parse(
-                    localStorage.getItem('ngSettings') || '{}'
-                );
-
-                if (currentSettings.ticker === false) {
-                    tickerAnimation = null;
-                    return;
-                }
-
-                const elapsed =
-                    (currentTime - startTime) / 1000;
-
-                const position =
-                    startPosition - (elapsed * speed);
-
-                tickerText.style.transform =
-                    `translateX(${position}px)`;
-
-                if (position <= endPosition) {
-                    tickerAnimation = null;
-
-                    tickerTimeout = setTimeout(() => {
-                        tickerTimeout = null;
-                        cycleTicker();
-                    }, 500);
-
-                    return;
-                }
-
-                tickerAnimation =
-                    requestAnimationFrame(animate);
-            }
-
-            tickerAnimation =
-                requestAnimationFrame(animate);
-        }
-
-        function toggleTicker(enabled) {
-            const settings = JSON.parse(
-                localStorage.getItem('ngSettings') || '{}'
-            );
-
-            settings.ticker = enabled;
-
-            localStorage.setItem(
-                'ngSettings',
-                JSON.stringify(settings)
-            );
-
-            if (enabled) {
-                ticker.style.display = 'flex';
-                document.body.classList.remove('ticker-hidden');
-
-                // Restart the animation from the beginning
-                stopTicker();
-
-                tickerText.style.transform =
-                    `translateX(${window.innerWidth}px)`;
-
-                cycleTicker();
-            } else {
-                stopTicker();
-
-                ticker.style.display = 'none';
-                document.body.classList.add('ticker-hidden');
-
-                // Completely remove the ticker's visual position
-                tickerText.style.transform =
-                    'translateX(100vw)';
-            }
-        }
-
-        function applyTickerSetting() {
-            const settings = JSON.parse(
-                localStorage.getItem('ngSettings') || '{}'
-            );
-
-            const enabled = settings.ticker !== false;
-
-            if (enabled) {
-                ticker.style.display = 'flex';
-                document.body.classList.remove('ticker-hidden');
-
-                if (
-                    tickerAnimation === null &&
-                    tickerTimeout === null
-                ) {
-                    cycleTicker();
-                }
-            } else {
-                stopTicker();
-
-                ticker.style.display = 'none';
-                document.body.classList.add('ticker-hidden');
-
-                tickerText.style.transform =
-                    'translateX(100vw)';
-            }
-        }
-
-        applyTickerSetting();
-        const tocPages = [`
-																								<div style="
+      }
+      applyTickerSetting();
+      const tocPages = [`
+																								
+																										<div style="
     font-family: 'Commissioner', sans-serif;
     line-height: 1.7;
     color: #fff;
 ">
-																									<h2 style="font-weight:800; margin-bottom:12px;">
+																											<h2 style="font-weight:800; margin-bottom:12px;">
 Nol’sGames Terms of Use & Privacy Policy
 </h2>
-																									<p>
-																										<b>Effective Date:</b> June 6, 2026
-																									</p>
-																									<p>By accessing, visiting, downloading, using, or interacting with Nol’sGames, including the website located at https://nolsgames.xyz, any associated subdomains, downloadable files, Service, Services, content, or related resources (collectively, the “Service”), you agree to these Terms of Use and Privacy Policy. If you do not agree, do not access or use the Service.</p>
-																									<hr>
-																										<h3 style="font-weight:800;">Service & Website Description</h3>
-																										<p>Nol’sGames is a browser-based gaming platform, website, and service project primarily developed using HTML5, CSS3, JavaScript, and related web technologies. Nol’sGames may be provided through the official website located at https://nolsgames.xyz, downloadable HTML files, mirrors, authorized distribution channels, or other official platforms operated by Nol.</p>
-																										<p>The Service is intended for use on compatible devices and browsers capable of supporting the technologies used by Nol’sGames. Downloadable versions may be distributed as single .html files or other supported formats. If Nol’sGames is provided in an unexpected executable, installer, or unrecognized format, users are advised not to download or run the file.</p>
-																										<hr>
-																											<h3 style="font-weight:800;">Distribution</h3>
-																											<p>Nol’sGames is provided free of charge. No person or entity is authorized to sell, monetize, charge access fees for, or otherwise profit from distributing, mirroring, reuploading, hosting, or providing access to Nol’sGames without prior written permission from Nol.</p>
-																											<p>Users should not pay for access to Nol’sGames, the website, downloadable versions, mirrors, reuploads, the Nol’sGames terminal, or related files unless explicitly authorized by Nol.</p>
+																											<p>
+																												<b>Effective Date:</b> June 6, 2026
+																									
+																											</p>
+																											<p>By accessing, visiting, downloading, using, or interacting with Nol’sGames, including the website located at https://nolsgames.xyz, any associated subdomains, downloadable files, Service, Services, content, or related resources (collectively, the “Service”), you agree to these Terms of Use and Privacy Policy. If you do not agree, do not access or use the Service.</p>
 																											<hr>
-																												<h3 style="font-weight:800;">User Responsibility & Security</h3>
-																												<p>Users download and use Nol’sGames at their own risk.</p>
-																												<p>While reasonable efforts are made to distribute safe and functional files, Nol makes no guarantees, warranties, or representations regarding the safety, reliability, compatibility, availability, or security of the Service or downloaded files, including the absence of bugs, malware, harmful code, vulnerabilities, interruptions, or defects.</p>
-																												<p>Users are solely responsible for verifying the authenticity and safety of downloaded files, maintaining appropriate antivirus and device security protections, and ensuring compliance with applicable laws and regulations.</p>
-																												<p>Users are strongly encouraged to download Nol’sGames only from official or trusted distribution sources.</p>
+																												<h3 style="font-weight:800;">Service & Website Description</h3>
+																												<p>Nol’sGames is a browser-based gaming platform, website, and service project primarily developed using HTML5, CSS3, JavaScript, and related web technologies. Nol’sGames may be provided through the official website located at https://nolsgames.xyz, downloadable HTML files, mirrors, authorized distribution channels, or other official platforms operated by Nol.</p>
+																												<p>The Service is intended for use on compatible devices and browsers capable of supporting the technologies used by Nol’sGames. Downloadable versions may be distributed as single .html files or other supported formats. If Nol’sGames is provided in an unexpected executable, installer, or unrecognized format, users are advised not to download or run the file.</p>
 																												<hr>
-																													<h3 style="font-weight:800;">Third-Party Services & External Connections</h3>
-																													<p>Some features, games, emulators, APIs, files, or externally hosted content may rely on third-party Services or servers that are not owned or controlled by Nol. Nol is not responsible for downtime, interruptions, removed content, unavailable Services, external modifications, or damages caused by third-party Services or providers.</p>
-																													<p>Availability of external content or Services is not guaranteed.</p>
+																													<h3 style="font-weight:800;">Distribution</h3>
+																													<p>Nol’sGames is provided free of charge. No person or entity is authorized to sell, monetize, charge access fees for, or otherwise profit from distributing, mirroring, reuploading, hosting, or providing access to Nol’sGames without prior written permission from Nol.</p>
+																													<p>Users should not pay for access to Nol’sGames, the website, downloadable versions, mirrors, reuploads, the Nol’sGames terminal, or related files unless explicitly authorized by Nol.</p>
 																													<hr>
-																														<h3 style="font-weight:800;">Save Data</h3>
-																														<p>Nol’sGames may generate save files, including but not limited to .ngs (Nol’sGames Save), .srm, and .state files. These files are intended solely for storing gameplay data and user progress.</p>
-																														<p>Uploading save files may overwrite existing save data. Users are solely responsible for backing up important data before importing or modifying files.</p>
-																														<p>Nol is not responsible for corrupted save data, incompatible save formats, lost progress, browser storage clearing, device failures, Service conflicts, or data loss caused by modifications, deletions, external interference, or user actions.</p>
-																														<p>Modifying, deleting, blocking, uninstalling, or altering Nol’sGames, connected files, browser storage, emulator files, or external connections may permanently and irreversibly delete stored game data. Nol cannot recover lost local data.</p>
+																														<h3 style="font-weight:800;">User Responsibility & Security</h3>
+																														<p>Users download and use Nol’sGames at their own risk.</p>
+																														<p>While reasonable efforts are made to distribute safe and functional files, Nol makes no guarantees, warranties, or representations regarding the safety, reliability, compatibility, availability, or security of the Service or downloaded files, including the absence of bugs, malware, harmful code, vulnerabilities, interruptions, or defects.</p>
+																														<p>Users are solely responsible for verifying the authenticity and safety of downloaded files, maintaining appropriate antivirus and device security protections, and ensuring compliance with applicable laws and regulations.</p>
+																														<p>Users are strongly encouraged to download Nol’sGames only from official or trusted distribution sources.</p>
 																														<hr>
-																															<h3 style="font-weight:800;">Open-Source Software & Emulator Functionality</h3>
-																															<p>Nol’sGames may incorporate, interface with, or support third-party open-source Software and emulator technologies. All applicable copyrights, licenses, and intellectual property rights remain the property of their respective owners.</p>
-																															<p>Users are responsible for complying with all applicable third-party Software licenses associated with emulators or open-source Software used within Nol’sGames.</p>
-																															<p>Nol’sGames does not distribute or claim ownership of copyrighted commercial ROMs, BIOS files, proprietary firmware, or third-party game assets unless explicitly authorized by the respective rights holders.</p>
-																															<p>Users are solely responsible for ensuring they possess the legal rights to any ROMs, BIOS files, or other content used with emulator-related functionality.</p>
-																															<p>Certain games, console names, trademarks, logos, and related content referenced or compatible with Nol’sGames may be owned by their respective copyright and trademark owners, including Nintendo, Sony, Sega, Microsoft, and others. Nol’sGames does not claim ownership over third-party copyrighted materials. All trademarks, logos, and game titles remain the property of their respective owners.</p>
-																															<p>Nol’sGames is not affiliated with, endorsed by, or sponsored by Nintendo or any other game publisher or rights holder unless explicitly stated.</p>
+																															<h3 style="font-weight:800;">Third-Party Services & External Connections</h3>
+																															<p>Some features, games, emulators, APIs, files, or externally hosted content may rely on third-party Services or servers that are not owned or controlled by Nol. Nol is not responsible for downtime, interruptions, removed content, unavailable Services, external modifications, or damages caused by third-party Services or providers.</p>
+																															<p>Availability of external content or Services is not guaranteed.</p>
 																															<hr>
-																																<h3 style="font-weight:800;">Intellectual Property</h3>
-																																<p>Unless otherwise stated, all original code, branding, graphics, text, interface elements, designs, and assets included within Nol’sGames are the intellectual property of Nol and are protected under applicable copyright and intellectual property laws.</p>
-																																<p>Users may modify the Service for personal, non-commercial use only.</p>
-																																<p>Users may not redistribute modified versions under the “Nol’sGames” name, sell or monetize the Service, reupload the Service without permission, claim ownership of Nol’sGames content, or redistribute assets, branding, code, or materials without explicit written permission from Nol.</p>
+																																<h3 style="font-weight:800;">Save Data</h3>
+																																<p>Nol’sGames may generate save files, including but not limited to .ngs (Nol’sGames Save), .srm, and .state files. These files are intended solely for storing gameplay data and user progress.</p>
+																																<p>Uploading save files may overwrite existing save data. Users are solely responsible for backing up important data before importing or modifying files.</p>
+																																<p>Nol is not responsible for corrupted save data, incompatible save formats, lost progress, browser storage clearing, device failures, Service conflicts, or data loss caused by modifications, deletions, external interference, or user actions.</p>
+																																<p>Modifying, deleting, blocking, uninstalling, or altering Nol’sGames, connected files, browser storage, emulator files, or external connections may permanently and irreversibly delete stored game data. Nol cannot recover lost local data.</p>
 																																<hr>
-																																	<h3 style="font-weight:800;">Disclaimer of Warranties</h3>
-																																	<p>
-																																		<b>THE SERVICE IS PROVIDED “AS IS” AND “AS AVAILABLE,” WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, SECURITY, AVAILABILITY, OR ERROR-FREE OPERATION.</b>
-																																	</p>
-																																	<p>NOL DOES NOT WARRANT THAT THE SERVICE WILL FUNCTION WITHOUT INTERRUPTION, THAT DEFECTS WILL BE CORRECTED, OR THAT THE SERVICE OR FILES WILL BE FREE OF HARMFUL COMPONENTS.</p>
+																																	<h3 style="font-weight:800;">Open-Source Software & Emulator Functionality</h3>
+																																	<p>Nol’sGames may incorporate, interface with, or support third-party open-source Software and emulator technologies. All applicable copyrights, licenses, and intellectual property rights remain the property of their respective owners.</p>
+																																	<p>Users are responsible for complying with all applicable third-party Software licenses associated with emulators or open-source Software used within Nol’sGames.</p>
+																																	<p>Nol’sGames does not distribute or claim ownership of copyrighted commercial ROMs, BIOS files, proprietary firmware, or third-party game assets unless explicitly authorized by the respective rights holders.</p>
+																																	<p>Users are solely responsible for ensuring they possess the legal rights to any ROMs, BIOS files, or other content used with emulator-related functionality.</p>
+																																	<p>Certain games, console names, trademarks, logos, and related content referenced or compatible with Nol’sGames may be owned by their respective copyright and trademark owners, including Nintendo, Sony, Sega, Microsoft, and others. Nol’sGames does not claim ownership over third-party copyrighted materials. All trademarks, logos, and game titles remain the property of their respective owners.</p>
+																																	<p>Nol’sGames is not affiliated with, endorsed by, or sponsored by Nintendo or any other game publisher or rights holder unless explicitly stated.</p>
 																																	<hr>
-																																		<h3 style="font-weight:800;">Limitation of Liability</h3>
-																																		<p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, NOL SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF DATA, LOSS OF PROFITS, DEVICE DAMAGE, SYSTEM FAILURE, SECURITY BREACHES, LEGAL CLAIMS, OR OTHER DAMAGES ARISING FROM THE USE, MISUSE, MODIFICATION, OR INABILITY TO USE NOL’SGAMES.</p>
-																																		<p>USE OF THE SERVICE IS ENTIRELY AT THE USER’S OWN RISK.</p>
+																																		<h3 style="font-weight:800;">Intellectual Property</h3>
+																																		<p>Unless otherwise stated, all original code, branding, graphics, text, interface elements, designs, and assets included within Nol’sGames are the intellectual property of Nol and are protected under applicable copyright and intellectual property laws.</p>
+																																		<p>Users may modify the Service for personal, non-commercial use only.</p>
+																																		<p>Users may not redistribute modified versions under the “Nol’sGames” name, sell or monetize the Service, reupload the Service without permission, claim ownership of Nol’sGames content, or redistribute assets, branding, code, or materials without explicit written permission from Nol.</p>
 																																		<hr>
-																																			<h3 style="font-weight:800;">Third-Party Websites and Services</h3>
-																																			<p>Certain websites, games, Services, or content that may be referenced, linked, launched, or accessible through user navigation are independently operated by third parties and are not part of Nol’sGames. These external Services are outside of Nol’s control and responsibility, and may utilize technologies or programming languages including, but not limited to, HTML, CSS, JavaScript, Node.js, Python, C, C++, or others. Nol does not own, operate, maintain, review, monitor, endorse, or guarantee the safety, legality, availability, security, or functionality of any independent third-party websites or Services.</p>
+																																			<h3 style="font-weight:800;">Disclaimer of Warranties</h3>
+																																			<p>
+																																				<b>THE SERVICE IS PROVIDED “AS IS” AND “AS AVAILABLE,” WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, SECURITY, AVAILABILITY, OR ERROR-FREE OPERATION.</b>
+																																			</p>
+																																			<p>NOL DOES NOT WARRANT THAT THE SERVICE WILL FUNCTION WITHOUT INTERRUPTION, THAT DEFECTS WILL BE CORRECTED, OR THAT THE SERVICE OR FILES WILL BE FREE OF HARMFUL COMPONENTS.</p>
 																																			<hr>
-																																				<h3 style="font-weight:800;">Privacy Policy</h3>
-																																				<p>This Privacy Policy applies to the Nol'sGames website and downloadable software.</p>
-																																				<p>Nol’sGames is designed to minimize data collection. Nol does not intentionally collect personally identifiable information such as names, email addresses, precise geographic location data, or personal account information.</p>
-																																				<p>Game-related data, settings, and save information are generally stored locally on the user’s device using browser storage or local files.</p>
-																																				<p>However, third-party Services, hosting providers, APIs, browsers, analytics tools, emulator Services, or externally connected content may independently collect technical or usage information, including IP addresses or device-related data, according to their own privacy policies. Nol is not responsible for the privacy practices, policies, or data collection activities of third parties.</p>
-																																				<p>Nol’sGames is not intended to knowingly collect personal information from children under the age of 13 in accordance with the United States Children’s Online Privacy Protection Act (COPPA). If any parent or guardian believes that personal information from a child under 13 has been unintentionally collected through third-party Services associated with Nol’sGames, they should contact the applicable third-party provider directly.</p>
+																																				<h3 style="font-weight:800;">Limitation of Liability</h3>
+																																				<p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, NOL SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF DATA, LOSS OF PROFITS, DEVICE DAMAGE, SYSTEM FAILURE, SECURITY BREACHES, LEGAL CLAIMS, OR OTHER DAMAGES ARISING FROM THE USE, MISUSE, MODIFICATION, OR INABILITY TO USE NOL’SGAMES.</p>
+																																				<p>USE OF THE SERVICE IS ENTIRELY AT THE USER’S OWN RISK.</p>
 																																				<hr>
-																																					<h3 style="font-weight:800;">Changes to These Terms</h3>
-																																					<p>These Terms of Use and Privacy Policy may be modified, updated, or replaced at any time without prior notice. Continued use of Nol’sGames after changes become effective constitutes acceptance of the updated Terms.</p>
-																																				</div>
-																																				<button onclick="acceptToc()">Agree</button>`];
-        let tocIndex = 0;
+																																					<h3 style="font-weight:800;">Third-Party Websites and Services</h3>
+																																					<p>Certain websites, games, Services, or content that may be referenced, linked, launched, or accessible through user navigation are independently operated by third parties and are not part of Nol’sGames. These external Services are outside of Nol’s control and responsibility, and may utilize technologies or programming languages including, but not limited to, HTML, CSS, JavaScript, Node.js, Python, C, C++, or others. Nol does not own, operate, maintain, review, monitor, endorse, or guarantee the safety, legality, availability, security, or functionality of any independent third-party websites or Services.</p>
+																																					<hr>
+																																						<h3 style="font-weight:800;">Privacy Policy</h3>
+																																						<p>This Privacy Policy applies to the Nol'sGames website and downloadable software.</p>
+																																						<p>Nol’sGames is designed to minimize data collection. Nol does not intentionally collect personally identifiable information such as names, email addresses, precise geographic location data, or personal account information.</p>
+																																						<p>Game-related data, settings, and save information are generally stored locally on the user’s device using browser storage or local files.</p>
+																																						<p>However, third-party Services, hosting providers, APIs, browsers, analytics tools, emulator Services, or externally connected content may independently collect technical or usage information, including IP addresses or device-related data, according to their own privacy policies. Nol is not responsible for the privacy practices, policies, or data collection activities of third parties.</p>
+																																						<p>Nol’sGames is not intended to knowingly collect personal information from children under the age of 13 in accordance with the United States Children’s Online Privacy Protection Act (COPPA). If any parent or guardian believes that personal information from a child under 13 has been unintentionally collected through third-party Services associated with Nol’sGames, they should contact the applicable third-party provider directly.</p>
+																																						<hr>
+																																							<h3 style="font-weight:800;">Changes to These Terms</h3>
+																																							<p>These Terms of Use and Privacy Policy may be modified, updated, or replaced at any time without prior notice. Continued use of Nol’sGames after changes become effective constitutes acceptance of the updated Terms.</p>
+																																						</div>
+																																						<button onclick="acceptToc()">Agree</button>`];
+      let tocIndex = 0;
 
-        function openToc() {
-            document.getElementById('tocModal').style.display = 'block';
-            tocIndex = 0;
-            tocContent.innerHTML = tocPages[0];
-        }
+      function openToc() {
+        document.getElementById('tocModal').style.display = 'block';
+        tocIndex = 0;
+        tocContent.innerHTML = tocPages[0];
+      }
 
-        function acceptToc() {
-            localStorage.setItem('toc', '1');
-            tocModal.style.display = 'none';
-        }
-        if (!localStorage.getItem('toc')) setTimeout(openToc, 500);
-        let files = [];
-        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        favorites = favorites.filter(f => !f.toLowerCase().startsWith('dv'));
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        async function loadGameList() {
-            try {
-                const res = await fetch('https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/list.js?t=' + Date.now());
-                const js = await res.text();
-                eval(js);
-                files = window.files || [];
-                build();
-                const loadingScreen = document.getElementById("loadingScreen");
-
-                if (loadingScreen) {
-                    loadingScreen.classList.add("hidden");
-
-                    setTimeout(() => {
-                        loadingScreen.remove();
-                    }, 300);
-                }
-            } catch (err) {
-                alertNotice("alert", "Could not load games. Please check your internet connection.");
-                document.getElementById('main').innerHTML = `
+      function acceptToc() {
+        localStorage.setItem('toc', '1');
+        tocModal.style.display = 'none';
+      }
+      if (!localStorage.getItem('toc')) setTimeout(openToc, 500);
+      let files = [];
+      let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      favorites = favorites.filter(f => !f.toLowerCase().startsWith('dv'));
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      async function loadGameList() {
+        try {
+          const res = await fetch('https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/list.js?t=' + Date.now());
+          const js = await res.text();
+          eval(js);
+          files = window.files || [];
+          build();
+          const loadingScreen = document.getElementById("loadingScreen");
+          if (loadingScreen) {
+            loadingScreen.classList.add("hidden");
+            setTimeout(() => {
+              loadingScreen.remove();
+            }, 300);
+          }
+        } catch (err) {
+          alertNotice("alert", "Could not load games. Please check your internet connection.");
+          document.getElementById('main').innerHTML = `
       
-																																				<h2>Failed to load games.</h2>
-																																				<p>Please try again later.</p>
+																																				
+																																						<h2>Failed to load games.</h2>
+																																						<p>Please try again later.</p>
     `;
-            }
         }
+      }
+      const runningFromFile = location.protocol === "file:";
 
-        const runningFromFile = location.protocol === "file:";
-
-        function build(filter = '') {
-            let gameCount = 0;
-            document.body.classList.add('withSidebar');
-            const main = document.getElementById('main');
-            const sidebar = document.getElementById('sidebar');
-            sidebar.innerHTML = '';
-            if (favorites.length) {
-                const favBtn = document.createElement('button');
-
-                favBtn.className = 'sidebar-btn';
-                favBtn.textContent = '★';
-
-                favBtn.onclick = () => {
-                    document.getElementById("favoritesSection")?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-                };
-
-                sidebar.appendChild(favBtn);
-            }
-
-
-            main.innerHTML = `
-    <div id="searchWrap">
-        <div class="searchBox">
-            <input id="search" placeholder="Search games..." value="${filter}">
-            <button id="clearSearch" title="Clear search">×</button>
-        </div>
-    </div>
+      function build(filter = '') {
+        let gameCount = 0;
+        document.body.classList.add('withSidebar');
+        const main = document.getElementById('main');
+        const sidebar = document.getElementById('sidebar');
+        sidebar.innerHTML = '';
+        if (favorites.length) {
+          const favBtn = document.createElement('button');
+          favBtn.className = 'sidebar-btn';
+          favBtn.textContent = '★';
+          favBtn.onclick = () => {
+            document.getElementById("favoritesSection")?.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          };
+          sidebar.appendChild(favBtn);
+        }
+        main.innerHTML = `
+    
+																																						<div id="searchWrap">
+																																							<div class="searchBox">
+																																								<input id="search" placeholder="Search games..." value="${filter}">
+																																									<button id="clearSearch" title="Clear search">×</button>
+																																								</div>
+																																							</div>
 `;
-            const search = document.getElementById("search");
-            search.addEventListener("input", (e) => {
-                build(e.target.value.toLowerCase());
-            });
-            const clearSearch = document.getElementById("clearSearch");
-
-            function updateClearButton() {
-                clearSearch.style.display = search.value ? "block" : "none";
-            }
-
-            updateClearButton();
-
-            clearSearch.onclick = () => {
-                build("");
-            };
-            if (favorites.length) {
-                const sec = document.createElement('div');
-                sec.className = 'section';
-                sec.id = 'favoritesSection';
-                sec.innerHTML = `<h2>Favorites (${favorites.length})</h2>`;
-
-                favorites
-                    .filter(f => !f.toLowerCase().startsWith('dv'))
-                    .filter(f => f.toLowerCase().includes(filter))
-                    .forEach(f => {
-                        sec.appendChild(createGameBtn(f));
-                        gameCount++;
-                    });
-
-                if (sec.children.length > 1) main.appendChild(sec);
-            }
-            if (isAdmin) {
-                const adminGames = files.filter(f =>
-                    f.toLowerCase().startsWith('dv')
-                );
-
-                if (adminGames.length) {
-                    const sec = document.createElement('div');
-                    sec.className = 'section';
-                    sec.id = 'adminSection';
-
-                    const title = document.createElement('h2');
-                    title.textContent = 'Developer';
-                    sec.appendChild(title);
-
-                    adminGames
-                        .filter(f => f.toLowerCase().includes(filter))
-                        .forEach(f => {
-                            sec.appendChild(createGameBtn(f));
-                            gameCount++;
-                        });
-
-                    if (sec.children.length > 1) {
-                        main.appendChild(sec);
-
-                        const adminBtn = document.createElement('button');
-                        adminBtn.className = 'sidebar-btn';
-                        adminBtn.textContent = '⚒︎︎';
-
-                        adminBtn.onclick = () => {
-                            document.getElementById('adminSection')?.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        };
-
-                        sidebar.appendChild(adminBtn);
-                    }
-                }
-            }
-            const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-            letters.forEach(l => {
-                const sec = document.createElement('div');
-                sec.className = 'section';
-                sec.id = 'favoritesSection';
-                sec.id = 'sec' + l;
-                const title = document.createElement('h2');
-                title.textContent = l;
-                sec.appendChild(title);
-                let has = false;
-                files.forEach(f => {
-                    const lower = f.toLowerCase();
-
-                    const firstLetter =
-                        lower.startsWith('cl') || lower.startsWith('ng') || lower.startsWith('dv') ?
-                        f[2] :
-                        f[0];
-                    if (
-                        firstLetter?.toUpperCase() === l &&
-                        f.toLowerCase().includes(filter) &&
-                        !f.toLowerCase().startsWith('dv')
-                    ) {
-                        has = true;
-                        sec.appendChild(createGameBtn(f));
-                        gameCount++;
-                    }
-                });
-                if (has) {
-                    main.appendChild(sec);
-                    const b = document.createElement('button');
-                    b.className = 'sidebar-btn';
-                    b.textContent = l;
-                    b.onclick = () => {
-                        document.getElementById('sec' + l).scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    };
-                    sidebar.appendChild(b);
-                }
-            });
-            if (filter && gameCount === 0) {
-                const noResults = document.createElement("div");
-                noResults.className = "noResults";
-
-                noResults.innerHTML = `
-        <h2>No games found</h2>
-        <p>Try a different search.</p>
-    `;
-
-                main.appendChild(noResults);
-            }
-
-            search.focus();
-            search.setSelectionRange(search.value.length, search.value.length);
-        }
-
-        function createGameBtn(f) {
-            const btn = document.createElement('div');
-
-            const lowerName = f.toLowerCase();
-            const isNG = lowerName.startsWith("ng");
-            const isDV = lowerName.startsWith("dv");
-
-            btn.className = 'game-btn' + (favorites.includes(f) ? ' fav' : '');
-
-            if (isNG) {
-                btn.classList.add('rainbow-game');
-            }
-
-
-            const text = document.createElement('span');
-            text.textContent = f;
-
-            text.title = f;
-
-            text.style.flex = "1";
-            text.style.minWidth = "0";
-            text.style.overflow = "hidden";
-            text.style.whiteSpace = "nowrap";
-            text.style.textOverflow = "ellipsis";
-
-            text.title = f;
-
-            const star = document.createElement('span');
-
-            if (!isDV) {
-                star.className = 'star ' + (favorites.includes(f) ? 'on' : 'off');
-
-                star.style.flexShrink = "0";
-                star.style.marginLeft = "12px";
-
-                star.onclick = (e) => {
-                    e.stopPropagation();
-
-                    const fav = favorites.includes(f);
-
-                    if (fav) {
-                        favorites = favorites.filter(x => x !== f);
-                        star.classList.replace("on", "off");
-                        btn.classList.remove("fav");
-                    } else {
-                        favorites.push(f);
-                        star.classList.replace("off", "on");
-                        btn.classList.add("fav");
-                    }
-
-                    localStorage.setItem("favorites", JSON.stringify(favorites));
-                };
-            }
-
-
-            btn.onclick = () => {
-                const encoded = encodeURIComponent(f + '.html');
-
-                const url = isNG ?
-                    `https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/specialgames/${encoded}?t=${Date.now()}` :
-                    isDV ?
-                    `https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/devuses/${encoded}?t=${Date.now()}` :
-                    `https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/UGS-Files/${encoded}?t=${Date.now()}`;
-
-                fetch(url)
-                    .then(r => {
-                        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-                        return r.text();
-                    })
-                    .then(t => {
-                        const w = window.open('about:blank', '_blank');
-
-                        if (!w) {
-                            alertNotice("warning", "Game could not open. Please allow popups for this website.");
-                            return;
-                        }
-
-                        w.document.open();
-                        w.document.write(t);
-                        w.document.close();
-                    })
-                    .catch(err => {
-                        console.error(err);
-
-                        if (!navigator.onLine) {
-                            alertNotice("warning", "Game could not be loaded. Please check your internet connection.");
-                        } else {
-                            alertNotice("alert", "Game could not be loaded. Please try again.");
-                        }
-                    });
-            };
-
-            btn.append(text, star);
-            return btn;
-        }
-
-        document.getElementById('adminPassword').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                submitAdminLogin();
-            }
+        const search = document.getElementById("search");
+        search.addEventListener("input", (e) => {
+          build(e.target.value.toLowerCase());
         });
+        const clearSearch = document.getElementById("clearSearch");
 
-        let uploadedFavicon = '';
-
-        function openPreset() {
-            const p = JSON.parse(localStorage.getItem('preset') || '{}');
-            tabName.value = p.name || '';
-            panicKey.value = p.key || '';
-            panicLink.value = p.link || '';
-            uploadedFavicon = p.icon || '';
-            presetModal.style.display = 'block';
+        function updateClearButton() {
+          clearSearch.style.display = search.value ? "block" : "none";
         }
-
-        function handleFaviconUpload(file) {
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                uploadedFavicon = e.target.result;
-            };
-            reader.readAsDataURL(file);
+        updateClearButton();
+        clearSearch.onclick = () => {
+          build("");
+        };
+        if (favorites.length) {
+          const sec = document.createElement('div');
+          sec.className = 'section';
+          sec.id = 'favoritesSection';
+          sec.innerHTML = `
+																																							<h2>Favorites (${favorites.length})</h2>`;
+          favorites.filter(f => !f.toLowerCase().startsWith('dv')).filter(f => f.toLowerCase().includes(filter)).forEach(f => {
+            sec.appendChild(createGameBtn(f));
+            gameCount++;
+          });
+          if (sec.children.length > 1) main.appendChild(sec);
         }
-
-        function savePreset() {
-            const rawLink = panicLink.value.trim();
-            const fixedLink = rawLink ? (rawLink.startsWith('http://') || rawLink.startsWith('https://')) ? rawLink : 'https://' + rawLink : '';
-            const data = {
-                name: tabName.value,
-                icon: uploadedFavicon,
-                key: panicKey.value,
-                link: fixedLink
-            };
-            localStorage.setItem('preset', JSON.stringify(data));
-            applyPreset();
-            presetModal.style.display = 'none';
-            location.reload();
-        }
-
-        function applyPreset() {
-            const p = JSON.parse(localStorage.getItem('preset') || '{}');
-            const panicKeyValue = p.key || '\\';
-            const panicLinkValue = p.link || 'https://google.com';
-            document.title = p.name || "Nol'sGames";
-            let favicon = document.getElementById('dynamicFavicon');
-            if (!favicon) {
-                favicon = document.createElement('link');
-                favicon.rel = 'icon';
-                favicon.id = 'dynamicFavicon';
-                document.head.appendChild(favicon);
-            }
-            favicon.href = p.icon || 'https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/favicon.ico?v=2';
-            document.onkeydown = null;
-            document.onkeydown = (e) => {
-                if (typeof e.key === "string" && e.key.toLowerCase() === panicKeyValue.toLowerCase()) {
-                    window.location.href = panicLinkValue;
-                }
-            };
-        }
-
-        function resetPresets() {
-            alertConfirm("Reset all preset settings?", () => {
-                localStorage.removeItem('preset');
-
-                const defaultPreset = {
-                    name: "Nol'sGames",
-                    icon: "",
-                    key: "\\",
-                    link: "https://google.com"
-                };
-
-                localStorage.setItem('preset', JSON.stringify(defaultPreset));
-
-                uploadedFavicon = '';
-                tabName.value = '';
-                panicKey.value = '\\';
-                panicLink.value = 'https://google.com';
-
-                applyPreset();
-                location.reload();
+        if (isAdmin) {
+          const adminGames = files.filter(f => f.toLowerCase().startsWith('dv'));
+          if (adminGames.length) {
+            const sec = document.createElement('div');
+            sec.className = 'section';
+            sec.id = 'adminSection';
+            const title = document.createElement('h2');
+            title.textContent = 'Developer';
+            sec.appendChild(title);
+            adminGames.filter(f => f.toLowerCase().includes(filter)).forEach(f => {
+              sec.appendChild(createGameBtn(f));
+              gameCount++;
             });
-            localStorage.setItem('preset', JSON.stringify(defaultPreset));
-            uploadedFavicon = '';
-            document.getElementById('faviconPreview').style.display = 'none';
-            tabName.value = '';
-            panicKey.value = '\\';
-            panicLink.value = 'https://google.com';
-            applyPreset();
-            location.reload();
-        }
-
-        function closePresets() {
-            document.getElementById('presetModal').style.display = 'none';
-        }
-        if (!localStorage.getItem('preset')) {
-            localStorage.setItem('preset', JSON.stringify({
-                name: "Nol'sGames",
-                icon: "",
-                key: "\\",
-                link: "https://google.com"
-            }));
-        }
-        applyPreset();
-
-        if (!runningFromFile) {
-            const downloadBtn = document.createElement("button");
-            downloadBtn.className = "tab";
-            downloadBtn.textContent = "Downloads";
-            downloadBtn.onclick = () => showTab("downloads");
-            document.getElementById("topbar").appendChild(downloadBtn);
-        }
-
-        function showTab(tab) {
-            const main = document.getElementById('main');
-            const sidebar = document.getElementById('sidebar');
-            if (tab === 'games') {
-                document.body.classList.add('withSidebar');
-                build();
-                return;
+            if (sec.children.length > 1) {
+              main.appendChild(sec);
+              const adminBtn = document.createElement('button');
+              adminBtn.className = 'sidebar-btn';
+              adminBtn.textContent = '⚒︎︎';
+              adminBtn.onclick = () => {
+                document.getElementById('adminSection')?.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+              };
+              sidebar.appendChild(adminBtn);
             }
-            document.body.classList.remove('withSidebar');
-            sidebar.innerHTML = '';
-            if (tab === "downloads") {
-                main.innerHTML = `
-        <div class="download-page">
-            <div class="download-card">
+          }
+        }
+        const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        letters.forEach(l => {
+          const sec = document.createElement('div');
+          sec.className = 'section';
+          sec.id = 'favoritesSection';
+          sec.id = 'sec' + l;
+          const title = document.createElement('h2');
+          title.textContent = l;
+          sec.appendChild(title);
+          let has = false;
+          files.forEach(f => {
+            const lower = f.toLowerCase();
+            const firstLetter = lower.startsWith('cl') || lower.startsWith('ng') || lower.startsWith('dv') ? f[2] : f[0];
+            if (firstLetter?.toUpperCase() === l && f.toLowerCase().includes(filter) && !f.toLowerCase().startsWith('dv')) {
+              has = true;
+              sec.appendChild(createGameBtn(f));
+              gameCount++;
+            }
+          });
+          if (has) {
+            main.appendChild(sec);
+            const b = document.createElement('button');
+            b.className = 'sidebar-btn';
+            b.textContent = l;
+            b.onclick = () => {
+              document.getElementById('sec' + l).scrollIntoView({
+                behavior: 'smooth'
+              });
+            };
+            sidebar.appendChild(b);
+          }
+        });
+        if (filter && gameCount === 0) {
+          const noResults = document.createElement("div");
+          noResults.className = "noResults";
+          noResults.innerHTML = `
+        
+																																							<h2>No games found</h2>
+																																							<p>Try a different search.</p>
+    `;
+          main.appendChild(noResults);
+        }
+        search.focus();
+        search.setSelectionRange(search.value.length, search.value.length);
+      }
 
-                <img src="https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/logo.png" 
+      function createGameBtn(f) {
+        const btn = document.createElement('div');
+        const lowerName = f.toLowerCase();
+        const isNG = lowerName.startsWith("ng");
+        const isDV = lowerName.startsWith("dv");
+        btn.className = 'game-btn' + (favorites.includes(f) ? ' fav' : '');
+        if (isNG) {
+          btn.classList.add('rainbow-game');
+        }
+        const text = document.createElement('span');
+        text.textContent = f;
+        text.title = f;
+        text.style.flex = "1";
+        text.style.minWidth = "0";
+        text.style.overflow = "hidden";
+        text.style.whiteSpace = "nowrap";
+        text.style.textOverflow = "ellipsis";
+        text.title = f;
+        const star = document.createElement('span');
+        if (!isDV) {
+          star.className = 'star ' + (favorites.includes(f) ? 'on' : 'off');
+          star.style.flexShrink = "0";
+          star.style.marginLeft = "12px";
+          star.onclick = (e) => {
+            e.stopPropagation();
+            const fav = favorites.includes(f);
+            if (fav) {
+              favorites = favorites.filter(x => x !== f);
+              star.classList.replace("on", "off");
+              btn.classList.remove("fav");
+            } else {
+              favorites.push(f);
+              star.classList.replace("off", "on");
+              btn.classList.add("fav");
+            }
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+          };
+        }
+        btn.onclick = () => {
+          const encoded = encodeURIComponent(f + '.html');
+          const url = isNG ? `https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/specialgames/${encoded}?t=${Date.now()}` : isDV ? `https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/devuses/${encoded}?t=${Date.now()}` : `https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/UGS-Files/${encoded}?t=${Date.now()}`;
+          fetch(url).then(r => {
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            return r.text();
+          }).then(t => {
+            const w = window.open('about:blank', '_blank');
+            if (!w) {
+              alertNotice("warning", "Game could not open. Please allow popups for this website.");
+              return;
+            }
+            w.document.open();
+            w.document.write(t);
+            w.document.close();
+          }).catch(err => {
+            console.error(err);
+            if (!navigator.onLine) {
+              alertNotice("warning", "Game could not be loaded. Please check your internet connection.");
+            } else {
+              alertNotice("alert", "Game could not be loaded. Please try again.");
+            }
+          });
+        };
+        btn.append(text, star);
+        return btn;
+      }
+      document.getElementById('adminPassword').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          submitAdminLogin();
+        }
+      });
+      let uploadedFavicon = '';
+
+      function openPreset() {
+        const p = JSON.parse(localStorage.getItem('preset') || '{}');
+        tabName.value = p.name || '';
+        panicKey.value = p.key || '';
+        panicLink.value = p.link || '';
+        uploadedFavicon = p.icon || '';
+        presetModal.style.display = 'block';
+      }
+
+      function handleFaviconUpload(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          uploadedFavicon = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function savePreset() {
+        const rawLink = panicLink.value.trim();
+        const fixedLink = rawLink ? (rawLink.startsWith('http://') || rawLink.startsWith('https://')) ? rawLink : 'https://' + rawLink : '';
+        const data = {
+          name: tabName.value,
+          icon: uploadedFavicon,
+          key: panicKey.value,
+          link: fixedLink
+        };
+        localStorage.setItem('preset', JSON.stringify(data));
+        applyPreset();
+        presetModal.style.display = 'none';
+        location.reload();
+      }
+
+      function applyPreset() {
+        const p = JSON.parse(localStorage.getItem('preset') || '{}');
+        const panicKeyValue = p.key || '\\';
+        const panicLinkValue = p.link || 'https://google.com';
+        document.title = p.name || "Nol'sGames";
+        let favicon = document.getElementById('dynamicFavicon');
+        if (!favicon) {
+          favicon = document.createElement('link');
+          favicon.rel = 'icon';
+          favicon.id = 'dynamicFavicon';
+          document.head.appendChild(favicon);
+        }
+        favicon.href = p.icon || 'https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/favicon.ico?v=2';
+        document.onkeydown = null;
+        document.onkeydown = (e) => {
+          if (typeof e.key === "string" && e.key.toLowerCase() === panicKeyValue.toLowerCase()) {
+            window.location.href = panicLinkValue;
+          }
+        };
+      }
+
+      function resetPresets() {
+        alertConfirm("Reset all preset settings?", () => {
+          localStorage.removeItem('preset');
+          const defaultPreset = {
+            name: "Nol'sGames",
+            icon: "",
+            key: "\\",
+            link: "https://google.com"
+          };
+          localStorage.setItem('preset', JSON.stringify(defaultPreset));
+          uploadedFavicon = '';
+          tabName.value = '';
+          panicKey.value = '\\';
+          panicLink.value = 'https://google.com';
+          applyPreset();
+          location.reload();
+        });
+        localStorage.setItem('preset', JSON.stringify(defaultPreset));
+        uploadedFavicon = '';
+        document.getElementById('faviconPreview').style.display = 'none';
+        tabName.value = '';
+        panicKey.value = '\\';
+        panicLink.value = 'https://google.com';
+        applyPreset();
+        location.reload();
+      }
+
+      function closePresets() {
+        document.getElementById('presetModal').style.display = 'none';
+      }
+      if (!localStorage.getItem('preset')) {
+        localStorage.setItem('preset', JSON.stringify({
+          name: "Nol'sGames",
+          icon: "",
+          key: "\\",
+          link: "https://google.com"
+        }));
+      }
+      applyPreset();
+      if (!runningFromFile) {
+        const downloadBtn = document.createElement("button");
+        downloadBtn.className = "tab";
+        downloadBtn.textContent = "Downloads";
+        downloadBtn.onclick = () => showTab("downloads");
+        document.getElementById("topbar").appendChild(downloadBtn);
+      }
+
+      function showTab(tab) {
+        const main = document.getElementById('main');
+        const sidebar = document.getElementById('sidebar');
+        if (tab === 'games') {
+          document.body.classList.add('withSidebar');
+          build();
+          return;
+        }
+        document.body.classList.remove('withSidebar');
+        sidebar.innerHTML = '';
+        if (tab === "downloads") {
+          main.innerHTML = `
+        
+																																							<div class="download-page">
+																																								<div class="download-card">
+																																									<img src="https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/logo.png" 
                      class="download-logo" 
                      alt="Nol'sGames Logo">
-
-                <h2>Download Nol'sGames</h2>
-
-                <p>
+																																										<h2>Download Nol'sGames</h2>
+																																										<p>
                     Play your favorite games anytime.
                     Download Nol'sGames for easy access.
                 </p>
-
-                <div class="download-info">
-                    <div>
-                        <strong>✓ Bypasses Enterprise Firewalls</strong>
-                        <span>The file grabs code right from the source so you can play games without getting blocked!</span>
-                    </div>
-
-                    <div>
-                        <strong>✓ Latest Version</strong>
-                        <span>Automatic updates just by reloading! No need for extra downloads.</span>
-                    </div>
-
-                    <div>
-                        <strong>✓ Safe Download</strong>
-                        <span>Official Nol'sGames release in HTML format.</span>
-                    </div>
-                </div>
-
-                <button class="download-button"
+																																										<div class="download-info">
+																																											<div>
+																																												<strong>✓ Bypasses Enterprise Firewalls</strong>
+																																												<span>The file grabs code right from the source so you can play games without getting blocked!</span>
+																																											</div>
+																																											<div>
+																																												<strong>✓ Latest Version</strong>
+																																												<span>Automatic updates just by reloading! No need for extra downloads.</span>
+																																											</div>
+																																											<div>
+																																												<strong>✓ Safe Download</strong>
+																																												<span>Official Nol'sGames release in HTML format.</span>
+																																											</div>
+																																										</div>
+																																										<button class="download-button"
     onclick="
         const downloadWindow = window.open(
             'https://drive.usercontent.google.com/u/0/uc?id=1IVVFFKsc6oOxVJre4ZL3UUvjjfbvdGzW&export=download',
@@ -2050,279 +1806,233 @@ Nol’sGames Terms of Use & Privacy Policy
     ">
     ↓︎ Download Latest Version
 </button>
-
-                <div class="download-info">
-                    <div>
-                        By downloading, you agree to the <a class="toc-link"; href="#"; onclick="openToc()"; return false;>Terms & Conditions & Privacy Policy</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+																																										<div class="download-info">
+																																											<div>
+                        By downloading, you agree to the 
+																																												<a class="toc-link"; href="#"; onclick="openToc()"; return false;>Terms & Conditions & Privacy Policy</a>
+																																											</div>
+																																										</div>
+																																									</div>
+																																								</div>
     `;
-
-                return;
-            }
-            if (tab === 'settings') {
-                main.innerHTML = `
-        <div class="settings-page">
-
-            <h2>Settings</h2>
-
-            <div class="settings-section">
-                <h3>Appearance</h3>
-
-                <button class="standard" onclick="openPreset()">
+          return;
+        }
+        if (tab === 'settings') {
+          main.innerHTML = `
+        
+																																								<div class="settings-page">
+																																									<h2>Settings</h2>
+																																									<div class="settings-section">
+																																										<h3>Appearance</h3>
+																																										<button class="standard" onclick="openPreset()">
                     Tab Settings
                 </button>
-                
-                <label class="ngToggleWrap">
-    <span>Show Ticker</span>
-
-    <div class="ngSwitch">
-        <input
+																																										<label class="ngToggleWrap">
+																																											<span>Show Ticker</span>
+																																											<div class="ngSwitch">
+																																												<input
             type="checkbox"
             id="tickerToggle"
             onchange="toggleTicker(this.checked)"
         >
-        <span class="ngSlider"></span>
-    </div>
-</label>
-            </div>
-
-            <div class="settings-section">
-                <h3>Legal</h3>
-
-                <button class="standard" onclick="openToc()">
+																																													<span class="ngSlider"></span>
+																																												</div>
+																																											</label>
+																																										</div>
+																																										<div class="settings-section">
+																																											<h3>Legal</h3>
+																																											<button class="standard" onclick="openToc()">
                     Terms & Conditions & Privacy Policy
                 </button>
-            </div>
-
-            <div class="settings-section">
-                <h3>Game Data</h3>
-
-                <button class="standard" onclick="exportNGS()">
+																																										</div>
+																																										<div class="settings-section">
+																																											<h3>Game Data</h3>
+																																											<button class="standard" onclick="exportNGS()">
                     Download Game Data (.ngs)
                 </button>
-
-                <button class="standard"
+																																											<button class="standard"
                     onclick="document.getElementById('ngsUpload').click()">
                     Upload Game Data (.ngs)
                 </button>
-
-                <input
+																																											<input
                     type="file"
                     id="ngsUpload"
                     accept=".ngs"
                     style="display:none"
                     onchange="importNGS(this.files[0])"
                 >
-
-                <label class="ngToggleWrap">
-                    <span>Auto Refresh Daily</span>
-
-                    <div class="ngSwitch">
-                        <input
+																																												<label class="ngToggleWrap">
+																																													<span>Auto Refresh Daily</span>
+																																													<div class="ngSwitch">
+																																														<input
                             type="checkbox"
                             id="autoRefreshToggle"
                             onchange="toggleAutoRefresh(this.checked)"
                         >
-                        <span class="ngSlider"></span>
-                    </div>
-                </label>
-
-                <button class="danger" onclick="clearData()">
+																																															<span class="ngSlider"></span>
+																																														</div>
+																																													</label>
+																																													<button class="danger" onclick="clearData()">
                     Clear Game Data
                 </button>
-            </div>
-
-            <div class="settings-section">
-                <h3>Administrator</h3>
-
-                <button class="standard"
+																																												</div>
+																																												<div class="settings-section">
+																																													<h3>Administrator</h3>
+																																													<button class="standard"
                     onclick="isAdmin ? adminLogout() : adminLogin()">
                     ${isAdmin ? 'Administrator Signout' : 'Administrator Login'}
                 </button>
-            </div>
-
-        </div>
+																																												</div>
+																																											</div>
     `;
-            }
-            setTimeout(() => {
-                const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
-                const autoRefreshToggle = document.getElementById('autoRefreshToggle');
-                const tickerToggle = document.getElementById('tickerToggle');
-
-                if (autoRefreshToggle) {
-                    autoRefreshToggle.classList.add('no-transition');
-                    autoRefreshToggle.checked = settings.autoRefresh !== false;
-
-                    requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                            autoRefreshToggle.classList.remove('no-transition');
-                        });
-                    });
-                }
-
-                if (tickerToggle) {
-                    tickerToggle.classList.add('no-transition');
-                    tickerToggle.checked = settings.ticker !== false;
-
-                    requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                            tickerToggle.classList.remove('no-transition');
-                        });
-                    });
-                }
-            }, 0);
         }
-
-        function toggleAutoRefresh(enabled) {
-            const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
-            settings.autoRefresh = enabled;
-            localStorage.setItem('ngSettings', JSON.stringify(settings));
-        }
-
-        function toggleTicker(enabled) {
-            const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
-
-            settings.ticker = enabled;
-
-            localStorage.setItem('ngSettings', JSON.stringify(settings));
-
-            applyTickerSetting();
-        }
-
-        function clearData() {
-            alertConfirm("Delete ALL data?", () => {
-                localStorage.clear();
-                location.reload();
+        setTimeout(() => {
+          const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+          const autoRefreshToggle = document.getElementById('autoRefreshToggle');
+          const tickerToggle = document.getElementById('tickerToggle');
+          if (autoRefreshToggle) {
+            autoRefreshToggle.classList.add('no-transition');
+            autoRefreshToggle.checked = settings.autoRefresh !== false;
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                autoRefreshToggle.classList.remove('no-transition');
+              });
             });
-        }
+          }
+          if (tickerToggle) {
+            tickerToggle.classList.add('no-transition');
+            tickerToggle.checked = settings.ticker !== false;
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                tickerToggle.classList.remove('no-transition');
+              });
+            });
+          }
+        }, 0);
+      }
 
-        function exportNGS() {
-            const saveData = {};
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                try {
-                    saveData[key] = localStorage.getItem(key);
-                } catch (err) {
-                    alertNotice("warning", "Download failure.");
-                }
-            }
-            const finalData = {
-                created: new Date().toISOString(),
-                storage: saveData
-            };
-            const blob = new Blob(
-                [JSON.stringify(finalData, null, 2)], {
-                    type: 'application/json'
-                });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            const now = new Date();
-            const date = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + '_' + String(now.getHours()).padStart(2, '0') + '-' + String(now.getMinutes()).padStart(2, '0');
-            a.download = `gd_${date}.ngs`;
-            a.click();
-            URL.revokeObjectURL(url);
-            alertNotice("success", "Game data downloaded.");
-        }
+      function toggleAutoRefresh(enabled) {
+        const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+        settings.autoRefresh = enabled;
+        localStorage.setItem('ngSettings', JSON.stringify(settings));
+      }
 
-        function importNGS(file) {
-            if (!file) return;
-
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-
-                    if (!data.storage) {
-                        alertNotice("warning", "Invalid or malformed .ngs file.");
-                        return;
-                    }
-
-                    alertConfirm("Overwrite ALL current game data?", () => {
-                        localStorage.clear();
-
-                        for (const key in data.storage) {
-                            try {
-                                localStorage.setItem(key, data.storage[key]);
-                            } catch (err) {
-                                console.log("Failed restoring:", key);
-                                alertNotice("warning", "Failed restoration.");
-                            }
-                        }
-
-                        alertNotice("success", "Game data restored.");
-
-                        // Give the notice time to appear
-                        setTimeout(() => {
-                            location.reload();
-                        }, 3000);
-                    });
-
-                } catch (err) {
-                    console.error(err);
-                    alertNotice("warning", "Invalid or malformed .ngs file.");
-                }
-            };
-
-            reader.readAsText(file);
-        }
-
-        function checkDailyRefresh() {
-            const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
-            const autoRefresh = settings.autoRefresh !== false;
-            if (!autoRefresh) return;
-            const today = new Date().toDateString();
-            const lastRefresh = localStorage.getItem('lastDailyRefresh');
-            if (lastRefresh !== today) {
-                localStorage.setItem('lastDailyRefresh', today);
-                location.reload();
-            }
-        }
-        if (!localStorage.getItem('ngSettings')) {
-            localStorage.setItem('ngSettings', JSON.stringify({
-                autoRefresh: true,
-                ticker: true
-            }));
-        }
+      function toggleTicker(enabled) {
+        const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+        settings.ticker = enabled;
+        localStorage.setItem('ngSettings', JSON.stringify(settings));
         applyTickerSetting();
+      }
 
-        function adminLogout() {
-            alertConfirm("Are you sure you want to sign out of Administrator mode?", () => {
-                adminToken = null;
-                isAdmin = false;
-                updateAdminIndicator();
-                updateEruda();
+      function clearData() {
+        alertConfirm("Delete ALL data?", () => {
+          localStorage.clear();
+          location.reload();
+        });
+      }
 
-                alertNotice("success", "Administrator signed out.");
-
-                showTab('games');
-            });
+      function exportNGS() {
+        const saveData = {};
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          try {
+            saveData[key] = localStorage.getItem(key);
+          } catch (err) {
+            alertNotice("warning", "Download failure.");
+          }
         }
+        const finalData = {
+          created: new Date().toISOString(),
+          storage: saveData
+        };
+        const blob = new Blob(
+          [JSON.stringify(finalData, null, 2)], {
+            type: 'application/json'
+          });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const now = new Date();
+        const date = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + '_' + String(now.getHours()).padStart(2, '0') + '-' + String(now.getMinutes()).padStart(2, '0');
+        a.download = `gd_${date}.ngs`;
+        a.click();
+        URL.revokeObjectURL(url);
+        alertNotice("success", "Game data downloaded.");
+      }
 
-        window.addEventListener("error", (event) => {
-            console.error(event.error || event.message);
-            alertNotice("alert", "Something went wrong. Check the console for details.");
+      function importNGS(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const data = JSON.parse(e.target.result);
+            if (!data.storage) {
+              alertNotice("warning", "Invalid or malformed .ngs file.");
+              return;
+            }
+            alertConfirm("Overwrite ALL current game data?", () => {
+              localStorage.clear();
+              for (const key in data.storage) {
+                try {
+                  localStorage.setItem(key, data.storage[key]);
+                } catch (err) {
+                  console.log("Failed restoring:", key);
+                  alertNotice("warning", "Failed restoration.");
+                }
+              }
+              alertNotice("success", "Game data restored.");
+              setTimeout(() => {
+                location.reload();
+              }, 3000);
+            });
+          } catch (err) {
+            console.error(err);
+            alertNotice("warning", "Invalid or malformed .ngs file.");
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      function checkDailyRefresh() {
+        const settings = JSON.parse(localStorage.getItem('ngSettings') || '{}');
+        const autoRefresh = settings.autoRefresh !== false;
+        if (!autoRefresh) return;
+        const today = new Date().toDateString();
+        const lastRefresh = localStorage.getItem('lastDailyRefresh');
+        if (lastRefresh !== today) {
+          localStorage.setItem('lastDailyRefresh', today);
+          location.reload();
+        }
+      }
+      if (!localStorage.getItem('ngSettings')) {
+        localStorage.setItem('ngSettings', JSON.stringify({
+          autoRefresh: true,
+          ticker: true
+        }));
+      }
+      applyTickerSetting();
+
+      function adminLogout() {
+        alertConfirm("Are you sure you want to sign out of Administrator mode?", () => {
+          adminToken = null;
+          isAdmin = false;
+          updateAdminIndicator();
+          updateEruda();
+          alertNotice("success", "Administrator signed out.");
+          showTab('games');
         });
-
-        window.addEventListener("unhandledrejection", (event) => {
-            console.error(event.reason);
-            alertNotice("alert", "Something went wrong. Check the console for details.");
-        });
-
-
-
-        checkDailyRefresh();
-        loadGameList();
-        console.log(
-            "%cDon't mess around in here unless you know what you're doing. If you think you do, you probably don't!",
-            "font-weight: bold; font-size: 16px;"
-        );
+      }
+      window.addEventListener("error", (event) => {
+        console.error(event.error || event.message);
+        alertNotice("alert", "Something went wrong. Check the console for details.");
+      });
+      window.addEventListener("unhandledrejection", (event) => {
+        console.error(event.reason);
+        alertNotice("alert", "Something went wrong. Check the console for details.");
+      });
+      checkDailyRefresh();
+      loadGameList();
+      console.log("%cDon't mess around in here unless you know what you're doing. If you think you do, you probably don't!", "font-weight: bold; font-size: 16px;");
     </script>
-</body>
-
+  </body>
 </html>
