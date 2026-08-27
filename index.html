@@ -1195,6 +1195,7 @@
       async function verifyAdmin() {
         if (!adminToken) {
           isAdmin = false;
+		  alertNotice("alert","Admin verification failed.");
           updateAdminIndicator();
           updateEruda();
           return false;
@@ -1209,6 +1210,7 @@
           if (!response.ok || !data.authenticated) {
             adminToken = null;
             isAdmin = false;
+			alertNotice("alert","Admin verification failed.");
             updateAdminIndicator();
             updateEruda();
             return false;
@@ -1218,7 +1220,7 @@
           updateEruda();
           return true;
         } catch (err) {
-          console.error("Admin verification failed:", err);
+          alertNotice("alert","Admin verification failed.");
           adminToken = null;
           isAdmin = false;
           updateAdminIndicator();
