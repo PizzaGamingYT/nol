@@ -1434,12 +1434,13 @@
             } else if (type === 'alert') {
                 icon = '⯃';
             } else if (type === 'fatal') {
-                icon = '✖';
+                icon = '🗙';
             } else {
                 return;
             }
 
             notice.innerHTML = `
+			<button class="ngNoticeClose" aria-label="Close">×</button>
         <div class="ngNoticeContent">
             <span class="ngNoticeIcon">${icon}</span>
             <span>${message}</span>
@@ -2521,13 +2522,7 @@ Nol’sGames Terms of Use & Privacy Policy
                     style="display:none"
                     onchange="importNGS(this.files[0])"
                 >
-																																												<label class="ngToggleWrap">
-																																													<span>Auto Refresh Daily</span>
-																																													<div class="ngSwitch">
-																																											
-																																															<span class="ngSlider"></span>
-																																														</div>
-																																													</label>
+																																												
 																																													<button class="danger" onclick="clearData()">
                     Clear Game Data
                 </button>
