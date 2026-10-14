@@ -2420,6 +2420,37 @@
         #partyFireworkFrequency:active {
             cursor: grabbing;
         }
+
+        #themepackNewBubble {
+            position: fixed;
+            z-index: 10001;
+            display: none;
+            padding: 10px 15px;
+            border-radius: 16px;
+            background: #ff4d00;
+            color: #fff;
+            font: 700 14px Commissioner, sans-serif;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, .28);
+            white-space: nowrap;
+            pointer-events: none;
+            animation: themepackBubbleFloat 1.2s ease-in-out infinite;
+        }
+
+        #themepackNewBubble::before {
+            content: "";
+            position: absolute;
+            left: var(--bubble-arrow-left, 50%);
+            top: -9px;
+            transform: translateX(-50%);
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-bottom: 10px solid #ff4d00;
+        }
+
+        @keyframes themepackBubbleFloat {
+            0%, 100% { translate: 0 0; }
+            50% { translate: 0 -7px; }
+        }
     </style>
 </head>
 
@@ -3909,6 +3940,11 @@ Nol’sGames Terms of Use & Privacy Policy
         applyThemepack();
 
         function showTab(tab) {
+            if (tab === 'settings') {
+                localStorage.setItem('ngThemepacksTipSeen', '1');
+                const bubble = document.getElementById('themepackNewBubble');
+                if (bubble) bubble.remove();
+            }
             const main = document.getElementById('main');
             const sidebar = document.getElementById('sidebar');
             if (tab === 'games') {
@@ -4460,6 +4496,45 @@ ${isAdmin ? `
             attributeFilter: ['class']
         });
         if (document.body.classList.contains('theme-party')) startPartyFireworks();
+
+
+        function setupThemepackNewBubble() {
+            const activeThemepack = localStorage.getItem('ngActiveThemepack');
+            if (activeThemepack && activeThemepack !== 'original') {
+                localStorage.setItem('ngThemepacksTipSeen', '1');
+                return;
+            }
+            if (localStorage.getItem('ngThemepacksTipSeen') === '1') return;
+
+            const settingsButton = Array.from(document.querySelectorAll('#topbar .tab'))
+                .find(button => button.textContent.trim() === 'Settings');
+            if (!settingsButton) return;
+
+            let bubble = document.getElementById('themepackNewBubble');
+            if (!bubble) {
+                bubble = document.createElement('div');
+                bubble.id = 'themepackNewBubble';
+                bubble.textContent = 'NEW! Themepacks';
+                document.body.appendChild(bubble);
+            }
+
+            const positionBubble = () => {
+                if (!bubble.isConnected || localStorage.getItem('ngThemepacksTipSeen') === '1') return;
+                const rect = settingsButton.getBoundingClientRect();
+                const bubbleWidth = bubble.offsetWidth || 150;
+                const left = Math.max(8, Math.min(window.innerWidth - bubbleWidth - 8, rect.left + rect.width / 2 - bubbleWidth / 2));
+                bubble.style.left = `${left}px`;
+                bubble.style.top = `${rect.bottom + 12}px`;
+                bubble.style.setProperty('--bubble-arrow-left', `${Math.max(12, Math.min(bubbleWidth - 12, rect.left + rect.width / 2 - left))}px`);
+                bubble.style.display = 'block';
+            };
+
+            positionBubble();
+            window.addEventListener('resize', positionBubble);
+            window.addEventListener('scroll', positionBubble, true);
+        }
+
+        setupThemepackNewBubble();
 
         loadGameList();
         console.log("%cDon't mess around in here unless you know what you're doing. If you think you do, you probably don't!", "font-weight: bold; font-size: 16px;");
