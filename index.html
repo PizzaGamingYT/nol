@@ -2448,8 +2448,15 @@
         }
 
         @keyframes themepackBubbleFloat {
-            0%, 100% { translate: 0 0; }
-            50% { translate: 0 -7px; }
+
+            0%,
+            100% {
+                translate: 0 0;
+            }
+
+            50% {
+                translate: 0 -7px;
+            }
         }
     </style>
 </head>
@@ -3618,26 +3625,28 @@ Nol’sGames Terms of Use & Privacy Policy
             return getUnlockedThemepacks().includes(pack);
         }
 
+
         async function syncPartyAnniversaryUnlock() {
             try {
-                const response = await fetch(`${API_URL}/date`, {
+                const response = await fetch(`${API_URL}/themepack/party`, {
                     cache: "no-store"
                 });
 
                 if (!response.ok) {
-                    throw new Error("Failed to fetch server date");
+                    throw new Error("Failed to check Party themepack");
                 }
 
                 const data = await response.json();
 
-                if (data.date >= "2026-10-15") {
-                    unlockPartyThemepackForAnniversary(data.date);
+                if (data.partyunlocked && data.key) {
+                    unlockPartyThemepackForAnniversary(data.key);
                     renderSettings();
                 }
             } catch (error) {
                 console.error("Party anniversary check failed:", error);
             }
         }
+
 
         syncPartyAnniversaryUnlock();
         setInterval(syncPartyAnniversaryUnlock, 60_000);
@@ -3676,7 +3685,7 @@ Nol’sGames Terms of Use & Privacy Policy
             const tileWidth = Math.max(main.clientWidth, 1);
             const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
-            
+
             layer.style.setProperty('position', 'absolute', 'important');
             layer.style.setProperty('top', '0', 'important');
             layer.style.setProperty('left', '0', 'important');
@@ -3693,7 +3702,7 @@ Nol’sGames Terms of Use & Privacy Policy
 
             let tiles = [...layer.querySelectorAll('canvas')];
 
-            
+
             if (
                 tiles.length !== 2 ||
                 layer.dataset.width !== String(tileWidth) ||
@@ -3727,7 +3736,7 @@ Nol’sGames Terms of Use & Privacy Policy
 
                     ctx.scale(dpr, dpr);
 
-                    
+
                     const count = Math.round(tileWidth * tileHeight / 5000);
 
                     for (let j = 0; j < count; j++) {
@@ -3766,16 +3775,16 @@ Nol’sGames Terms of Use & Privacy Policy
 
                 if (!isParty || tiles.length !== 2) return;
 
-                
+
                 const scrollY = main.scrollTop;
                 const firstY = Math.floor(scrollY / tileHeight) * tileHeight;
 
-                
+
                 tiles[0].style.top = `${firstY}px`;
                 tiles[1].style.top = `${firstY + tileHeight}px`;
             }
 
-            
+
             if (!layer.dataset.scrollHandlerAttached) {
                 main.addEventListener('scroll', positionTiles, {
                     passive: true
@@ -3928,15 +3937,23 @@ Nol’sGames Terms of Use & Privacy Policy
         }
 
 
-        function unlockPartyThemepackForAnniversary(serverDate) {
-            if (serverDate !== '2026-10-15') return;
+
+        function unlockPartyThemepackForAnniversary(key) {
+            if (typeof key !== 'string' || !key) return;
+
             const unlocked = getUnlockedThemepacks();
+
             if (!unlocked.includes('party')) {
                 unlocked.push('party');
                 localStorage.setItem(THEME_PACKS_KEY, JSON.stringify(unlocked));
-                alertNotice('success', 'The limited Party Themepack has been unlocked for the Nol’sGames anniversary!');
+
+                alertNotice(
+                    'success',
+                    'The limited Party Themepack has been unlocked for the Nol’sGames anniversary!'
+                );
             }
         }
+
         applyThemepack();
 
         function showTab(tab) {
