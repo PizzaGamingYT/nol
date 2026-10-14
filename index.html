@@ -2405,6 +2405,21 @@
             color: inherit !important;
             border: 0 !important;
         }
+
+
+        #partyFireworkFrequency {
+            display: block;
+            position: relative;
+            z-index: 10;
+            pointer-events: auto;
+            touch-action: pan-y;
+            cursor: grab;
+            user-select: none;
+        }
+
+        #partyFireworkFrequency:active {
+            cursor: grabbing;
+        }
     </style>
 </head>
 
@@ -3379,6 +3394,9 @@ Nol’sGames Terms of Use & Privacy Policy
             }
             search.focus();
             search.setSelectionRange(search.value.length, search.value.length);
+            requestAnimationFrame(() => {
+                renderPartyStars();
+            });
         }
 
         function createGameBtn(f) {
@@ -3606,29 +3624,153 @@ Nol’sGames Terms of Use & Privacy Policy
         }
 
         function renderPartyStars() {
+            const main = document.getElementById('main');
+            if (!main) return;
+
             let layer = document.getElementById('partyStarsLayer');
-            if (!layer) {
-                layer = document.createElement('div');
-                layer.id = 'partyStarsLayer';
-                layer.setAttribute('aria-hidden', 'true');
-                (document.getElementById('main') || document.body).prepend(layer);
+
+            if (!layer || layer.tagName !== 'DIV') {
+                const replacement = document.createElement('div');
+                replacement.id = 'partyStarsLayer';
+                replacement.setAttribute('aria-hidden', 'true');
+
+                if (layer) layer.replaceWith(replacement);
+                else main.prepend(replacement);
+
+                layer = replacement;
             }
-            layer.replaceChildren();
-            const glyphs = ['•', '✦', '✧', '✣'];
-            const colors = ['#ffffff', '#f4eaff', '#e8f7ff', '#ffe8f3', '#fff4cf'];
-            for (let i = 0; i < 180; i++) {
-                const star = document.createElement('span');
-                star.className = 'party-star';
-                star.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
-                star.style.left = (Math.random() * 98 + 1) + '%';
-                star.style.top = (Math.random() * 98 + 1) + '%';
-                star.style.fontSize = (5 + Math.random() * 9) + 'px';
-                star.style.color = colors[Math.floor(Math.random() * colors.length)];
-                star.style.opacity = (0.28 + Math.random() * 0.55).toFixed(2);
-                layer.appendChild(star);
+
+            const active = document.body.classList.contains('theme-party');
+            const tileHeight = Math.max(main.clientHeight, 400);
+            const tileWidth = Math.max(main.clientWidth, 1);
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
+            
+            layer.style.setProperty('position', 'absolute', 'important');
+            layer.style.setProperty('top', '0', 'important');
+            layer.style.setProperty('left', '0', 'important');
+            layer.style.setProperty('width', '100%', 'important');
+            layer.style.setProperty(
+                'height',
+                `${Math.max(main.scrollHeight, main.clientHeight)}px`,
+                'important'
+            );
+            layer.style.setProperty('overflow', 'hidden', 'important');
+            layer.style.setProperty('pointer-events', 'none', 'important');
+            layer.style.setProperty('z-index', '0', 'important');
+            layer.style.setProperty('display', active ? 'block' : 'none', 'important');
+
+            let tiles = [...layer.querySelectorAll('canvas')];
+
+            
+            if (
+                tiles.length !== 2 ||
+                layer.dataset.width !== String(tileWidth) ||
+                layer.dataset.height !== String(tileHeight) ||
+                layer.dataset.dpr !== String(dpr)
+            ) {
+                layer.replaceChildren();
+                tiles = [];
+
+                const colors = [
+                    '#ffffff', '#f4eaff', '#e8f7ff',
+                    '#ffe8f3', '#fff4cf'
+                ];
+
+                for (let i = 0; i < 2; i++) {
+                    const canvas = document.createElement('canvas');
+
+                    canvas.width = Math.ceil(tileWidth * dpr);
+                    canvas.height = Math.ceil(tileHeight * dpr);
+
+                    Object.assign(canvas.style, {
+                        position: 'absolute',
+                        left: '0',
+                        width: `${tileWidth}px`,
+                        height: `${tileHeight}px`,
+                        pointerEvents: 'none'
+                    });
+
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) continue;
+
+                    ctx.scale(dpr, dpr);
+
+                    
+                    const count = Math.round(tileWidth * tileHeight / 5000);
+
+                    for (let j = 0; j < count; j++) {
+                        ctx.globalAlpha = 0.3 + Math.random() * 0.55;
+                        ctx.fillStyle =
+                            colors[Math.floor(Math.random() * colors.length)];
+                        ctx.font = `${5 + Math.random() * 8}px Arial, sans-serif`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+
+                        ctx.fillText(
+                            Math.random() < 0.65 ? '✦' : '✧',
+                            Math.random() * tileWidth,
+                            Math.random() * tileHeight
+                        );
+                    }
+
+                    layer.appendChild(canvas);
+                    tiles.push(canvas);
+                }
+
+                layer.dataset.width = String(tileWidth);
+                layer.dataset.height = String(tileHeight);
+                layer.dataset.dpr = String(dpr);
             }
-            layer.style.display = document.body.classList.contains('theme-party') ? 'block' : 'none';
+
+            function positionTiles() {
+                const isParty =
+                    document.body.classList.contains('theme-party');
+
+                layer.style.setProperty(
+                    'display',
+                    isParty ? 'block' : 'none',
+                    'important'
+                );
+
+                if (!isParty || tiles.length !== 2) return;
+
+                
+                const scrollY = main.scrollTop;
+                const firstY = Math.floor(scrollY / tileHeight) * tileHeight;
+
+                
+                tiles[0].style.top = `${firstY}px`;
+                tiles[1].style.top = `${firstY + tileHeight}px`;
+            }
+
+            
+            if (!layer.dataset.scrollHandlerAttached) {
+                main.addEventListener('scroll', positionTiles, {
+                    passive: true
+                });
+
+                layer.dataset.scrollHandlerAttached = 'true';
+            }
+
+            if (!window.partyStarsResizeHandlerInstalled) {
+                window.addEventListener('resize', () => {
+                    if (document.body.classList.contains('theme-party')) {
+                        renderPartyStars();
+                    }
+                });
+
+                window.partyStarsResizeHandlerInstalled = true;
+            }
+
+            positionTiles();
         }
+
+
+
+
+
+
 
         let partyStarsObserverInstalled = false;
 
@@ -3637,10 +3779,25 @@ Nol’sGames Terms of Use & Privacy Policy
             const main = document.getElementById('main');
             if (!main) return;
             partyStarsObserverInstalled = true;
-            const observer = new MutationObserver(() => {
-                if (!document.getElementById('partyStarsLayer')) renderPartyStars();
+            const observer = new MutationObserver((mutations) => {
                 const layer = document.getElementById('partyStarsLayer');
-                if (layer) layer.style.display = document.body.classList.contains('theme-party') ? 'block' : 'none';
+
+                const pageChanged = mutations.some((mutation) => {
+                    return !layer ||
+                        (mutation.target !== layer &&
+                            !layer.contains(mutation.target));
+                });
+
+                if (!pageChanged) return;
+
+                requestAnimationFrame(() => {
+                    renderPartyStars();
+                });
+            });
+
+            observer.observe(main, {
+                childList: true,
+                subtree: true
             });
             observer.observe(main, {
                 childList: true
@@ -3657,6 +3814,15 @@ Nol’sGames Terms of Use & Privacy Policy
             const logo = document.getElementById('logo');
             if (logo) logo.src = active === 'party' ? PARTY_LOGO_URL : REGULAR_LOGO_URL;
             localStorage.setItem(ACTIVE_THEME_KEY, active);
+            if (!window.partyStarsResizeHandlerInstalled) {
+                window.addEventListener('resize', () => {
+                    if (document.body.classList.contains('theme-party')) {
+                        renderPartyStars();
+                    }
+                });
+
+                window.partyStarsResizeHandlerInstalled = true;
+            }
             renderPartyStars();
             ensurePartyStarsObserver();
         }
@@ -3872,7 +4038,7 @@ ${isThemepackUnlocked('party') ? `<div class="themepack-card">
     <img src="https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/themepacks/partyassets/logo.png" alt="Themepack logo" style="height:48px;max-width:100%;object-fit:contain;">
     <p class="pack-status">Rarity: Limited</p>
     <p><i>“did anyone order the cake?”</i></p>
-    <p>Makes the site purple and has firework effects. Fireworks will be added when the effect GIF is provided.</p>
+    <p>Makes the site purple and has firework effects.</p>
     <p>Obtained by playing on 10/15/26 for the Nol’sGames 1st Anniversary event!</p>
     <p class="pack-status">${isThemepackUnlocked('party') ? 'Unlocked' : (new Date().toISOString().slice(0, 10) > '2026-10-15' ? 'Permanently unobtainable' : 'Available only on October 15, 2026')}</p>
     <label for="partyFireworkFrequency" style="display:block;margin:12px 0 5px;font-weight:700;">Firework frequency: <span id="partyFireworkFrequencyValue">600 ms</span></label>
