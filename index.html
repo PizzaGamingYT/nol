@@ -307,7 +307,7 @@
         }
 
         .game-btn.fav:not(.rainbow-game) {
-            border-color: #FF4D00;
+            border-color: #222;
         }
 
         .star {
@@ -323,6 +323,10 @@
         .star.on::after {
             content: "★";
             color: gold;
+        }
+
+        .game-btn:hover .star::after {
+            color: white;
         }
 
         .danger {
@@ -427,6 +431,24 @@
             margin: 10px;
             cursor: pointer;
             color: black;
+        }
+
+        .favicon-upload-label {
+            display: inline-block;
+            background: #222222;
+            color: #fff;
+            border: 2px solid #ff4d00;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 10px;
+            cursor: pointer;
+            font: inherit;
+            text-align: center;
+        }
+
+        .favicon-upload-label:hover {
+            background: #ff4d00;
+            color: #111;
         }
 
         ::-webkit-scrollbar {
@@ -1246,10 +1268,1148 @@
             color: #ff6a2a;
             text-decoration: none;
         }
+
+        body.theme-dark {
+            background: #080808;
+            color: #f5f5f5;
+        }
+
+        body.theme-dark #topbar {
+            background: #171717;
+        }
+
+        body.theme-dark #ticker {
+            background: #292929;
+        }
+
+        body.theme-dark .tab {
+            background: #171717;
+            color: #f5f5f5;
+        }
+
+        body.theme-dark .tab:hover {
+            background: #333;
+        }
+
+        body.theme-dark #sidebar {
+            background: #080808;
+        }
+
+        body.theme-dark #searchWrap {
+            background: #080808;
+        }
+
+        body.theme-dark .game-btn {
+            background: #191919;
+            color: #f5f5f5;
+            border-color: #292929;
+        }
+
+        body.theme-dark .game-btn:hover {
+            background: #333;
+        }
+
+        body.theme-dark .rainbow-game,
+        body.theme-dark .rainbow-game.fav {
+            background: linear-gradient(#191919, #191919) padding-box, linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, violet) border-box;
+        }
+
+        body.theme-dark .rainbow-game:hover,
+        body.theme-dark .rainbow-game.fav:hover {
+            background: linear-gradient(#303030, #303030) padding-box, linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, violet) border-box;
+        }
+
+        body.theme-dark .settings-section {
+            background: #151515;
+            border-color: #292929;
+        }
+
+        body.theme-dark .standard,
+        body.theme-dark .ngToggleWrap {
+            background: #191919;
+            border-color: #444;
+        }
+
+        body.theme-dark .standard:hover,
+        body.theme-dark .ngToggleWrap:hover {
+            background: #333;
+        }
+
+        body.theme-dark #themeCodeInput {
+            background: #111;
+            color: #fff;
+            border-color: #444;
+        }
+
+        body.theme-light {
+            background: #fff;
+            color: #171717;
+        }
+
+        body.theme-light #topbar {
+            background: #eee;
+        }
+
+        body.theme-light #ticker {
+            background: #ddd;
+        }
+
+        body.theme-light .tab {
+            background: #eee;
+            color: #171717;
+            -webkit-text-stroke-color: #fff;
+        }
+
+        body.theme-light .tab:hover {
+            background: #ddd;
+        }
+
+        body.theme-light #sidebar,
+        body.theme-light #main,
+        body.theme-light #searchWrap {
+            background: #fff;
+        }
+
+        body.theme-light .game-btn {
+            background: #f3f3f3;
+            color: #171717;
+            border-color: #ddd;
+        }
+
+        body.theme-light .game-btn:hover {
+            background: #e4e4e4;
+        }
+
+        body.theme-light .rainbow-game,
+        body.theme-light .rainbow-game.fav {
+            background: linear-gradient(#f3f3f3, #f3f3f3) padding-box, linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, violet) border-box;
+        }
+
+        body.theme-light .rainbow-game:hover,
+        body.theme-light .rainbow-game.fav:hover {
+            background: linear-gradient(#e4e4e4, #e4e4e4) padding-box, linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, violet) border-box;
+        }
+
+        body.theme-light .settings-section {
+            background: #f7f7f7;
+            border-color: #ddd;
+        }
+
+        body.theme-light .settings-section h3 {
+            color: #b83a00;
+        }
+
+        body.theme-light .standard,
+        body.theme-light .ngToggleWrap,
+        body.theme-light #themeCodeInput {
+            background: #fff;
+            color: #171717;
+            border-color: #ccc;
+        }
+
+        body.theme-light .standard:hover,
+        body.theme-light .ngToggleWrap:hover {
+            background: #e5e5e5;
+        }
+
+        body.theme-light .noResults h2 {
+            color: #171717;
+        }
+
+        body.theme-light .themepack-card p {
+            color: #444;
+        }
+
+        body.theme-light .themepack-card {
+            background: #fff;
+            border-color: #ddd;
+        }
+
+        body.theme-party {
+            background: #170b27;
+            color: #fff;
+        }
+
+        body.theme-party #topbar {
+            background: #7b2cbf;
+        }
+
+        body.theme-party #ticker {
+            background: #9d4edd;
+        }
+
+        body.theme-party .tab {
+            background: #7b2cbf;
+        }
+
+        body.theme-party .tab:hover {
+            background: #5a189a;
+        }
+
+        body.theme-party #sidebar {
+            background: #170b27;
+        }
+
+        body.theme-party #searchWrap {
+            background: #170b27;
+        }
+
+        body.theme-party .game-btn {
+            background: #29113e;
+            color: #fff;
+            border-color: #5a189a;
+        }
+
+        body.theme-party .game-btn:hover {
+            background: #7b2cbf;
+        }
+
+        body.theme-party .rainbow-game,
+        body.theme-party .rainbow-game.fav {
+            background: linear-gradient(#29113e, #29113e) padding-box, linear-gradient(90deg, #ff70a6, #ff9770, #ffd670, #e9ff70, #70e4ff, #b388ff) border-box;
+        }
+
+        body.theme-party .rainbow-game:hover,
+        body.theme-party .rainbow-game.fav:hover {
+            background: linear-gradient(#7b2cbf, #7b2cbf) padding-box, linear-gradient(90deg, #ff70a6, #ff9770, #ffd670, #e9ff70, #70e4ff, #b388ff) border-box;
+        }
+
+        body.theme-party .settings-section {
+            background: #29113e;
+            border-color: #5a189a;
+        }
+
+        body.theme-party .settings-section h3 {
+            color: #e0aaff;
+        }
+
+        body.theme-party .standard,
+        body.theme-party .ngToggleWrap {
+            background: #29113e;
+            border-color: #9d4edd;
+        }
+
+        body.theme-party .standard:hover,
+        body.theme-party .ngToggleWrap:hover {
+            background: #5a189a;
+        }
+
+
+        #partyFireworksCanvas {
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            pointer-events: none !important;
+            z-index: 2147483647 !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .themepack-card {
+            background: #222;
+            border: 2px solid #383838;
+            border-radius: 14px;
+            padding: 15px;
+            margin: 12px 0;
+        }
+
+        .themepack-card h4 {
+            margin: 0 0 8px;
+            font-size: 18px;
+        }
+
+        .themepack-card p {
+            margin: 6px 0;
+            color: #ccc;
+        }
+
+        .themepack-card .pack-status {
+            font-weight: 800;
+            color: #ff9a70;
+        }
+
+        .themepack-card button:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        #themeCodeInput {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #444;
+            border-radius: 10px;
+            background: #171717;
+            color: #fff;
+            font: inherit;
+        }
+
+        body.theme-dark #sidebar {
+            background: #080808;
+        }
+
+        body.theme-dark .sidebar-btn {
+            background: #191919;
+            color: #f5f5f5;
+        }
+
+        body.theme-dark .sidebar-btn:hover {
+            background: #333;
+        }
+
+        body.theme-dark #searchWrap {
+            background: #080808;
+        }
+
+        body.theme-dark #search {
+            background: #191919;
+            color: #f5f5f5;
+            border-color: #292929;
+        }
+
+        body.theme-dark .settings-section h3,
+        body.theme-dark .no-games a,
+        body.theme-dark .no-games a:hover,
+        body.theme-dark .settings-page>h2 {
+            color: #fff;
+        }
+
+        body.theme-dark .themepack-card .pack-status {
+            color: #fff;
+        }
+
+        body.theme-dark [style*="color: #ff4d00"],
+        body.theme-dark [style*="color:#ff4d00"],
+        body.theme-dark [style*="color: #FF4D00"],
+        body.theme-dark [style*="color:#FF4D00"] {
+            color: #fff !important;
+        }
+
+        body.theme-light #sidebar {
+            background: #e8e8e8;
+        }
+
+        body.theme-light .sidebar-btn {
+            background: #f3f3f3;
+            color: #171717;
+        }
+
+        body.theme-light .sidebar-btn:hover {
+            background: #d7d7d7;
+        }
+
+        body.theme-light #searchWrap {
+            background: #fff;
+        }
+
+        body.theme-light #search {
+            background: #fff;
+            color: #171717;
+            border-color: #ccc;
+        }
+
+        body.theme-light #search:focus {
+            border-color: #777;
+        }
+
+        body.theme-light .tab,
+
+        body.theme-light .settings-section h3,
+        body.theme-light .no-games a,
+        body.theme-light .no-games a:hover,
+        body.theme-light .settings-page>h2,
+        body.theme-light .themepack-card .pack-status {
+            color: #000;
+        }
+
+        body.theme-light [style*="color: #ff4d00"],
+        body.theme-light [style*="color:#ff4d00"],
+        body.theme-light [style*="color: #FF4D00"],
+        body.theme-light [style*="color:#FF4D00"] {
+            color: #000 !important;
+        }
+
+        body.theme-light .star.off::after {
+            color: #666;
+        }
+
+        body.theme-light .game-btn:hover .star.off::after {
+            color: #171717;
+        }
+
+        body.theme-light .game-btn:hover .star.on::after {
+            color: #b88600;
+        }
+
+        body.theme-light .game-btn.fav:not(.rainbow-game) {
+            border-color: #ddd;
+        }
+
+        body.theme-dark .game-btn.fav:not(.rainbow-game) {
+            border-color: #292929;
+        }
+
+        body.theme-party .sidebar-btn {
+            background: #29113e;
+            color: #fff;
+        }
+
+        body.theme-party .sidebar-btn:hover {
+            background: #7b2cbf;
+        }
+
+        body.theme-dark .rainbow-game,
+        body.theme-dark .rainbow-game.fav {
+            border-color: transparent;
+        }
+
+        body.theme-light .rainbow-game,
+        body.theme-light .rainbow-game.fav {
+            border-color: transparent;
+        }
+
+        body.theme-party .rainbow-game,
+        body.theme-party .rainbow-game.fav {
+            border-color: transparent;
+        }
+
+        body.theme-light .tab {
+            color: #fff !important;
+            -webkit-text-stroke-color: #000 !important;
+        }
+
+        body.theme-light .star.on::after,
+        body.theme-light .game-btn:hover .star.on::after {
+            color: #ff4d00 !important;
+        }
+
+        body.theme-light {
+            scrollbar-color: #777 #e8e8e8;
+        }
+
+        body.theme-light::-webkit-scrollbar-track,
+        body.theme-light ::-webkit-scrollbar-track {
+            background: #e8e8e8;
+        }
+
+        body.theme-light::-webkit-scrollbar-thumb,
+        body.theme-light ::-webkit-scrollbar-thumb {
+            background: #777;
+            border-color: #e8e8e8;
+        }
+
+        body.theme-light::-webkit-scrollbar-thumb:hover,
+        body.theme-light ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        body.theme-light::-webkit-scrollbar-corner,
+        body.theme-light ::-webkit-scrollbar-corner {
+            background: #e8e8e8;
+        }
+
+        body.theme-party,
+        body.theme-party #main,
+        body.theme-party #sidebar,
+        body.theme-party #searchWrap,
+        body.theme-party .settings-page {
+            background-image: none;
+        }
+
+        body.theme-party #searchWrap {
+            background-color: #170b27;
+        }
+
+        body.theme-party #search {
+            background: #29113e;
+            color: #fff;
+            border-color: #9d4edd;
+        }
+
+        body.theme-party {
+            scrollbar-color: #b388ff #170b27;
+        }
+
+        body.theme-party::-webkit-scrollbar-track,
+        body.theme-party ::-webkit-scrollbar-track {
+            background: #170b27;
+        }
+
+        body.theme-party::-webkit-scrollbar-thumb,
+        body.theme-party ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #b388ff, #ff70a6);
+            border-color: #170b27;
+        }
+
+        body.theme-party::-webkit-scrollbar-thumb:hover,
+        body.theme-party ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #ff70a6, #b388ff);
+        }
+
+        body.theme-party::-webkit-scrollbar-corner,
+        body.theme-party ::-webkit-scrollbar-corner {
+            background: #170b27;
+        }
+
+        body.theme-party .game-btn:not(.rainbow-game) {
+            border-color: transparent;
+        }
+
+        body.theme-party .game-btn:not(.rainbow-game):hover {
+            border-color: transparent;
+        }
+
+        body.theme-light {
+            scrollbar-color: #000 #fff !important;
+        }
+
+        body.theme-light::-webkit-scrollbar-track,
+        body.theme-light ::-webkit-scrollbar-track,
+        body.theme-light::-webkit-scrollbar-corner,
+        body.theme-light ::-webkit-scrollbar-corner {
+            background: #fff !important;
+        }
+
+        body.theme-light::-webkit-scrollbar-thumb,
+        body.theme-light ::-webkit-scrollbar-thumb {
+            background: #000 !important;
+            border-color: #fff !important;
+        }
+
+        body.theme-light::-webkit-scrollbar-thumb:hover,
+        body.theme-light ::-webkit-scrollbar-thumb:hover {
+            background: #333 !important;
+        }
+
+        body.theme-light .ngSlider {
+            border-color: #777;
+        }
+
+        body.theme-light .star.on::after,
+        body.theme-light .game-btn:hover .star.on::after {
+            color: gold !important;
+        }
+
+        body.theme-party #search {
+            border: 0 !important;
+            outline-color: transparent;
+            box-shadow: none;
+        }
+
+        body.theme-party {
+            scrollbar-color: #fff #170b27 !important;
+        }
+
+        body.theme-party::-webkit-scrollbar-thumb,
+        body.theme-party ::-webkit-scrollbar-thumb {
+            background: #fff !important;
+            border-color: #170b27 !important;
+        }
+
+        body.theme-party::-webkit-scrollbar-thumb:hover,
+        body.theme-party ::-webkit-scrollbar-thumb:hover {
+            background: #eee !important;
+        }
+
+        body.theme-party .ngSlider {
+            border-color: #b388ff;
+        }
+
+        #partyStarsLayer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            overflow: hidden;
+        }
+
+        #partyStarsLayer .party-star {
+            position: absolute;
+            line-height: 1;
+            user-select: none;
+            font-weight: 400;
+            text-shadow: 0 0 5px rgba(255, 255, 255, .25);
+        }
+
+        body.theme-light #main {
+            scrollbar-color: #000 #fff !important;
+        }
+
+        body.theme-light #main::-webkit-scrollbar-track,
+        body.theme-light #main::-webkit-scrollbar-corner {
+            background: #fff !important;
+        }
+
+        body.theme-light #main::-webkit-scrollbar-thumb {
+            background: #000 !important;
+            border-color: #fff !important;
+        }
+
+        body.theme-light #main::-webkit-scrollbar-thumb:hover {
+            background: #333 !important;
+        }
+
+        body.theme-light #ticker {
+            background: #ddd !important;
+        }
+
+        body.theme-party #main {
+            position: relative;
+            scrollbar-color: #fff #170b27 !important;
+        }
+
+        body.theme-party #main::-webkit-scrollbar-track,
+        body.theme-party #main::-webkit-scrollbar-corner {
+            background: #170b27 !important;
+        }
+
+        body.theme-party #main::-webkit-scrollbar-thumb {
+            background: #fff !important;
+            border-color: #170b27 !important;
+        }
+
+        body.theme-party #main::-webkit-scrollbar-thumb:hover {
+            background: #eee !important;
+        }
+
+        body.theme-party #partyStarsLayer {
+            position: absolute !important;
+            inset: 0 auto auto 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 100% !important;
+            overflow: hidden !important;
+            pointer-events: none !important;
+            z-index: 0 !important;
+        }
+
+        body.theme-party #main>*:not(#partyStarsLayer) {
+            position: relative;
+            z-index: 1;
+        }
+
+        body.theme-party #searchWrap {
+            position: sticky;
+            z-index: 1000;
+        }
+
+        body.theme-dark #main {
+            scrollbar-color: #fff #080808 !important;
+        }
+
+        body.theme-dark #main::-webkit-scrollbar-track,
+        body.theme-dark #main::-webkit-scrollbar-corner {
+            background: #080808 !important;
+        }
+
+        body.theme-dark #main::-webkit-scrollbar-thumb {
+            background: #fff !important;
+            border-color: #080808 !important;
+        }
+
+        body.theme-dark #main::-webkit-scrollbar-thumb:hover {
+            background: #eee !important;
+        }
+
+
+        body.theme-light #sidebar,
+        body.theme-light #tocContent.modal {
+            scrollbar-color: #000 #fff !important;
+        }
+
+        body.theme-light #sidebar::-webkit-scrollbar-track,
+        body.theme-light #tocContent.modal::-webkit-scrollbar-track,
+        body.theme-light #sidebar::-webkit-scrollbar-corner,
+        body.theme-light #tocContent.modal::-webkit-scrollbar-corner {
+            background: #fff !important;
+        }
+
+        body.theme-light #sidebar::-webkit-scrollbar-thumb,
+        body.theme-light #tocContent.modal::-webkit-scrollbar-thumb {
+            background: #000 !important;
+            border: 2px solid #fff !important;
+        }
+
+        body.theme-light #sidebar::-webkit-scrollbar-thumb:hover,
+        body.theme-light #tocContent.modal::-webkit-scrollbar-thumb:hover {
+            background: #333 !important;
+        }
+
+        body.theme-dark #sidebar,
+        body.theme-dark #tocContent.modal {
+            scrollbar-color: #fff #080808 !important;
+        }
+
+        body.theme-dark #sidebar::-webkit-scrollbar-track,
+        body.theme-dark #tocContent.modal::-webkit-scrollbar-track,
+        body.theme-dark #sidebar::-webkit-scrollbar-corner,
+        body.theme-dark #tocContent.modal::-webkit-scrollbar-corner {
+            background: #080808 !important;
+        }
+
+        body.theme-dark #sidebar::-webkit-scrollbar-thumb,
+        body.theme-dark #tocContent.modal::-webkit-scrollbar-thumb {
+            background: #fff !important;
+            border: 2px solid #080808 !important;
+        }
+
+        body.theme-party #sidebar,
+        body.theme-party #tocContent.modal {
+            scrollbar-color: #fff #170b27 !important;
+        }
+
+        body.theme-party #sidebar::-webkit-scrollbar-track,
+        body.theme-party #tocContent.modal::-webkit-scrollbar-track,
+        body.theme-party #sidebar::-webkit-scrollbar-corner,
+        body.theme-party #tocContent.modal::-webkit-scrollbar-corner {
+            background: #170b27 !important;
+        }
+
+        body.theme-party #sidebar::-webkit-scrollbar-thumb,
+        body.theme-party #tocContent.modal::-webkit-scrollbar-thumb {
+            background: #fff !important;
+            border: 2px solid #170b27 !important;
+        }
+
+        body.theme-light #tickerText {
+            color: #fff !important;
+            -webkit-text-stroke: 7.5px #000 !important;
+            paint-order: stroke fill;
+        }
+
+
+        body.theme-party #ticker {
+            background: #6d16a8 !important;
+        }
+
+
+        body.theme-party #main {
+            position: relative;
+            isolation: isolate;
+        }
+
+        body.theme-party #partyStarsLayer {
+            position: absolute !important;
+            inset: 0 auto auto 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 100% !important;
+            background: transparent !important;
+            overflow: hidden !important;
+            pointer-events: none !important;
+            z-index: 0 !important;
+        }
+
+        body.theme-party #main>*:not(#partyStarsLayer) {
+            position: relative;
+            z-index: 1;
+        }
+
+
+
+        #tocModal .modal button,
+        #presetModal .presetBox button {
+            color: #fff !important;
+            font-family: "Commissioner", sans-serif;
+            font-weight: 700;
+            border: 1px solid #ff4d00;
+            border-radius: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+
+        #tocModal .modal button:hover,
+        #presetModal .presetBox button:hover {
+            filter: brightness(1.12);
+        }
+
+        body.theme-light #tocModal .modal button,
+        body.theme-light #presetModal .presetBox button {
+            background: #eee !important;
+            color: #fff !important;
+            -webkit-text-stroke: 2px #000;
+            paint-order: stroke fill;
+            border-color: #bbb !important;
+        }
+
+        body.theme-party #tocModal .modal button,
+        body.theme-party #presetModal .presetBox button {
+            background: #7b2cbf !important;
+            border-color: #b388ff !important;
+        }
+
+        body.theme-party #ticker {
+            background: #781cb8 !important;
+        }
+
+
+
+
+
+        body.theme-party #main {
+            position: relative !important;
+            isolation: isolate !important;
+            background-color: #170b27;
+        }
+
+        body.theme-party #main>#partyStarsLayer {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            right: auto !important;
+            bottom: auto !important;
+            width: 100% !important;
+            z-index: 0 !important;
+            pointer-events: none !important;
+            overflow: hidden !important;
+        }
+
+        body.theme-party #main>*:not(#partyStarsLayer) {
+            position: relative;
+            z-index: 1;
+        }
+
+        body.theme-party #searchWrap {
+            position: sticky;
+            z-index: 1000;
+        }
+
+        body.theme-party #topbar,
+        body.theme-party #ticker,
+        body.theme-party #sidebar {
+            z-index: 9999;
+        }
+
+
+        body.theme-dark .settings-section h3,
+        body.theme-dark .settings-page>h2,
+        body.theme-dark .adminPanelIcon,
+        body.theme-dark .adminToolSection h3,
+        body.theme-dark .download-info strong,
+        body.theme-dark .toc-link,
+        body.theme-dark .no-games a,
+        body.theme-dark .no-games a:hover,
+        body.theme-dark .themepack-card .pack-status {
+            color: #fff !important;
+        }
+
+        body.theme-light .settings-section h3,
+        body.theme-light .settings-page>h2,
+        body.theme-light .adminPanelIcon,
+        body.theme-light .adminToolSection h3,
+        body.theme-light .download-info strong,
+        body.theme-light .toc-link,
+        body.theme-light .no-games a,
+        body.theme-light .no-games a:hover,
+        body.theme-light .themepack-card .pack-status {
+            color: #171717 !important;
+        }
+
+        body.theme-party .settings-section h3,
+        body.theme-party .settings-page>h2,
+        body.theme-party .adminPanelIcon,
+        body.theme-party .adminToolSection h3,
+        body.theme-party .download-info strong,
+        body.theme-party .toc-link,
+        body.theme-party .no-games a,
+        body.theme-party .no-games a:hover,
+        body.theme-party .themepack-card .pack-status {
+            color: #e0aaff !important;
+        }
+
+        body.theme-dark [style*="color:#ff4d00"],
+        body.theme-dark [style*="color: #ff4d00"],
+        body.theme-dark [style*="color:#FF4D00"],
+        body.theme-dark [style*="color: #FF4D00"] {
+            color: #fff !important;
+        }
+
+        body.theme-light [style*="color:#ff4d00"],
+        body.theme-light [style*="color: #ff4d00"],
+        body.theme-light [style*="color:#FF4D00"],
+        body.theme-light [style*="color: #FF4D00"] {
+            color: #171717 !important;
+        }
+
+        body.theme-party [style*="color:#ff4d00"],
+        body.theme-party [style*="color: #ff4d00"],
+        body.theme-party [style*="color:#FF4D00"],
+        body.theme-party [style*="color: #FF4D00"] {
+            color: #e0aaff !important;
+        }
+
+
+        body.theme-dark .ngSwitch input:checked+.ngSlider {
+            background: #fff !important;
+            border-color: #fff !important;
+        }
+
+        body.theme-dark .ngSwitch input:checked+.ngSlider::before {
+            background: #171717 !important;
+        }
+
+        body.theme-light .ngSwitch input:checked+.ngSlider {
+            background: #555 !important;
+            border-color: #555 !important;
+        }
+
+        body.theme-light .ngSwitch input:checked+.ngSlider::before {
+            background: #fff !important;
+        }
+
+        body.theme-party .ngSwitch input:checked+.ngSlider {
+            background: #b388ff !important;
+            border-color: #b388ff !important;
+        }
+
+        body.theme-party .ngSwitch input:checked+.ngSlider::before {
+            background: #fff !important;
+        }
+
+
+        body.theme-light #adminPanelModal .adminPanelBox {
+            background: #fff !important;
+            color: #171717 !important;
+            border-color: #d5d5d5 !important;
+        }
+
+        body.theme-light #adminPanelModal .adminPanelHeader p,
+        body.theme-light #adminPanelModal .adminToolHint,
+        body.theme-light #adminPanelModal .adminToolStat span,
+        body.theme-light #adminPanelModal .adminToolGameName,
+        body.theme-light #adminPanelModal .adminToolStatusLine {
+            color: #555 !important;
+        }
+
+        body.theme-light #adminPanelModal .adminPanelStatus,
+        body.theme-light #adminPanelModal .adminToolSection {
+            background: #f7f7f7 !important;
+            border-color: #ddd !important;
+        }
+
+        body.theme-light #adminPanelModal .adminPanelCard,
+        body.theme-light #adminPanelModal .adminToolStat {
+            background: #eee !important;
+            color: #171717 !important;
+            border-color: #d5d5d5 !important;
+        }
+
+        body.theme-light #adminPanelModal .adminPanelCard small {
+            color: #555 !important;
+        }
+
+        body.theme-light #adminPanelModal .adminPanelClose {
+            background: #eee !important;
+            color: #171717 !important;
+            border-color: #ccc !important;
+        }
+
+        body.theme-light #adminPanelModal .adminToolRow input {
+            background: #fff !important;
+            color: #171717 !important;
+            border-color: #ccc !important;
+        }
+
+        body.theme-light #adminPanelModal .adminToolGameRow {
+            border-bottom-color: #ddd !important;
+        }
+
+        body.theme-light #adminPanelModal .adminToolStatusLine strong {
+            color: #171717 !important;
+        }
+
+
+        body.theme-dark .adminPanelBox,
+        body.theme-dark .adminPanelBox * {
+            scrollbar-color: #fff #080808 !important;
+        }
+
+        body.theme-dark .adminPanelBox::-webkit-scrollbar-track,
+        body.theme-dark .adminPanelBox *::-webkit-scrollbar-track,
+        body.theme-dark .adminPanelBox::-webkit-scrollbar-corner,
+        body.theme-dark .adminPanelBox *::-webkit-scrollbar-corner {
+            background: #080808 !important;
+        }
+
+        body.theme-dark .adminPanelBox::-webkit-scrollbar-thumb,
+        body.theme-dark .adminPanelBox *::-webkit-scrollbar-thumb {
+            background: #fff !important;
+            border: 2px solid #080808 !important;
+        }
+
+        body.theme-light .adminPanelBox,
+        body.theme-light .adminPanelBox * {
+            scrollbar-color: #171717 #f0f0f0 !important;
+        }
+
+        body.theme-light .adminPanelBox::-webkit-scrollbar-track,
+        body.theme-light .adminPanelBox *::-webkit-scrollbar-track,
+        body.theme-light .adminPanelBox::-webkit-scrollbar-corner,
+        body.theme-light .adminPanelBox *::-webkit-scrollbar-corner {
+            background: #f0f0f0 !important;
+        }
+
+        body.theme-light .adminPanelBox::-webkit-scrollbar-thumb,
+        body.theme-light .adminPanelBox *::-webkit-scrollbar-thumb {
+            background: #171717 !important;
+            border: 2px solid #f0f0f0 !important;
+        }
+
+        body.theme-party .adminPanelBox,
+        body.theme-party .adminPanelBox * {
+            scrollbar-color: #e0aaff #211829 !important;
+        }
+
+        body.theme-party .adminPanelBox::-webkit-scrollbar-track,
+        body.theme-party .adminPanelBox *::-webkit-scrollbar-track,
+        body.theme-party .adminPanelBox::-webkit-scrollbar-corner,
+        body.theme-party .adminPanelBox *::-webkit-scrollbar-corner {
+            background: #211829 !important;
+        }
+
+        body.theme-party .adminPanelBox::-webkit-scrollbar-thumb,
+        body.theme-party .adminPanelBox *::-webkit-scrollbar-thumb {
+            background: #e0aaff !important;
+            border: 2px solid #211829 !important;
+        }
+
+
+
+        body.theme-dark #adminPanelModal .adminPanelBox {
+            border-color: #444 !important;
+        }
+
+        body.theme-dark #adminPanelModal .adminPanelIcon,
+        body.theme-dark #adminPanelModal .adminToolSection h3 {
+            color: #fff !important;
+        }
+
+        body.theme-dark #adminPanelModal .adminPanelClose:hover {
+            background: #333 !important;
+        }
+
+        body.theme-dark #adminPanelModal .adminPanelCard:hover {
+            background: #2d2d2d !important;
+            border-color: #555 !important;
+        }
+
+        body.theme-light #adminPanelModal .adminPanelBox {
+            border-color: #d5d5d5 !important;
+        }
+
+        body.theme-light #adminPanelModal .adminPanelIcon,
+        body.theme-light #adminPanelModal .adminToolSection h3 {
+            color: #171717 !important;
+        }
+
+        body.theme-light #adminPanelModal .adminPanelClose:hover {
+            background: #e2e2e2 !important;
+        }
+
+        body.theme-light #adminPanelModal .adminPanelCard:hover {
+            background: #e5e5e5 !important;
+            border-color: #c7c7c7 !important;
+        }
+
+        body.theme-party #adminPanelModal .adminPanelBox {
+            border-color: #5a4380 !important;
+        }
+
+        body.theme-party #adminPanelModal .adminPanelIcon,
+        body.theme-party #adminPanelModal .adminToolSection h3 {
+            color: #e0aaff !important;
+        }
+
+        body.theme-party #adminPanelModal .adminPanelClose:hover {
+            background: #5a189a !important;
+        }
+
+        body.theme-party #adminPanelModal .adminPanelCard:hover {
+            background: #342044 !important;
+            border-color: #b388ff !important;
+        }
+
+
+
+        body.theme-light #adminLoginModal .adminLoginBox {
+            background: #ffffff !important;
+            color: #171717 !important;
+            border: 1px solid #d7d7d7 !important;
+        }
+
+        body.theme-light #adminLoginModal .adminLoginBox h2,
+        body.theme-light #adminLoginModal .adminLoginBox label,
+        body.theme-light #adminLoginModal .adminLoginBox p {
+            color: #171717 !important;
+        }
+
+        body.theme-light #adminLoginModal .adminLoginBox input {
+            background: #ffffff !important;
+            color: #171717 !important;
+            border-color: #c9c9c9 !important;
+        }
+
+        body.theme-light #adminLoginModal .adminLoginBox button[type="submit"] {
+            background: #222222 !important;
+            color: #ffffff !important;
+            border: 1px solid #222222 !important;
+        }
+
+        body.theme-light #adminLoginModal .adminLoginBox button[type="button"] {
+            background: transparent !important;
+            color: inherit !important;
+            border: 0 !important;
+        }
+
+        body.theme-dark #adminLoginModal .adminLoginBox button[type="submit"] {
+            background: #ffffff !important;
+            color: #171717 !important;
+            border: 1px solid #ffffff !important;
+        }
+
+        body.theme-dark #adminLoginModal .adminLoginBox button[type="button"] {
+            background: transparent !important;
+            color: inherit !important;
+            border: 0 !important;
+        }
+
+        body.theme-party #adminLoginModal .adminLoginBox {
+            background: #19131f !important;
+            color: #f5eaff !important;
+            border: 1px solid #604b72 !important;
+        }
+
+        body.theme-party #adminLoginModal .adminLoginBox h2,
+        body.theme-party #adminLoginModal .adminLoginBox label,
+        body.theme-party #adminLoginModal .adminLoginBox p {
+            color: #f5eaff !important;
+        }
+
+        body.theme-party #adminLoginModal .adminLoginBox input {
+            background: #211829 !important;
+            color: #ffffff !important;
+            border-color: #604b72 !important;
+        }
+
+        body.theme-party #adminLoginModal .adminLoginBox button[type="submit"] {
+            background: #c9a7ff !important;
+            color: #211829 !important;
+            border: 1px solid #c9a7ff !important;
+        }
+
+        body.theme-party #adminLoginModal .adminLoginBox button[type="button"] {
+            background: transparent !important;
+            color: inherit !important;
+            border: 0 !important;
+        }
     </style>
 </head>
 
 <body>
+    <canvas id="partyFireworksCanvas" aria-hidden="true"></canvas>
     <div id="loadingScreen">
         <img src="https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/logo.png" alt="Nol'sGames">
         <h1>Loading Nol'sGames...</h1>
@@ -1365,7 +2525,7 @@
         <div class="presetBox">
             <h3>Tab Settings</h3>
             <input id="tabName" placeholder="Tab Name">
-            <label style="display:inline-block;"> Upload Favicon <input type="file" id="tabIconUpload" accept="image/*" style="display:none" onchange="handleFaviconUpload(this.files[0])">
+            <label class="standard favicon-upload-label" for="tabIconUpload">Upload Favicon<input type="file" id="tabIconUpload" accept="image/*" style="display:none" onchange="handleFaviconUpload(this.files[0])">
             </label>
             <input id="panicKey" placeholder="Panic Key (e.g. p)">
             <input id="panicLink" placeholder="Redirect URL">
@@ -1386,7 +2546,6 @@
         function trackAlert() {
             const now = Date.now();
 
-            // Keep only alerts from the last 10 seconds.
             while (
                 alertTimestamps.length > 0 &&
                 now - alertTimestamps[0] > 10000
@@ -1396,7 +2555,6 @@
 
             alertTimestamps.push(now);
 
-            // Trigger once when 5 alerts occur within 10 seconds.
             if (alertTimestamps.length >= 5 && !fatalErrorTriggered) {
                 fatalErrorTriggered = true;
                 alertNotice("fatal");
@@ -1426,48 +2584,49 @@
             notice.className = `ngNotice ${type}`;
 
             let icon = '';
-
-            if (type === 'success') {
-                icon = '●';
-            } else if (type === 'warning') {
-                icon = '⯅';
-            } else if (type === 'alert') {
-                icon = '⯃';
-            } else if (type === 'fatal') {
-                icon = '🗙';
-            } else {
-                return;
-            }
+            if (type === 'success') icon = '●';
+            else if (type === 'warning') icon = '⯅';
+            else if (type === 'alert') icon = '⯃';
+            else if (type === 'fatal') icon = '🗙';
+            else return;
 
             notice.innerHTML = `
-			<button class="ngNoticeClose" aria-label="Close">×</button>
-        <div class="ngNoticeContent">
-            <span class="ngNoticeIcon">${icon}</span>
-            <span>${message}</span>
-        </div>
-        <div class="ngNoticeBar"></div>
-    `;
-
+                <button type="button" class="ngNoticeClose" aria-label="Close">×</button>
+                <div class="ngNoticeContent">
+                    <span class="ngNoticeIcon">${icon}</span>
+                    <span></span>
+                </div>
+                <div class="ngNoticeBar"></div>
+            `;
+            notice.querySelector('.ngNoticeContent span:last-child').textContent = message;
             container.appendChild(notice);
 
+            let removed = false;
+            const removeNotice = () => {
+                if (removed) return;
+                removed = true;
+                clearTimeout(autoCloseTimer);
+                clearTimeout(fatalReloadTimer);
+                notice.remove();
+            };
+            const closeButton = notice.querySelector('.ngNoticeClose');
+            closeButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                removeNotice();
+            });
+
+            let fatalReloadTimer = null;
             if (type === 'fatal') {
-                // Prevent the fatal notice from being dismissed early.
                 notice.querySelector('.ngNoticeBar').style.animationDuration = '3s';
-
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000);
-
-                return;
+                fatalReloadTimer = setTimeout(() => window.location.reload(), 3000);
             }
-
-            setTimeout(() => {
+            const autoCloseTimer = type === 'fatal' ? null : setTimeout(() => {
+                if (removed) return;
                 notice.classList.add('closing');
-
-                setTimeout(() => notice.remove(), 350);
+                setTimeout(removeNotice, 350);
             }, 3000);
         }
-
 
 
         function updateEruda() {
@@ -2351,29 +3510,22 @@ Nol’sGames Terms of Use & Privacy Policy
 
         function resetPresets() {
             alertConfirm("Reset all preset settings?", () => {
-                localStorage.removeItem('preset');
                 const defaultPreset = {
                     name: "Nol'sGames",
                     icon: "",
-                    key: "\\",
+                    key: "\\\\",
                     link: "https://google.com"
                 };
                 localStorage.setItem('preset', JSON.stringify(defaultPreset));
                 uploadedFavicon = '';
-                tabName.value = '';
-                panicKey.value = '\\';
-                panicLink.value = 'https://google.com';
+                document.getElementById('tabName').value = '';
+                document.getElementById('panicKey').value = defaultPreset.key;
+                document.getElementById('panicLink').value = defaultPreset.link;
+                const preview = document.getElementById('faviconPreview');
+                if (preview) preview.style.display = 'none';
                 applyPreset();
                 location.reload();
             });
-            localStorage.setItem('preset', JSON.stringify(defaultPreset));
-            uploadedFavicon = '';
-            document.getElementById('faviconPreview').style.display = 'none';
-            tabName.value = '';
-            panicKey.value = '\\';
-            panicLink.value = 'https://google.com';
-            applyPreset();
-            location.reload();
         }
 
         function closePresets() {
@@ -2396,21 +3548,199 @@ Nol’sGames Terms of Use & Privacy Policy
             document.getElementById("topbar").appendChild(downloadBtn);
         }
 
-        // YOUAREANIDIOT HAHAHHAHAHHAHAHAHAHHAHAHAHHAHHAHAHAHHAHAAHHAHA
-        fetch(`${API_URL}/date`, {
-                cache: "no-store"
-            })
-            .then(res => {
-                if (!res.ok) throw new Error("Date request failed");
-                return res.json();
-            })
-            .then(data => {
-                if (data.date === "2026-10-15") {
-                    localStorage.setItem("youareanidiotTP", "1");
+
+        const THEME_PACKS_KEY = 'ngUnlockedThemepacks';
+        const ACTIVE_THEME_KEY = 'ngActiveThemepack';
+        const REDEEMED_CODES_KEY = 'ngRedeemedThemepackCodes';
+        const PARTY_LOGO_URL = 'https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/themepacks/partyassets/logo.png';
+        const REGULAR_LOGO_URL = 'https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/logo.png';
+
+        function getUnlockedThemepacks() {
+            let packs = [];
+            try {
+                packs = JSON.parse(localStorage.getItem(THEME_PACKS_KEY) || '[]');
+            } catch (_) {}
+            if (!Array.isArray(packs)) packs = [];
+            if (!packs.includes('original')) packs.push('original');
+            return [...new Set(packs)];
+        }
+
+        function isThemepackUnlocked(pack) {
+            return getUnlockedThemepacks().includes(pack);
+        }
+
+        async function syncPartyAnniversaryUnlock() {
+            try {
+                const response = await fetch(`${API_URL}/date`, {
+                    cache: "no-store"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch server date");
                 }
-            })
-            .catch(console.error);
-        // HAHAHHAHAHAHHAHHAHAHAHHAHAHHAHAHAHHAHAHAHAHAHHAHAHAHHAHAHAHAH
+
+                const data = await response.json();
+
+                if (data.date >= "2026-10-15") {
+                    unlockPartyThemepackForAnniversary(data.date);
+                    renderSettings();
+                }
+            } catch (error) {
+                console.error("Party anniversary check failed:", error);
+            }
+        }
+
+        syncPartyAnniversaryUnlock();
+        setInterval(syncPartyAnniversaryUnlock, 60_000);
+
+        function measurePartyStarArea(main, layer) {
+            const oldHeight = layer ? layer.style.getPropertyValue('height') : '';
+            const oldPriority = layer ? layer.style.getPropertyPriority('height') : '';
+            if (layer) layer.style.setProperty('height', '0px', 'important');
+            const height = Math.max(main.scrollHeight, main.clientHeight, 1);
+            if (layer) {
+                if (oldHeight) layer.style.setProperty('height', oldHeight, oldPriority);
+                else layer.style.removeProperty('height');
+            }
+            return height;
+        }
+
+        function renderPartyStars() {
+            let layer = document.getElementById('partyStarsLayer');
+            if (!layer) {
+                layer = document.createElement('div');
+                layer.id = 'partyStarsLayer';
+                layer.setAttribute('aria-hidden', 'true');
+                (document.getElementById('main') || document.body).prepend(layer);
+            }
+            layer.replaceChildren();
+            const glyphs = ['•', '✦', '✧', '✣'];
+            const colors = ['#ffffff', '#f4eaff', '#e8f7ff', '#ffe8f3', '#fff4cf'];
+            for (let i = 0; i < 180; i++) {
+                const star = document.createElement('span');
+                star.className = 'party-star';
+                star.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+                star.style.left = (Math.random() * 98 + 1) + '%';
+                star.style.top = (Math.random() * 98 + 1) + '%';
+                star.style.fontSize = (5 + Math.random() * 9) + 'px';
+                star.style.color = colors[Math.floor(Math.random() * colors.length)];
+                star.style.opacity = (0.28 + Math.random() * 0.55).toFixed(2);
+                layer.appendChild(star);
+            }
+            layer.style.display = document.body.classList.contains('theme-party') ? 'block' : 'none';
+        }
+
+        let partyStarsObserverInstalled = false;
+
+        function ensurePartyStarsObserver() {
+            if (partyStarsObserverInstalled) return;
+            const main = document.getElementById('main');
+            if (!main) return;
+            partyStarsObserverInstalled = true;
+            const observer = new MutationObserver(() => {
+                if (!document.getElementById('partyStarsLayer')) renderPartyStars();
+                const layer = document.getElementById('partyStarsLayer');
+                if (layer) layer.style.display = document.body.classList.contains('theme-party') ? 'block' : 'none';
+            });
+            observer.observe(main, {
+                childList: true
+            });
+        }
+
+        function applyThemepack() {
+            let active = localStorage.getItem(ACTIVE_THEME_KEY) || 'original';
+            if (!isThemepackUnlocked(active)) active = 'original';
+            document.body.classList.remove('theme-dark', 'theme-light', 'theme-party');
+            if (active === 'dark') document.body.classList.add('theme-dark');
+            if (active === 'light') document.body.classList.add('theme-light');
+            if (active === 'party') document.body.classList.add('theme-party');
+            const logo = document.getElementById('logo');
+            if (logo) logo.src = active === 'party' ? PARTY_LOGO_URL : REGULAR_LOGO_URL;
+            localStorage.setItem(ACTIVE_THEME_KEY, active);
+            renderPartyStars();
+            ensurePartyStarsObserver();
+        }
+
+        function selectThemepack(pack) {
+            if (!['original', 'dark', 'light', 'party'].includes(pack)) return;
+            if (!isThemepackUnlocked(pack)) {
+                alertNotice('warning', 'You have not unlocked this themepack yet.');
+                return;
+            }
+            localStorage.setItem(ACTIVE_THEME_KEY, pack);
+            applyThemepack();
+            alertNotice('success', pack === 'original' ? 'Original Themepack equipped.' : `${pack.charAt(0).toUpperCase() + pack.slice(1)} Themepack equipped.`);
+            showTab('settings');
+        }
+
+
+        function redeemThemepackCode() {
+            const input = document.getElementById('themeCodeInput');
+            if (!input) return;
+
+            const code = input.value.trim();
+
+            const codeToPack = {
+                DARKMODE182747: 'dark',
+                LIGHTMODE746527: 'light'
+            };
+
+            const pack = codeToPack[code];
+
+            if (!pack) {
+                alertNotice('warning', 'Invalid code.');
+                return;
+            }
+
+            let redeemed = [];
+
+            try {
+                redeemed = JSON.parse(
+                    localStorage.getItem(REDEEMED_CODES_KEY) || '[]'
+                );
+            } catch (_) {}
+
+            if (!Array.isArray(redeemed)) redeemed = [];
+
+            if (redeemed.includes(code)) {
+                alertNotice('warning', 'You have already redeemed that code.');
+                return;
+            }
+
+            const unlocked = getUnlockedThemepacks();
+
+            if (unlocked.includes(pack)) {
+                alertNotice('warning', `You already own the ${pack} themepack.`);
+                return;
+            }
+
+            unlocked.push(pack);
+            redeemed.push(code);
+
+            localStorage.setItem(THEME_PACKS_KEY, JSON.stringify(unlocked));
+            localStorage.setItem(REDEEMED_CODES_KEY, JSON.stringify(redeemed));
+
+            input.value = '';
+
+            alertNotice(
+                'success',
+                `${pack.charAt(0).toUpperCase() + pack.slice(1)} Themepack unlocked!`
+            );
+
+            showTab('settings');
+        }
+
+
+        function unlockPartyThemepackForAnniversary(serverDate) {
+            if (serverDate !== '2026-10-15') return;
+            const unlocked = getUnlockedThemepacks();
+            if (!unlocked.includes('party')) {
+                unlocked.push('party');
+                localStorage.setItem(THEME_PACKS_KEY, JSON.stringify(unlocked));
+                alertNotice('success', 'The limited Party Themepack has been unlocked for the Nol’sGames anniversary!');
+            }
+        }
+        applyThemepack();
 
         function showTab(tab) {
             const main = document.getElementById('main');
@@ -2501,7 +3831,64 @@ Nol’sGames Terms of Use & Privacy Policy
 																																											</label>
 																																										</div>
 																																										<div class="settings-section">
-																																											<h3>Legal</h3>
+																																											<h3>Themepack Settings</h3>
+<p>Unlock and equip different looks for Nol'sGames.</p>
+<div class="themepack-card">
+    <h4>Original Themepack</h4>
+    <p style="font-size:11px;"><i>Logo Preview:</i></p>
+    <img src="https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/logo.png" alt="Themepack logo" style="height:48px;max-width:100%;object-fit:contain;">
+    <p class="pack-status">Rarity: Common</p>
+    <p><i>“ogs are the best”</i></p>
+    <p>Classic Site; NG orange and grey.</p>
+    <p>Obtained by using the site!</p>
+    <p class="pack-status">${isThemepackUnlocked('original') ? 'Unlocked' : 'Locked'}</p>
+    <button class="standard" onclick="selectThemepack('original')">${localStorage.getItem('ngActiveThemepack') === 'original' ? 'Equipped' : 'Equip Original'}</button>
+</div>
+<div class="themepack-card">
+    <h4>Dark Themepack</h4>
+    <p style="font-size:11px;"><i>Logo Preview:</i></p>
+    <img src="https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/logo.png" alt="Themepack logo" style="height:48px;max-width:100%;object-fit:contain;">
+    <p class="pack-status">Rarity: Uncommon</p>
+    <p><i>“very nice”</i></p>
+    <p>Makes the site darker; removes some orange elements.</p>
+    <p>Obtained by redeeming a code.</p>
+    <p class="pack-status">${isThemepackUnlocked('dark') ? 'Unlocked' : 'Locked'}</p>
+    <button class="standard" ${isThemepackUnlocked('dark') ? '' : 'disabled'} onclick="selectThemepack('dark')">${localStorage.getItem('ngActiveThemepack') === 'dark' ? 'Equipped' : 'Equip Dark'}</button>
+</div>
+<div class="themepack-card">
+    <h4>Light Themepack</h4>
+    <p style="font-size:11px;"><i>Logo Preview:</i></p>
+    <img src="https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/logo.png" alt="Themepack logo" style="height:48px;max-width:100%;object-fit:contain;">
+    <p class="pack-status">Rarity: Uncommon</p>
+    <p><i>“AAH MY EYES!!!”</i></p>
+    <p>Makes the site brighter; removes some orange elements and makes the background white.</p>
+    <p>Obtained by redeeming a code.</p>
+    <p class="pack-status">${isThemepackUnlocked('light') ? 'Unlocked' : 'Locked'}</p>
+    <button class="standard" ${isThemepackUnlocked('light') ? '' : 'disabled'} onclick="selectThemepack('light')">${localStorage.getItem('ngActiveThemepack') === 'light' ? 'Equipped' : 'Equip Light'}</button>
+</div>
+${isThemepackUnlocked('party') ? `<div class="themepack-card">
+    <h4>Party Themepack</h4>
+    <p style="font-size:11px;"><i>Logo Preview:</i></p>
+    <img src="https://cdn.jsdelivr.net/gh/PizzaGamingYT/nol/themepacks/partyassets/logo.png" alt="Themepack logo" style="height:48px;max-width:100%;object-fit:contain;">
+    <p class="pack-status">Rarity: Limited</p>
+    <p><i>“did anyone order the cake?”</i></p>
+    <p>Makes the site purple and has firework effects. Fireworks will be added when the effect GIF is provided.</p>
+    <p>Obtained by playing on 10/15/26 for the Nol’sGames 1st Anniversary event!</p>
+    <p class="pack-status">${isThemepackUnlocked('party') ? 'Unlocked' : (new Date().toISOString().slice(0, 10) > '2026-10-15' ? 'Permanently unobtainable' : 'Available only on October 15, 2026')}</p>
+    <label for="partyFireworkFrequency" style="display:block;margin:12px 0 5px;font-weight:700;">Firework frequency: <span id="partyFireworkFrequencyValue">600 ms</span></label>
+    <input id="partyFireworkFrequency" type="range" min="100" max="2000" step="50" value="${getPartyFireworkFrequency()}" style="width:100%;accent-color:#ffffff;" oninput="setPartyFireworkFrequency(this.value)">
+    <p style="font-size:12px;">Move left for more frequent fireworks; right for less frequent fireworks.</p>
+    <button class="standard" ${isThemepackUnlocked('party') ? '' : 'disabled'} onclick="selectThemepack('party')">${localStorage.getItem('ngActiveThemepack') === 'party' ? 'Equipped' : 'Equip Party'}</button>
+</div>` : ''}
+</div>
+<div class="settings-section">
+    <h3>Code Redemption Area</h3>
+    <p>Enter a code to unlock perks.</p>
+    <input id="themeCodeInput" type="text" placeholder="Enter code..." autocomplete="off" onkeydown="if(event.key==='Enter') redeemThemepackCode()">
+    <button class="standard" onclick="redeemThemepackCode()">Redeem Code</button>
+</div>
+<div class="settings-section">
+    <h3>Legal</h3>
 																																											<button class="standard" onclick="openToc()">
                     Terms & Conditions & Privacy Policy
                 </button>
@@ -2635,7 +4022,6 @@ ${isAdmin ? `
             reader.readAsText(file);
         }
 
-        // ===== LIVE CODE UPDATE CHECKER =====
         const UPDATE_CHECK_INTERVAL = 10_000;
         let serverCodeSnapshot = null;
         let updateCheckRunning = false;
@@ -2666,7 +4052,6 @@ ${isAdmin ? `
                 const serverCode = await getServerCode();
 
                 if (serverCodeSnapshot === null) {
-                    // Establish the initial server version.
                     serverCodeSnapshot = serverCode;
                 } else if (serverCode !== serverCodeSnapshot) {
                     console.log('[Nol’sGames] Code update detected. Reloading...');
@@ -2674,14 +4059,12 @@ ${isAdmin ? `
                     return;
                 }
             } catch (error) {
-                // A failed check should never force a reload.
                 console.warn('[Nol’sGames] Update check failed:', error);
             } finally {
                 updateCheckRunning = false;
             }
         }
 
-        // Check immediately, then approximately every 10 seconds.
         checkForCodeUpdates();
         setInterval(checkForCodeUpdates, UPDATE_CHECK_INTERVAL);
 
@@ -2707,6 +4090,211 @@ ${isAdmin ? `
             console.error(event.reason);
             alertNotice("alert", "Something went wrong. Check the console for details.");
         });
+
+        const PARTY_FIREWORK_FREQUENCY_KEY = 'ngPartyFireworkFrequency';
+        let partyFireworkLastLaunch = 0;
+        let partyFireworkRockets = [];
+        let partyFireworkParticles = [];
+        let partyFireworkWidth = 0;
+        let partyFireworkHeight = 0;
+        let partyFireworkCtx = null;
+        const PARTY_FIREWORK_COLORS = [
+            '#ff4d00', '#ffd43b', '#4dd8ff', '#ff5c9d', '#8dff68', '#b78aff',
+            '#ff3333', '#3388ff', '#00e5a8', '#ff8cdb', '#ffffff', '#ffb347',
+            '#a3ff12', '#00cfff', '#ff66cc', '#c084fc', '#f472b6', '#f97316',
+            '#eab308', '#14b8a6', '#60a5fa', '#fb7185', '#d9f99d', '#e879f9'
+        ];
+
+        function getPartyFireworkFrequency() {
+            const saved = Number(localStorage.getItem(PARTY_FIREWORK_FREQUENCY_KEY));
+            return Number.isFinite(saved) && saved >= 100 && saved <= 2000 ? saved : 600;
+        }
+
+        function setPartyFireworkFrequency(value) {
+            const frequency = Math.max(100, Math.min(2000, Number(value) || 600));
+            localStorage.setItem(PARTY_FIREWORK_FREQUENCY_KEY, String(frequency));
+            const output = document.getElementById('partyFireworkFrequencyValue');
+            if (output) output.textContent = frequency >= 2000 ? 'Never' : `${frequency} ms`;
+        }
+
+        function syncPartyFireworkSlider() {
+            const slider = document.getElementById('partyFireworkFrequency');
+            const output = document.getElementById('partyFireworkFrequencyValue');
+            if (slider) slider.value = String(getPartyFireworkFrequency());
+            if (output) output.textContent = getPartyFireworkFrequency() >= 2000 ? 'Never' : `${getPartyFireworkFrequency()} ms`;
+        }
+
+        function resizePartyFireworks() {
+            const canvas = document.getElementById('partyFireworksCanvas');
+            if (!canvas) return;
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+            partyFireworkWidth = window.innerWidth;
+            partyFireworkHeight = window.innerHeight;
+            canvas.width = Math.round(partyFireworkWidth * dpr);
+            canvas.height = Math.round(partyFireworkHeight * dpr);
+            partyFireworkCtx = canvas.getContext('2d');
+            partyFireworkCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        function launchPartyFirework(x, targetY, color) {
+            partyFireworkRockets.push({
+                x,
+                y: partyFireworkHeight + 8,
+                targetY,
+                color,
+                speed: 4.1 + Math.random(),
+                drift: (Math.random() - 0.5) * 0.55,
+                wind: (Math.random() - 0.5) * 0.018,
+                trail: []
+            });
+        }
+
+        function burstPartyFirework(x, y, color) {
+            const count = 22 + Math.floor(Math.random() * 13);
+            const baseSize = 3.2 + Math.random() * 1.8;
+            for (let i = 0; i < count; i++) {
+                const angle = Math.PI * 2 * i / count + (Math.random() - 0.5) * 0.13;
+                const speed = 2 + Math.random() * 3.8;
+                partyFireworkParticles.push({
+                    x,
+                    y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    color,
+                    size: baseSize * (0.75 + Math.random() * 0.5),
+                    life: 1,
+                    decay: 0.016 + Math.random() * 0.012,
+                    gravity: 0.035 + Math.random() * 0.025
+                });
+            }
+            partyFireworkParticles.push({
+                x,
+                y,
+                vx: 0,
+                vy: 0,
+                color,
+                size: 4.5,
+                life: 1,
+                decay: 0.055,
+                gravity: 0
+            });
+        }
+
+        function drawPartyRocket(rocket) {
+            const ctx = partyFireworkCtx;
+            ctx.save();
+            for (let i = 0; i < rocket.trail.length; i++) {
+                const point = rocket.trail[i];
+                const fade = (i + 1) / rocket.trail.length;
+                ctx.globalAlpha = fade * 0.55;
+                ctx.fillStyle = rocket.color;
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 0.8 + fade * 1.2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 0.18;
+            ctx.fillStyle = rocket.color;
+            ctx.beginPath();
+            ctx.arc(rocket.x, rocket.y, 5.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = rocket.color;
+            ctx.beginPath();
+            ctx.arc(rocket.x, rocket.y, 2.8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(rocket.x - 0.8, rocket.y - 0.8, 0.9, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        let partyFireworksRunning = false;
+
+        function startPartyFireworks() {
+            if (partyFireworksRunning || !document.body.classList.contains('theme-party')) return;
+            resizePartyFireworks();
+            partyFireworkLastLaunch = 0;
+            partyFireworksRunning = true;
+            requestAnimationFrame(partyFireworksFrame);
+        }
+
+        function partyFireworksFrame(now) {
+            if (!partyFireworkCtx || !document.body.classList.contains('theme-party')) {
+                partyFireworksRunning = false;
+                partyFireworkRockets.length = 0;
+                partyFireworkParticles.length = 0;
+                if (partyFireworkCtx) partyFireworkCtx.clearRect(0, 0, partyFireworkWidth, partyFireworkHeight);
+                return;
+            }
+            requestAnimationFrame(partyFireworksFrame);
+            const ctx = partyFireworkCtx;
+            ctx.clearRect(0, 0, partyFireworkWidth, partyFireworkHeight);
+
+            const frequency = getPartyFireworkFrequency();
+            if (frequency < 2000 && now - partyFireworkLastLaunch >= frequency) {
+                launchPartyFirework(
+                    partyFireworkWidth * (0.08 + Math.random() * 0.84),
+                    partyFireworkHeight * (0.16 + Math.random() * 0.43),
+                    PARTY_FIREWORK_COLORS[Math.floor(Math.random() * PARTY_FIREWORK_COLORS.length)]
+                );
+                partyFireworkLastLaunch = now;
+            }
+
+            for (let i = partyFireworkRockets.length - 1; i >= 0; i--) {
+                const r = partyFireworkRockets[i];
+                r.drift = Math.max(-0.8, Math.min(0.8, r.drift + r.wind));
+                r.trail.push({
+                    x: r.x,
+                    y: r.y
+                });
+                if (r.trail.length > 7) r.trail.shift();
+                r.x += r.drift;
+                r.y -= r.speed;
+                drawPartyRocket(r);
+                if (r.y <= r.targetY) {
+                    burstPartyFirework(r.x, r.y, r.color);
+                    partyFireworkRockets.splice(i, 1);
+                }
+            }
+
+            for (let i = partyFireworkParticles.length - 1; i >= 0; i--) {
+                const p = partyFireworkParticles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += p.gravity;
+                p.vx *= 0.992;
+                p.vy *= 0.992;
+                p.life -= p.decay;
+                if (p.life <= 0) {
+                    partyFireworkParticles.splice(i, 1);
+                    continue;
+                }
+                ctx.globalAlpha = Math.max(0, p.life);
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, Math.max(0.3, p.size * (0.7 + p.life * 0.3)), 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        window.addEventListener('resize', resizePartyFireworks);
+        resizePartyFireworks();
+        syncPartyFireworkSlider();
+        new MutationObserver(() => {
+            syncPartyFireworkSlider();
+            if (document.body.classList.contains('theme-party')) {
+                startPartyFireworks();
+                const canvas = document.getElementById('partyFireworksCanvas');
+                if (canvas) canvas.style.display = 'block';
+            }
+        }).observe(document.body, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+        if (document.body.classList.contains('theme-party')) startPartyFireworks();
+
         loadGameList();
         console.log("%cDon't mess around in here unless you know what you're doing. If you think you do, you probably don't!", "font-weight: bold; font-size: 16px;");
     </script>
