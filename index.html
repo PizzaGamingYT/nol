@@ -3626,6 +3626,7 @@ Nol’sGames Terms of Use & Privacy Policy
         }
 
 
+
         async function syncPartyAnniversaryUnlock() {
             try {
                 const response = await fetch(`${API_URL}/themepack/party`, {
@@ -3637,15 +3638,26 @@ Nol’sGames Terms of Use & Privacy Policy
                 }
 
                 const data = await response.json();
+                const unlocked = getUnlockedThemepacks();
 
                 if (data.partyunlocked && data.key) {
                     unlockPartyThemepackForAnniversary(data.key);
-                    renderSettings();
+                } else if (unlocked.includes('party')) {
+                    const updated = unlocked.filter(pack => pack !== 'party');
+
+                    localStorage.setItem(THEME_PACKS_KEY, JSON.stringify(updated));
+
+                    if (localStorage.getItem(ACTIVE_THEME_KEY) === 'party') {
+                        localStorage.setItem(ACTIVE_THEME_KEY, 'original');
+                        applyThemepack();
+                    }
                 }
+
             } catch (error) {
                 console.error("Party anniversary check failed:", error);
             }
         }
+
 
 
         syncPartyAnniversaryUnlock();
