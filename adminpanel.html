@@ -3203,9 +3203,22 @@ Nol’sGames Terms of Use & Privacy Policy
         }
 
         function exportNGS() {
+            const BLOCKED = [
+                /^_ym/,
+                /^eruda-/,
+                /^firebase:/,
+                /^vms--/,
+                /^polytrack_/,
+                /^com\.martinmagni\./,
+                /^WasFirstGameSession_YG$/,
+                /^pushback-js13k$/,
+                /^__test__$/,
+                /^\//,
+            ];
             const saveData = {};
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
+                if (BLOCKED.some(r => r.test(key))) continue;
                 try {
                     saveData[key] = localStorage.getItem(key);
                 } catch (err) {
