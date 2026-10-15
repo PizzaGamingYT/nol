@@ -3625,6 +3625,7 @@ Nol’sGames Terms of Use & Privacy Policy
             return getUnlockedThemepacks().includes(pack);
         }
 
+
         async function syncPartyAnniversaryUnlock() {
             const TOKEN_KEY = 'ngPartyThemepackToken';
 
@@ -3637,7 +3638,7 @@ Nol’sGames Terms of Use & Privacy Policy
                     });
 
                     if (!response.ok) {
-                        throw new Error('Failed to request Party key');
+                        throw new Error('Failed to request Party token');
                     }
 
                     const data = await response.json();
@@ -3661,7 +3662,14 @@ Nol’sGames Terms of Use & Privacy Policy
                     cache: 'no-store'
                 });
 
-                if (!response.ok) {
+                let valid = false;
+
+                if (response.ok) {
+                    const data = await response.json();
+                    valid = data.valid === true && data.pack === 'party';
+                }
+
+                if (!valid) {
                     localStorage.removeItem(TOKEN_KEY);
 
                     const unlocked = getUnlockedThemepacks()
@@ -3677,11 +3685,8 @@ Nol’sGames Terms of Use & Privacy Policy
                     return;
                 }
 
-                const data = await response.json();
+                unlockPartyThemepackForAnniversary(token);
 
-                if (data.valid && data.pack === 'party') {
-                    unlockPartyThemepackForAnniversary(token);
-                }
             } catch (error) {
                 console.error('Party anniversary check failed:', error);
             }
