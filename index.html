@@ -3625,40 +3625,67 @@ Nol’sGames Terms of Use & Privacy Policy
             return getUnlockedThemepacks().includes(pack);
         }
 
-
-
         async function syncPartyAnniversaryUnlock() {
+            const TOKEN_KEY = 'ngPartyThemepackToken';
+
             try {
-                const response = await fetch(`${API_URL}/themepack/party`, {
-                    cache: "no-store"
+                let token = localStorage.getItem(TOKEN_KEY);
+
+                if (!token) {
+                    const response = await fetch(`${API_URL}/themepack/party`, {
+                        cache: 'no-store'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to request Party key');
+                    }
+
+                    const data = await response.json();
+
+                    if (!data.partyunlocked || !data.token) {
+                        return;
+                    }
+
+                    token = data.token;
+                    localStorage.setItem(TOKEN_KEY, token);
+                }
+
+                const response = await fetch(`${API_URL}/themepack/party/validate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        token
+                    }),
+                    cache: 'no-store'
                 });
 
                 if (!response.ok) {
-                    throw new Error("Failed to check Party themepack");
-                }
+                    localStorage.removeItem(TOKEN_KEY);
 
-                const data = await response.json();
-                const unlocked = getUnlockedThemepacks();
+                    const unlocked = getUnlockedThemepacks()
+                        .filter(pack => pack !== 'party');
 
-                if (data.partyunlocked && data.key) {
-                    unlockPartyThemepackForAnniversary(data.key);
-                } else if (unlocked.includes('party')) {
-                    const updated = unlocked.filter(pack => pack !== 'party');
-
-                    localStorage.setItem(THEME_PACKS_KEY, JSON.stringify(updated));
+                    localStorage.setItem(THEME_PACKS_KEY, JSON.stringify(unlocked));
 
                     if (localStorage.getItem(ACTIVE_THEME_KEY) === 'party') {
                         localStorage.setItem(ACTIVE_THEME_KEY, 'original');
                         applyThemepack();
                     }
+
+                    return;
                 }
 
+                const data = await response.json();
+
+                if (data.valid && data.pack === 'party') {
+                    unlockPartyThemepackForAnniversary(token);
+                }
             } catch (error) {
-                console.error("Party anniversary check failed:", error);
+                console.error('Party anniversary check failed:', error);
             }
         }
-
-
 
         syncPartyAnniversaryUnlock();
         setInterval(syncPartyAnniversaryUnlock, 60_000);
