@@ -3650,6 +3650,8 @@ Nol’sGames Terms of Use & Privacy Policy
                         if (localStorage.getItem(ACTIVE_THEME_KEY) === 'party') {
                             localStorage.setItem(ACTIVE_THEME_KEY, 'original');
                             applyThemepack();
+
+                            alertNotice('alert', 'Your cryptographic key has failed or no longer exists. Your Party Themepack has been revoked.);
                         }
                         return;
                     }
