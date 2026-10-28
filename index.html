@@ -3644,6 +3644,13 @@ Nol’sGames Terms of Use & Privacy Policy
                     const data = await response.json();
 
                     if (!data.partyunlocked || !data.token) {
+                        const unlocked = getUnlockedThemepacks().filter(pack => pack !== 'party');
+                        localStorage.setItem(THEME_PACKS_KEY, JSON.stringify(unlocked));
+    
+                        if (localStorage.getItem(ACTIVE_THEME_KEY) === 'party') {
+                            localStorage.setItem(ACTIVE_THEME_KEY, 'original');
+                            applyThemepack();
+                        }
                         return;
                     }
 
